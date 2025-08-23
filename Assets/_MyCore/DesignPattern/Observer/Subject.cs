@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using _MyCore.ObserverPattern;
 using UnityEngine;
 
 //This class is being observed by IObserver
@@ -8,7 +7,7 @@ namespace _MyCore.DesignPattern.Observer
     public abstract class Subject : MonoBehaviour 
     {
         // a collection of all the observers pattern of this subject
-        // Lists & HashSets provide simplest setup
+        // Lists & HashSets provide the simplest setup
         // Dictionaries provides better performance for large collections
         private List<IObserver> _observers = new List<IObserver>();
 
