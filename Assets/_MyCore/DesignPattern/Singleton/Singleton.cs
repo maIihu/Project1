@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace _MyCore.Singleton
+namespace _MyCore.DesignPattern.Singleton
 {
     [RequireComponent (typeof (UnityEngine.PlayerLoop.Initialization))]
     public abstract class Singleton<T> : MonoBehaviour 

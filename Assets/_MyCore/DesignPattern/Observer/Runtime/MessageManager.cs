@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using _MyCore.Singleton;
+using _MyCore.DesignPattern.Singleton;
 using UnityEngine;
 
-namespace _MyCore.ObserverPattern.Runtime
+namespace _MyCore.DesignPattern.Observer.Runtime
 {
     public enum ProjectMessageType
     {
@@ -35,11 +35,11 @@ namespace _MyCore.ObserverPattern.Runtime
         private static MessageManager instance = null;
     
         //Stores information when Serialize data in the subcribers-Dictionary
-        [HideInInspector] public List<ProjectMessageType> _keys = new List<ProjectMessageType>();
-        [HideInInspector] public List<List<IMessageHandle>> _values = new List<List<IMessageHandle>>();
+        [HideInInspector] public List<ProjectMessageType> keys = new List<ProjectMessageType>();
+        [HideInInspector] public List<List<IMessageHandle>> Values = new List<List<IMessageHandle>>();
     
     
-        private Dictionary<ProjectMessageType, List<IMessageHandle>> subcribers = new Dictionary<ProjectMessageType, List<IMessageHandle>>();
+        private Dictionary<ProjectMessageType, List<IMessageHandle>> _subscribers = new Dictionary<ProjectMessageType, List<IMessageHandle>>();
         /*public static MessageManager Instance { get { return instance; } }
     void Start()
     {
@@ -53,22 +53,22 @@ namespace _MyCore.ObserverPattern.Runtime
     }*/
         public void AddSubscriber(ProjectMessageType type, IMessageHandle handle)
         {
-            if (!subcribers.ContainsKey(type))
-                subcribers[type] = new List<IMessageHandle>();
-            if (!subcribers[type].Contains(handle))
-                subcribers[type].Add(handle);
+            if (!_subscribers.ContainsKey(type))
+                _subscribers[type] = new List<IMessageHandle>();
+            if (!_subscribers[type].Contains(handle))
+                _subscribers[type].Add(handle);
         }
         public void RemoveSubscriber(ProjectMessageType type, IMessageHandle handle)
         {
-            if (subcribers.ContainsKey(type))
-                if (subcribers[type].Contains(handle))
-                    subcribers[type].Remove(handle);
+            if (_subscribers.ContainsKey(type))
+                if (_subscribers[type].Contains(handle))
+                    _subscribers[type].Remove(handle);
         }
         public void SendMessage(Message message)
         {
-            if (subcribers.ContainsKey(message.Type))
-                for (int i = subcribers[message.Type].Count - 1; i > -1; i--)
-                    subcribers[message.Type][i].Handle(message);
+            if (_subscribers.ContainsKey(message.Type))
+                for (int i = _subscribers[message.Type].Count - 1; i > -1; i--)
+                    _subscribers[message.Type][i].Handle(message);
         }
         public void SendMessageWithDelay(Message message, float delay)
         {
@@ -81,20 +81,20 @@ namespace _MyCore.ObserverPattern.Runtime
         }
         public void OnBeforeSerialize()
         {
-            _keys.Clear();
-            _values.Clear();
-            foreach (var element in subcribers)
+            keys.Clear();
+            Values.Clear();
+            foreach (var element in _subscribers)
             {
-                _keys.Add(element.Key);
-                _values.Add(element.Value);
+                keys.Add(element.Key);
+                Values.Add(element.Value);
             }
         }
         public void OnAfterDeserialize()
         {
-            subcribers = new Dictionary<ProjectMessageType, List<IMessageHandle>>();
-            for (int i = 0; i < _keys.Count; i++)
+            _subscribers = new Dictionary<ProjectMessageType, List<IMessageHandle>>();
+            for (int i = 0; i < keys.Count; i++)
             {
-                subcribers.Add(_keys[i], _values[i]);
+                _subscribers.Add(keys[i], Values[i]);
             }
         }
     }

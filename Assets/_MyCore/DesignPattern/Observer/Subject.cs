@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using _MyCore.ObserverPattern;
 using UnityEngine;
 
 //This class is being observed by IObserver
-namespace _MyCore.ObserverPattern
+namespace _MyCore.DesignPattern.Observer
 {
     public abstract class Subject : MonoBehaviour 
     {
@@ -26,25 +27,25 @@ namespace _MyCore.ObserverPattern
 
         public void NotifyObservers(string action)
         {
-            _observers.ForEach((_observer) =>
+            _observers.ForEach((observer) =>
             {
-                _observer.OnNotify(action);
+                observer.OnNotify(action);
             });
         }
 
         public void NotifyObservers(IGameEvent e)
         {
-            _observers.ForEach((_observer) =>
+            _observers.ForEach((observer) =>
             {
-                _observer.OnNotify(e);
+                observer.OnNotify(e);
             });
         }
 
         public void NotifyObservers()
         {
-            _observers.ForEach((_observer) =>
+            _observers.ForEach((observer) =>
             {
-                _observer.OnNotify();
+                observer.OnNotify();
             });
         }
     }

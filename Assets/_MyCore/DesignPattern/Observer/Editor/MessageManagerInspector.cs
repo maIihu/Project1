@@ -1,8 +1,8 @@
-﻿using _MyCore.ObserverPattern.Runtime;
+﻿using _MyCore.DesignPattern.Observer.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace _MyCore.ObserverPattern.Editor
+namespace _MyCore.DesignPattern.Observer.Editor
 {
     [CustomEditor(typeof(MessageManager))]
     public class MessageManagerInspector : UnityEditor.Editor
@@ -16,16 +16,16 @@ namespace _MyCore.ObserverPattern.Editor
         {
             base.OnInspectorGUI();
             serializedObject.Update();
-            for (int i = _messageManager._keys.Count - 1; i > -1; i--)
+            for (int i = _messageManager.keys.Count - 1; i > -1; i--)
                 ShowElement(i);
             serializedObject.ApplyModifiedProperties();
         }
         private void ShowElement(int index)
         {
             EditorGUILayout.BeginVertical(GUI.skin.box);
-            EditorGUILayout.LabelField(_messageManager._keys[index].ToString(), EditorStyles.boldLabel);
+            EditorGUILayout.LabelField(_messageManager.keys[index].ToString(), EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
-            foreach (var subcriber in _messageManager._values[index])
+            foreach (var subcriber in _messageManager.Values[index])
                 EditorGUILayout.LabelField(subcriber.ToString());
             EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();

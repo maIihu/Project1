@@ -1,6 +1,6 @@
 
 //This is the listener
-namespace _MyCore.ObserverPattern
+namespace _MyCore.DesignPattern.Observer
 {
     public interface IObserver
     {
