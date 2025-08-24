@@ -1,20 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace __MyGame.Code.Script
 {
     public class BoardGenerate : MonoBehaviour
     {
         [SerializeField] private Node nodePrefab;
+        [SerializeField] private Transform nodeContainer;
+        
         [SerializeField] private Block blockPrefab;
+        [SerializeField] private Transform blockContainer;
         
         [SerializeField] private MapData[] mapDataArray;
         
         public static readonly int BoardSize = 6;
 
+        private List<Node> _nodeInBoard;
+
         private void Start()
         {
+            _nodeInBoard = new List<Node>();
             SpawnMapWithType(MapType.Green);
+            SpawnBlocksToMap(2);
         }
 
         private void SpawnMapWithType(MapType mapType)
@@ -36,9 +46,21 @@ namespace __MyGame.Code.Script
                 for (int j = 0; j < BoardSize; j++)
                 {
                     var positionToSpawn = new Vector3(i - offset, j - offset, 0);
-                    var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, this.transform);
+                    var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
                     node.SetSpriteNode((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
+                    _nodeInBoard.Add(node);
                 }
+            }
+        }
+
+        private void SpawnBlocksToMap(int amount)
+        {
+            var freeNodes = _nodeInBoard.Where(n => n.OccupiedBlock == null)
+                .OrderBy(n => Random.value).ToList();
+            foreach (var node in freeNodes.Take(amount))
+            {
+                Destroy(node.gameObject);
+                var block = Instantiate(blockPrefab, node.transform.position, Quaternion.identity, blockContainer);
             }
         }
     }

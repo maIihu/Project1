@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Board
+    uniqueID: 3099367795
+    locked: 0
+  - name: Node
+    uniqueID: 1039726887
+    locked: 0
+  - name: Tile
+    uniqueID: 2960889055
+    locked: 0
+  - name: Text
+    uniqueID: 1166342615
+    locked: 0
