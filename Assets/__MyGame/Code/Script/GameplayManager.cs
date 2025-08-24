@@ -7,10 +7,17 @@ namespace __MyGame.Code.Script
     public class GameplayManager : Singleton<GameplayManager>
     {
         [SerializeField] public BoardController board;
+        
+        public GameLogic GameLogic { get; set; }
 
         private void Awake()
         {
             Initialize(this);
+        }
+
+        private void Start()
+        {
+            GameLogic = new GameLogic(this.board);
         }
 
         protected override void OnRegistration()
