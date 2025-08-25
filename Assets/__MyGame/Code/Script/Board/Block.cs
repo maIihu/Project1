@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace __MyGame.Code.Script
+namespace __MyGame.Code.Script.Board
 {
     public class Block : MonoBehaviour
     {

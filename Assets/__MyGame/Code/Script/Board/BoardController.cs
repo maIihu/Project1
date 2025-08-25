@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace __MyGame.Code.Script
+namespace __MyGame.Code.Script.Board
 {
     public class BoardController : MonoBehaviour
     {

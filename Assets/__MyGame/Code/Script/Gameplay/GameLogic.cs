@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using __MyGame.Code.Script.Board;
 using UnityEngine;
 
-namespace __MyGame.Code.Script
+namespace __MyGame.Code.Script.Gameplay
 {
     public class GameLogic
     {
-        private BoardController _board;
+        private readonly BoardController _board;
 
         public GameLogic(BoardController board)
         {

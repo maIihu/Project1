@@ -1,8 +1,8 @@
-﻿using System;
+﻿using __MyGame.Code.Script.Board;
 using _MyCore.DesignPattern.Singleton;
 using UnityEngine;
 
-namespace __MyGame.Code.Script
+namespace __MyGame.Code.Script.Gameplay
 {
     public class GameplayManager : Singleton<GameplayManager>
     {
