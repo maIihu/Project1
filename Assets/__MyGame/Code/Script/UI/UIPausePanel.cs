@@ -5,17 +5,17 @@ namespace __MyGame.Code.Script.UI
 {
     public class UIPausePanel : MonoBehaviour
     {
-        private bool _isPaused;
+        private bool _isVisible;
 
         private void Start()
         {
             this.gameObject.SetActive(false);
         }
 
-        public void ControlPausePanel()
+        public void Toggle()
         {
-            _isPaused = !_isPaused;
-            this.gameObject.SetActive(_isPaused);
+            _isVisible = !_isVisible;
+            this.gameObject.SetActive(_isVisible);
         }
     }
 }

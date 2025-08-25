@@ -16,9 +16,9 @@ namespace __MyGame.Code.Script.Gameplay
         
         public void Shift(Vector2 dir)
         {
-            var ordererBlocks = OrderBlocksByDirection(_board.GetBlockInBoard(), dir);
-            Debug.Log("--- Block Can Move: " + ordererBlocks.Count);
-            foreach (var block in ordererBlocks)
+            var orderedBlocks = OrderBlocksByDirection(_board.GetBlocks(), dir);
+            Debug.Log("--- Block Can Move: " + orderedBlocks.Count);
+            foreach (var block in orderedBlocks)
             {
                 Move(block, dir);
             }
@@ -39,19 +39,19 @@ namespace __MyGame.Code.Script.Gameplay
         {
             var nextNode = _board.GetNodeWithBlock(block);
             nextNode.OccupiedBlock = null;
-            int step = block.moveStep;
-            while (step > 0)
+            int remainingStep = block.moveStep;
+            while (remainingStep > 0)
             {
-                var possibleNode = _board.GetNodeAtPosition(nextNode.GridPos + dir);
-                if(!possibleNode) break;
-                if (possibleNode.OccupiedBlock)
+                var nextNodeCandidate = _board.GetNodeAtPosition(nextNode.GridPos + dir);
+                if(!nextNodeCandidate) break;
+                if (nextNodeCandidate.OccupiedBlock)
                 {
                     // Attack Block 
-                    Debug.Log(block.name + " Can attack " + possibleNode.OccupiedBlock.name);
+                    Debug.Log(block.name + " Can attack " + nextNodeCandidate.OccupiedBlock.name);
                     break;
                 }
-                nextNode = possibleNode;
-                step--;
+                nextNode = nextNodeCandidate;
+                remainingStep--;
             }
             nextNode.OccupiedBlock = block;
             block.transform.position = nextNode.GridPos;

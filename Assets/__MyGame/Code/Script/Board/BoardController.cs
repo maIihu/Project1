@@ -17,19 +17,19 @@ namespace __MyGame.Code.Script.Board
         
         public static readonly int BoardSize = 6;
 
-        private List<Node> _nodeInBoard;
-        private List<Block> _blockInBoard;
+        private List<Node> _boardNodes;
+        private List<Block> _boardBlocks;
 
         private void Start()
         {
-            _nodeInBoard = new List<Node>();
-            _blockInBoard = new List<Block>();
+            _boardNodes = new List<Node>();
+            _boardBlocks = new List<Block>();
             
-            SpawnMapWithType(MapType.Green);
-            SpawnBlocksToMap(2);
+            LoadMap(MapType.Green);
+            SpawnBlocks(2);
         }
 
-        private void SpawnMapWithType(MapType mapType)
+        private void LoadMap(MapType mapType)
         {
             foreach (var map in mapDataArray)
             {
@@ -51,36 +51,29 @@ namespace __MyGame.Code.Script.Board
                     var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
                     node.name = node.GridPos.ToString();
                     node.SetSpriteNode((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
-                    _nodeInBoard.Add(node);
+                    _boardNodes.Add(node);
                 }
             }
         }
 
-        private void SpawnBlocksToMap(int amount)
+        private void SpawnBlocks(int amount)
         {
-            var freeNodes = _nodeInBoard.Where(n => n.OccupiedBlock == null)
+            var freeNodes = _boardNodes.Where(n => n.OccupiedBlock == null)
                 .OrderBy(n => Random.value).ToList();
             foreach (var node in freeNodes.Take(amount))
             {
                 var block = Instantiate(blockPrefab, node.transform.position, Quaternion.identity, blockContainer);
                 node.OccupiedBlock = block;
-                _blockInBoard.Add(block);
+                _boardBlocks.Add(block);
             }
         }
 
-        public List<Block> GetBlockInBoard()
+        public List<Block> GetBlocks()
         {
-            return _blockInBoard;
+            return _boardBlocks;
         }
 
-        public Node GetNodeWithBlock(Block block)
-        {
-            return _nodeInBoard.FirstOrDefault(node => node.OccupiedBlock == block);
-        }
-
-        public Node GetNodeAtPosition(Vector2 pos)
-        {
-            return _nodeInBoard.FirstOrDefault(n => n.GridPos == pos);
-        }
+        public Node GetNodeWithBlock(Block block) => _boardNodes.FirstOrDefault(node => node.OccupiedBlock == block);
+        public Node GetNodeAtPosition(Vector2 pos) => _boardNodes.FirstOrDefault(n => n.GridPos == pos);
     }
 }
