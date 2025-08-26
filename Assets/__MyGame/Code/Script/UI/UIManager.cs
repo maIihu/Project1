@@ -7,16 +7,21 @@ namespace __MyGame.Code.Script.UI
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private Button pauseButton;
-        [SerializeField] private UIPausePanel pausePanel;
+        [SerializeField] private UIPausePanelController pausePanelController;
 
         private void Awake()
         {
             pauseButton.onClick.AddListener(OnClickPauseButton);
         }
 
+        private void Start()
+        {
+            pausePanelController.TogglePanel();
+        }
+
         private void OnClickPauseButton()
         {
-            pausePanel.Toggle(true);
+            pausePanelController.TogglePanel();
         }
     }
 }
