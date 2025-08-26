@@ -16,7 +16,7 @@ namespace __MyGame.Code.Script.UI
 
         private void OnClickPauseButton()
         {
-            pausePanel.Toggle();
+            pausePanel.Toggle(true);
         }
     }
 }

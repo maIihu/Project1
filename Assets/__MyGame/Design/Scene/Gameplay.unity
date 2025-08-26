@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 127190470}
   - component: {fileID: 127190469}
   m_Layer: 5
-  m_Name: Button
+  m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1444,6 +1444,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77f37e68064946aaa86ef9c683d247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closeButton: {fileID: 127190469}
+  resumeButton: {fileID: 1852516798}
 --- !u!1 &886682262
 GameObject:
   m_ObjectHideFlags: 0
