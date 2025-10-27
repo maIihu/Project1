@@ -12,48 +12,77 @@ namespace __MyGame.Code.Script
         {
             _board = board;
         }
-        
-        public void Shift(Vector2 dir)
-        {
-            var ordererBlocks = OrderBlocksByDirection(_board.GetBlockInBoard(), dir);
-            Debug.Log("--- Block Can Move: " + ordererBlocks.Count);
-            foreach (var block in ordererBlocks)
-            {
-                Move(block, dir);
-            }
-        }
-        
-        private static List<Block> OrderBlocksByDirection(List<Block> blocks, Vector2 dir)
-        {
-            if(dir == Vector2.right)
-                return blocks.OrderByDescending(b => b.Pos.x).ToList();
-            if(dir == Vector2.left)
-                return blocks.OrderBy(b => b.Pos.x).ToList();
-            if(dir == Vector2.up)
-                return blocks.OrderByDescending(b => b.Pos.y).ToList();
-            return blocks.OrderBy(b => b.Pos.y).ToList();
-        }
 
-        private void Move(Block block,  Vector2 dir)
-        {
-            var nextNode = _board.GetNodeWithBlock(block);
-            nextNode.OccupiedBlock = null;
-            int step = block.moveStep;
-            while (step > 0)
-            {
-                var possibleNode = _board.GetNodeAtPosition(nextNode.GridPos + dir);
-                if(!possibleNode) break;
-                if (possibleNode.OccupiedBlock)
-                {
-                    // Attack Block 
-                    Debug.Log(block.name + " Can attack " + possibleNode.OccupiedBlock.name);
-                    break;
-                }
-                nextNode = possibleNode;
-                step--;
-            }
-            nextNode.OccupiedBlock = block;
-            block.transform.position = nextNode.GridPos;
-        }
-    }
+		//      public void ShiftPlayer(Vector2 dir)
+		//      {
+		//	var p = _board.GetPlayer();
+		//	if (p == null) return;
+		//	MoveEntity(p, dir);
+		//}
+
+		public void Shift(Vector2 dir)
+		{
+			var ents = OrderEntitiesByDirection(_board.GetAllEntities(), dir);
+			foreach (var ent in ents) Move(ent, dir);
+		}
+
+		private static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
+		{
+			if (dir == Vector2.right) return ents.OrderByDescending(e => e.transform.position.x).ToList();
+			if (dir == Vector2.left) return ents.OrderBy(e => e.transform.position.x).ToList();
+			if (dir == Vector2.up) return ents.OrderByDescending(e => e.transform.position.y).ToList();
+			return ents.OrderBy(e => e.transform.position.y).ToList();
+		}
+
+		public void Move(TileEntity ent, Vector2 dir)
+		{
+			var cur = _board.GetNodeWithEntity(ent);
+			if (cur == null) return;
+			cur.OccupiedBlock = null;
+			int step = Mathf.Max(1, ent.moveStep);
+			var next = cur;
+			while (step-- > 0)
+			{
+				var probe = _board.GetNodeAtPosition(next.GridPos + dir);
+				if (!probe) break;
+				if (probe.OccupiedBlock != null)
+				{
+					// Debug.Log($"{ent.name} meets {probe.Occupant.name}");
+					break;
+				}
+				next = probe;
+			}
+			next.OccupiedBlock = ent;
+			ent.transform.position = next.GridPos;
+			ent.SyncWorldPosToGrid();
+		}
+
+		//private void MoveEntity(TileEntity ent, Vector2 dir)
+		//{
+		//	var curNode = _board.GetNodeWithEntity(ent);
+		//	if (curNode == null) return;
+
+		//	curNode.OccupiedBlock = null;
+		//	int step = Mathf.Max(1, ent.moveStep);
+
+		//	var nextNode = curNode;
+		//	while (step-- > 0)
+		//	{
+		//		var probe = _board.GetNodeAtPosition(nextNode.GridPos + dir);
+		//		if (!probe) break;
+
+		//		if (probe.OccupiedBlock != null)
+		//		{
+		//			// Debug.Log($"{ent.name} meets {probe.Occupant.name}");
+		//			break;
+		//		}
+
+		//		nextNode = probe;
+		//	}
+
+		//	nextNode.OccupiedBlock = ent;
+		//	ent.transform.position = nextNode.GridPos;
+		//	ent.SyncWorldPosToGrid();
+		//}
+	}
 }

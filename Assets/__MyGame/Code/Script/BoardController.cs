@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 using Random = UnityEngine.Random;
 
 namespace __MyGame.Code.Script
@@ -10,24 +11,34 @@ namespace __MyGame.Code.Script
     {
         [SerializeField] private Node nodePrefab;
         [SerializeField] private Transform nodeContainer;
-        
-        [SerializeField] private Block blockPrefab;
-        [SerializeField] private Transform blockContainer;
+        [SerializeField] private PlayerEntity playerPrefab;
+        [SerializeField] private EnemyEntity enemyPrefab;
+
+
+		[SerializeField] private Transform entityContainer;
         
         [SerializeField] private MapData[] mapDataArray;
-        
-        public static readonly int BoardSize = 6;
+
+        //test 
+        [SerializeField] private CharacterClass testClass;
+        [SerializeField] private EmemyType testEnemyType;
+
+		public static readonly int BoardSize = 6;
 
         private List<Node> _nodeInBoard;
-        private List<Block> _blockInBoard;
+        private List<TileEntity> entitiesInBoard;
+        public PlayerEntity player;
+        public List<EnemyEntity> enemyEntities; 
 
         private void Start()
         {
             _nodeInBoard = new List<Node>();
-            _blockInBoard = new List<Block>();
-            
-            SpawnMapWithType(MapType.Green);
-            SpawnBlocksToMap(2);
+            entitiesInBoard = new List<TileEntity>();
+			enemyEntities = new List<EnemyEntity>();
+
+			SpawnMapWithType(MapType.Green);
+			SpawmPlayerRandomly();
+            SpawnEnemiesToMap(3);
         }
 
         private void SpawnMapWithType(MapType mapType)
@@ -57,31 +68,37 @@ namespace __MyGame.Code.Script
             }
         }
 
-        private void SpawnBlocksToMap(int amount)
+		#region
+        private void SpawmPlayerRandomly()
         {
-            var freeNodes = _nodeInBoard.Where(n => n.OccupiedBlock == null)
-                .OrderBy(n => Random.value).ToList();
-            foreach (var node in freeNodes.Take(amount))
+            var free = _nodeInBoard.Where(n => n.OccupiedBlock == null).OrderBy(_nodeInBoard => Random.value).First();
+            player = Instantiate(playerPrefab,free.transform.position, Quaternion.identity, entityContainer);
+            player.CharacterInitial(testClass);
+            player.RefreshUI();
+			player.SyncWorldPosToGrid();
+			free.OccupiedBlock = player;
+            entitiesInBoard.Add(player);
+		}
+        private void SpawnEnemiesToMap(int amount)
+        {
+            var freeNodes = _nodeInBoard.Where(n => n.OccupiedBlock == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
+            foreach(var node in freeNodes)
             {
-                var block = Instantiate(blockPrefab, node.transform.position, Quaternion.identity, blockContainer);
-                node.OccupiedBlock = block;
-                _blockInBoard.Add(block);
-            }
-        }
+                var e = Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
+				e.EmemyInit(testEnemyType);
+				e.RefreshUI();
+				e.SyncWorldPosToGrid();
+				node.OccupiedBlock = e;
+				enemyEntities.Add(e);
+				entitiesInBoard.Add(e);
+			}
+		}
+		public PlayerEntity GetPlayer() => player;
+		public List<EnemyEntity> GetEnemies() => enemyEntities;
+		public List<TileEntity> GetAllEntities() => entitiesInBoard;
 
-        public List<Block> GetBlockInBoard()
-        {
-            return _blockInBoard;
-        }
-
-        public Node GetNodeWithBlock(Block block)
-        {
-            return _nodeInBoard.FirstOrDefault(node => node.OccupiedBlock == block);
-        }
-
-        public Node GetNodeAtPosition(Vector2 pos)
-        {
-            return _nodeInBoard.FirstOrDefault(n => n.GridPos == pos);
-        }
-    }
+		public Node GetNodeWithEntity(TileEntity ent) => _nodeInBoard.FirstOrDefault(n => n.OccupiedBlock == ent);
+		public Node GetNodeAtPosition(Vector2 pos) => _nodeInBoard.FirstOrDefault(n => n.GridPos == pos);
+		#endregion
+	}
 }

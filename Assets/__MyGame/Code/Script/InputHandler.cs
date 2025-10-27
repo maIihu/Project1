@@ -13,20 +13,17 @@ namespace __MyGame.Code.Script
         {
             _gameplay = GameplayManager.Instance;
         }
+		private void TryShift(Vector2 dir)
+		{
+			_gameplay.GameLogic.Shift(dir);
+		}
 
-        private void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
-                _gameplay.GameLogic.Shift(Vector2.left);
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
-                _gameplay.GameLogic.Shift(Vector2.right);
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.UpArrow))
-                _gameplay.GameLogic.Shift(Vector2.up);
-
-            if (UnityEngine.Input.GetKeyDown(KeyCode.DownArrow))
-                _gameplay.GameLogic.Shift(Vector2.down);
-        }
-    }
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.LeftArrow)) TryShift(Vector2.left);
+			if (Input.GetKeyDown(KeyCode.RightArrow)) TryShift(Vector2.right);
+			if (Input.GetKeyDown(KeyCode.UpArrow)) TryShift(Vector2.up);
+			if (Input.GetKeyDown(KeyCode.DownArrow)) TryShift(Vector2.down);
+		}
+	}
 }

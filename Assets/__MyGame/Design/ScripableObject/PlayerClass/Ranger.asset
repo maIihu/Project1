@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7771ba24f2abf114e977100dc5420d5a, type: 3}
+  m_Name: Ranger
+  m_EditorClassIdentifier: 
+  className: 'Ranger '
+  classIcon: {fileID: -1390668640, guid: 3dc048749d618814b8ab1c78057face7, type: 3}
+  baseHP: 5
+  baseAtk: 1
+  baseArmor: 2
