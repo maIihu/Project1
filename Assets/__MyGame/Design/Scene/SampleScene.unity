@@ -480,7 +480,7 @@ MonoBehaviour:
   nodePrefab: {fileID: 659261816837175085, guid: c6adfb7cefe8b96449c45a992df9801e, type: 3}
   nodeContainer: {fileID: 887145739}
   playerPrefab: {fileID: 7091238004983875419, guid: 46366cf0cc0f7c745826dea4c40e2d78, type: 3}
-  enemyPrefab: {fileID: 7859425034374121511, guid: e34e75865be3b7a419a255540b140788, type: 3}
+  enemyPrefab: {fileID: 215630319969178132, guid: 2de9e3533d9a5774b8bc71ff3bddbe89, type: 3}
   entityContainer: {fileID: 246329699}
   mapDataArray:
   - {fileID: 11400000, guid: 46c2ca360c06be448b1bf529e6d7bbfd, type: 2}
