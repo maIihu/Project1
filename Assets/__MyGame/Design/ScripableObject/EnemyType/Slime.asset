@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   enemyName: Slime
-  sprite: {fileID: -711253713, guid: 5ee5ab953165c9e44be75351b882bb2d, type: 3}
+  sprite: {fileID: 21300000, guid: d7c3b474c29f4114d8fcb777b3f5da3b, type: 3}
   maxHP: 1
   attack: 1
   armor: 1

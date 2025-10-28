@@ -6,10 +6,9 @@ using UnityEngine;
 public class EntityViewUI : MonoBehaviour
 {
 	[SerializeField] SpriteRenderer spriteRenderer;
-	//[Header("UI")]
-	//[SerializeField] Canvas canvas;
-	//[SerializeField] TextMeshProUGUI hpText;
-	//[SerializeField] TextMeshProUGUI armorText;
+	[Header("UI")]
+	[SerializeField] TextMeshProUGUI hpText;
+	[SerializeField] TextMeshProUGUI armorText;
 
 	TileEntity entity;
 
@@ -32,11 +31,11 @@ public class EntityViewUI : MonoBehaviour
 	}
 	private void HandleHP(int cur, int max)
 	{
-		//hpText.text = $"{cur}/{max}";
+		hpText.text = $"{cur}";
 	}
 	private void HandleArmor(int armor)
 	{
-		//armorText.text = armor.ToString();
+		armorText.text = armor.ToString();
 	}
 	public void SetSprite(Sprite s)
 	{

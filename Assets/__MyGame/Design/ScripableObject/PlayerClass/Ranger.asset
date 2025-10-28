@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ranger
   m_EditorClassIdentifier: 
   className: 'Ranger '
-  classIcon: {fileID: -1390668640, guid: 3dc048749d618814b8ab1c78057face7, type: 3}
+  classIcon: {fileID: 21300000, guid: acfea4a78a2018d4eb0339441d792500, type: 3}
   baseHP: 5
   baseAtk: 1
   baseArmor: 2

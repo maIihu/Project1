@@ -17,12 +17,24 @@ public abstract class TileEntity : MonoBehaviour
 
 	public event System.Action<int, int> OnHealthChanged;
 	public event System.Action<int> OnArmorChanged;
+
+	public event System.Action<TileEntity> OnDied;
 	public virtual void OnCollision() { }
 	public void TakeDamage(int damage)
 	{
-		int remain = Mathf.Max(damage - armor, 0);
-		currentHP = Mathf.Max(currentHP - remain, 0);
-		OnHealthChanged?.Invoke(currentHP, maxHP);
+		Debug.Log("Taking Damage: " + damage);
+		int abosrbedByArmor = Mathf.Min(armor, damage);
+		if(abosrbedByArmor > 0)
+		{
+			armor -= abosrbedByArmor;
+			OnArmorChanged?.Invoke(armor);
+		}
+		int remainingDamage = damage - abosrbedByArmor;
+		if (remainingDamage > 0)
+		{
+			currentHP = Mathf.Max(currentHP - remainingDamage, 0);
+			OnHealthChanged?.Invoke(currentHP, maxHP);
+		}
 		if(currentHP <= 0)
 		{
 			Die();
@@ -37,7 +49,8 @@ public abstract class TileEntity : MonoBehaviour
 	}
 	public void Die()
 	{
-		//die logic
+		OnDied?.Invoke(this);
+		Destroy(gameObject);
 	}
 	public void SyncWorldPosToGrid()
 	{

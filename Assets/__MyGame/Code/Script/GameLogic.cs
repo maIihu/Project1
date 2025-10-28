@@ -13,12 +13,6 @@ namespace __MyGame.Code.Script
             _board = board;
         }
 
-		//      public void ShiftPlayer(Vector2 dir)
-		//      {
-		//	var p = _board.GetPlayer();
-		//	if (p == null) return;
-		//	MoveEntity(p, dir);
-		//}
 
 		public void Shift(Vector2 dir)
 		{
@@ -45,10 +39,20 @@ namespace __MyGame.Code.Script
 			{
 				var probe = _board.GetNodeAtPosition(next.GridPos + dir);
 				if (!probe) break;
-				if (probe.OccupiedBlock != null)
+				var blocker = probe.OccupiedBlock;
+				if (blocker != null)
 				{
-					// Debug.Log($"{ent.name} meets {probe.Occupant.name}");
-					break;
+					blocker.TakeDamage(ent.attack);
+
+					if (blocker.currentHP <= 0)
+					{
+						next = probe;
+						continue;
+					}
+					else
+					{
+						break;
+					}
 				}
 				next = probe;
 			}
@@ -56,33 +60,5 @@ namespace __MyGame.Code.Script
 			ent.transform.position = next.GridPos;
 			ent.SyncWorldPosToGrid();
 		}
-
-		//private void MoveEntity(TileEntity ent, Vector2 dir)
-		//{
-		//	var curNode = _board.GetNodeWithEntity(ent);
-		//	if (curNode == null) return;
-
-		//	curNode.OccupiedBlock = null;
-		//	int step = Mathf.Max(1, ent.moveStep);
-
-		//	var nextNode = curNode;
-		//	while (step-- > 0)
-		//	{
-		//		var probe = _board.GetNodeAtPosition(nextNode.GridPos + dir);
-		//		if (!probe) break;
-
-		//		if (probe.OccupiedBlock != null)
-		//		{
-		//			// Debug.Log($"{ent.name} meets {probe.Occupant.name}");
-		//			break;
-		//		}
-
-		//		nextNode = probe;
-		//	}
-
-		//	nextNode.OccupiedBlock = ent;
-		//	ent.transform.position = nextNode.GridPos;
-		//	ent.SyncWorldPosToGrid();
-		//}
 	}
 }

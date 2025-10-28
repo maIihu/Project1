@@ -76,6 +76,7 @@ namespace __MyGame.Code.Script
             player.CharacterInitial(testClass);
             player.RefreshUI();
 			player.SyncWorldPosToGrid();
+            player.OnDied += RemoveEntity;
 			free.OccupiedBlock = player;
             entitiesInBoard.Add(player);
 		}
@@ -88,10 +89,22 @@ namespace __MyGame.Code.Script
 				e.EmemyInit(testEnemyType);
 				e.RefreshUI();
 				e.SyncWorldPosToGrid();
+                e.OnDied += RemoveEntity;
 				node.OccupiedBlock = e;
 				enemyEntities.Add(e);
 				entitiesInBoard.Add(e);
 			}
+		}
+        private void RemoveEntity(TileEntity ent)
+        {
+            var node = GetNodeWithEntity(ent);
+            if(node != null && ReferenceEquals(node.OccupiedBlock, ent)){
+				node.OccupiedBlock = null;
+			}
+            entitiesInBoard.Remove(ent);
+            var asEnemy = ent as EnemyEntity;
+            if(asEnemy) enemyEntities.Remove(asEnemy);
+            if(ReferenceEquals(ent, player)) player = null;
 		}
 		public PlayerEntity GetPlayer() => player;
 		public List<EnemyEntity> GetEnemies() => enemyEntities;
