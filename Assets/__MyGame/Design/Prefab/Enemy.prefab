@@ -740,6 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee76bd1a2418cc74b8ff2c410e018e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textPunch: {fileID: 7259772890016131835, guid: 1e4feea2ae4cba74aabe96c8f26b9948, type: 3}
   Pos: {x: 0, y: 0}
   BlocksMovement: 0
   moveStep: 0

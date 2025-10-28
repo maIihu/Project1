@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using __MyGame.Code.Script;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class TileEntity : MonoBehaviour
 {
+	[FormerlySerializedAs("textPunch")] [SerializeField] private FloatingText floatingText;
 	public Vector2Int Pos;
 	public bool BlocksMovement;
 	public int moveStep;
@@ -17,12 +20,13 @@ public abstract class TileEntity : MonoBehaviour
 
 	public event System.Action<int, int> OnHealthChanged;
 	public event System.Action<int> OnArmorChanged;
-
 	public event System.Action<TileEntity> OnDied;
 	public virtual void OnCollision() { }
 	public void TakeDamage(int damage)
 	{
 		Debug.Log("Taking Damage: " + damage);
+		var text = Instantiate(floatingText);
+		text.PunchText(transform.position, damage.ToString());
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if(abosrbedByArmor > 0)
 		{
