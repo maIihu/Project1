@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _MyCore.DesignPattern.Singleton;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,8 +8,8 @@ using Random = UnityEngine.Random;
 
 namespace __MyGame.Code.Script
 {
-    public class BoardController : MonoBehaviour
-    {
+    public class BoardController : Singleton<BoardController>
+	{
         [SerializeField] private Node nodePrefab;
         [SerializeField] private Transform nodeContainer;
         [SerializeField] private PlayerEntity playerPrefab;
@@ -38,10 +39,15 @@ namespace __MyGame.Code.Script
 
 			SpawnMapWithType(MapType.Green);
 			SpawmPlayerRandomly();
-            SpawnEnemiesToMap(3);
+            SpawnEnemiesToMap(1);
         }
 
-        private void SpawnMapWithType(MapType mapType)
+		private void Awake()
+		{
+			Initialize(this);
+		}
+
+		private void SpawnMapWithType(MapType mapType)
         {
             foreach (var map in mapDataArray)
             {
@@ -71,18 +77,18 @@ namespace __MyGame.Code.Script
 		#region
         private void SpawmPlayerRandomly()
         {
-            var free = _nodeInBoard.Where(n => n.OccupiedBlock == null).OrderBy(_nodeInBoard => Random.value).First();
+            var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).First();
             player = Instantiate(playerPrefab,free.transform.position, Quaternion.identity, entityContainer);
             player.CharacterInitial(testClass);
             player.RefreshUI();
 			player.SyncWorldPosToGrid();
             player.OnDied += RemoveEntity;
-			free.OccupiedBlock = player;
+			free.OccupiedEntity = player;
             entitiesInBoard.Add(player);
 		}
         private void SpawnEnemiesToMap(int amount)
         {
-            var freeNodes = _nodeInBoard.Where(n => n.OccupiedBlock == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
+            var freeNodes = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
             foreach(var node in freeNodes)
             {
                 var e = Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
@@ -90,7 +96,7 @@ namespace __MyGame.Code.Script
 				e.RefreshUI();
 				e.SyncWorldPosToGrid();
                 e.OnDied += RemoveEntity;
-				node.OccupiedBlock = e;
+				node.OccupiedEntity = e;
 				enemyEntities.Add(e);
 				entitiesInBoard.Add(e);
 			}
@@ -98,8 +104,8 @@ namespace __MyGame.Code.Script
         private void RemoveEntity(TileEntity ent)
         {
             var node = GetNodeWithEntity(ent);
-            if(node != null && ReferenceEquals(node.OccupiedBlock, ent)){
-				node.OccupiedBlock = null;
+            if(node != null && ReferenceEquals(node.OccupiedEntity, ent)){
+				node.OccupiedEntity = null;
 			}
             entitiesInBoard.Remove(ent);
             var asEnemy = ent as EnemyEntity;
@@ -110,8 +116,9 @@ namespace __MyGame.Code.Script
 		public List<EnemyEntity> GetEnemies() => enemyEntities;
 		public List<TileEntity> GetAllEntities() => entitiesInBoard;
 
-		public Node GetNodeWithEntity(TileEntity ent) => _nodeInBoard.FirstOrDefault(n => n.OccupiedBlock == ent);
+		public Node GetNodeWithEntity(TileEntity ent) => _nodeInBoard.FirstOrDefault(n => n.OccupiedEntity == ent);
 		public Node GetNodeAtPosition(Vector2 pos) => _nodeInBoard.FirstOrDefault(n => n.GridPos == pos);
+        public List<Node> AllNode => _nodeInBoard;
 		#endregion
 	}
 }

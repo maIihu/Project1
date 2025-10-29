@@ -18,6 +18,11 @@ namespace __MyGame.Code.Script
 		{
 			var ents = OrderEntitiesByDirection(_board.GetAllEntities(), dir);
 			foreach (var ent in ents) Move(ent, dir);
+
+			foreach(var node in _board.AllNode)
+			{
+				node.ReduceExistTurn();
+			}
 		}
 
 		private static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
@@ -32,33 +37,45 @@ namespace __MyGame.Code.Script
 		{
 			var cur = _board.GetNodeWithEntity(ent);
 			if (cur == null) return;
-			cur.OccupiedBlock = null;
-			int step = Mathf.Max(1, ent.moveStep);
+			var fromNode = cur;
+			cur.OccupiedEntity = null;
+			int stepLeft = Mathf.Max(1, ent.moveStep);
 			var next = cur;
-			while (step-- > 0)
+			bool slideLatched = false;
+			while (true)
 			{
+				bool forceSlideContinue = false;
+				var effectInst = next.nodeEffect;
+				var effect = effectInst?.effect;
+				if (effect is SlideNodeEffect) slideLatched = true;
+				if(effect is IModifyMovement mod)
+				{
+					mod.ModifyMovement(ref stepLeft, ref forceSlideContinue, _board, ent, next);
+				}
+				if (!forceSlideContinue  && !slideLatched)
+				{
+					if (stepLeft-- <= 0) break;
+				}
 				var probe = _board.GetNodeAtPosition(next.GridPos + dir);
 				if (!probe) break;
-				var blocker = probe.OccupiedBlock;
-				if (blocker != null)
+				var blocker = probe.OccupiedEntity;
+				if(blocker != null)
 				{
 					blocker.TakeDamage(ent.attack);
-
-					if (blocker.currentHP <= 0)
-					{
-						next = probe;
-						continue;
-					}
-					else
-					{
-						break;
-					}
+					if (blocker.currentHP > 0) break;
 				}
+				var effectNext = probe.nodeEffect?.effect;
+				if (effectNext is SlideNodeEffect) slideLatched = true;
 				next = probe;
 			}
-			next.OccupiedBlock = ent;
+			next.OccupiedEntity = ent;
 			ent.transform.position = next.GridPos;
 			ent.SyncWorldPosToGrid();
+			//place holder for enemy only first
+			if(ent is EnemyEntity enemyEntity)
+			{
+				enemyEntity.RaiseAfterMove(_board, fromNode, next);
+			}
 		}
 	}
 }

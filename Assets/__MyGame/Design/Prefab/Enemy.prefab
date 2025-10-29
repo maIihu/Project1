@@ -613,7 +613,7 @@ SpriteRenderer:
   m_SortingLayerID: -1334078241
   m_SortingLayer: 3
   m_SortingOrder: 28
-  m_Sprite: {fileID: 21300000, guid: acfea4a78a2018d4eb0339441d792500, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e4db1e2ce3cf55f46bfc9162c56675a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -740,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee76bd1a2418cc74b8ff2c410e018e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textPunch: {fileID: 7259772890016131835, guid: 1e4feea2ae4cba74aabe96c8f26b9948, type: 3}
+  floatingText: {fileID: 7259772890016131835, guid: 1e4feea2ae4cba74aabe96c8f26b9948, type: 3}
   Pos: {x: 0, y: 0}
   BlocksMovement: 0
   moveStep: 0

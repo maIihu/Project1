@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7771ba24f2abf114e977100dc5420d5a, type: 3}
-  m_Name: Ranger
+  m_Script: {fileID: 11500000, guid: 4475f26adee605c40b56dcc3e2323b28, type: 3}
+  m_Name: WebNodeEffect
   m_EditorClassIdentifier: 
-  className: 'Ranger '
-  classIcon: {fileID: 21300000, guid: acfea4a78a2018d4eb0339441d792500, type: 3}
-  baseHP: 5
-  baseAtk: 1
-  baseArmor: 2
-  moveStep: 2
+  effectName: Web Node
+  duration: -1
+  effectSpriteOverlay: {fileID: 21300000, guid: 1761595c34b7f0a4c91a8a85f1682a6e, type: 3}
+  consumeOnHold: 1

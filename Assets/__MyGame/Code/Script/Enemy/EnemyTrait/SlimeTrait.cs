@@ -1,18 +1,32 @@
+using __MyGame.Code.Script;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlimeTrait : MonoBehaviour
+[CreateAssetMenu(fileName = "SlimeTrait", menuName = "Enemy/Trait/SlimeTrait")]
+public class SlimeTrait : EnemyTrait, IOnDeath
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private SlideNodeEffect slideEffect;
+	[SerializeField] private int slideDuration = 3;
+	[SerializeField] private int radius = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void OnDeath(BoardController board, EnemyEntity self, Node node)
+	{
+		if (node == null) return;
+		var c = node.GridPos;
+		for (int dx = -radius; dx <= radius; dx++)
+		for(int dy = -radius; dy <= radius; dy++)
+		{
+				if (dx == 0 && dy == 0) continue;
+				var n = board.GetNodeAtPosition(c + new Vector2(dx, dy));
+				if(n != null && n.OccupiedEntity != null)
+				{
+					n.OccupiedEntity.TakeDamage(self.attack);
+				}
+		}
+		if(slideEffect != null)
+		{
+			node.AddEffect(slideEffect, slideDuration);
+		}
+	}
 }

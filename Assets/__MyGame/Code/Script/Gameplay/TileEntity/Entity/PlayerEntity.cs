@@ -17,7 +17,7 @@ public class PlayerEntity : TileEntity
 		armor = characterClass.baseArmor;
 		BlocksMovement = true;
 		abilityCooldowns.Clear();
-		moveStep = 6;
+		moveStep = characterClass.moveStep;
 		SyncWorldPosToGrid();
 	}
 

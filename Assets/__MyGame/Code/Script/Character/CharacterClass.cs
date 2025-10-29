@@ -12,6 +12,7 @@ public class CharacterClass : ScriptableObject
 	public int baseHP;
 	public int baseAtk;
 	public int baseArmor;
+	public int moveStep;
 	
 
 }

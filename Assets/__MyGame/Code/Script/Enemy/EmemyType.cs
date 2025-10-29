@@ -15,10 +15,6 @@ public class EmemyType : ScriptableObject
 
 	[Header("Traits")]
 	public bool blocksMovement;
-	public bool explodeOnDeath;
-	public int daethExplosionDamage;
+	public List<EnemyTrait> enemyTraits;
 
-	//OnHitEffect
-
-	//OnMoveEffect
 }

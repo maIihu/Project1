@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7771ba24f2abf114e977100dc5420d5a, type: 3}
-  m_Name: Ranger
+  m_Script: {fileID: 11500000, guid: 30d1e7bf8f6d9c840a8ccf73d0874b22, type: 3}
+  m_Name: SlideNodeEffect
   m_EditorClassIdentifier: 
-  className: 'Ranger '
-  classIcon: {fileID: 21300000, guid: acfea4a78a2018d4eb0339441d792500, type: 3}
-  baseHP: 5
-  baseAtk: 1
-  baseArmor: 2
-  moveStep: 2
+  effectName: SlideNode
+  duration: 2
+  effectSpriteOverlay: {fileID: 21300000, guid: 5df85bf584d68304b89d0750154fa985, type: 3}
