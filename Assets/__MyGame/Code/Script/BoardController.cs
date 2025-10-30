@@ -13,9 +13,8 @@ namespace __MyGame.Code.Script
         [SerializeField] private Node nodePrefab;
         [SerializeField] private Transform nodeContainer;
         [SerializeField] private PlayerEntity playerPrefab;
-        [SerializeField] private EnemyEntity enemyPrefab;
-
-
+        //[SerializeField] private EnemyEntity enemyPrefab;
+        
 		[SerializeField] private Transform entityContainer;
         
         [SerializeField] private MapData[] mapDataArray;
@@ -31,21 +30,25 @@ namespace __MyGame.Code.Script
         public PlayerEntity player;
         public List<EnemyEntity> enemyEntities; 
 
+        private void Awake()
+        {
+	        Initialize(this);
+        }
+        
         private void Start()
         {
             _nodeInBoard = new List<Node>();
             entitiesInBoard = new List<TileEntity>();
 			enemyEntities = new List<EnemyEntity>();
-
-			SpawnMapWithType(MapType.Green);
-			SpawmPlayerRandomly();
-            SpawnEnemiesToMap(1);
         }
 
-		private void Awake()
-		{
-			Initialize(this);
-		}
+        public void InitBoard()
+        {
+	        SpawnMapWithType(MapType.Green);
+	        SpawmPlayerRandomly();
+	        SpawnEnemiesToMap(3);
+        }
+
 
 		private void SpawnMapWithType(MapType mapType)
         {
@@ -91,14 +94,14 @@ namespace __MyGame.Code.Script
             var freeNodes = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
             foreach(var node in freeNodes)
             {
-                var e = Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
-				e.EmemyInit(testEnemyType);
-				e.RefreshUI();
-				e.SyncWorldPosToGrid();
-                e.OnDied += RemoveEntity;
-				node.OccupiedEntity = e;
-				enemyEntities.Add(e);
-				entitiesInBoard.Add(e);
+	            var enemy = GameplayManager.Instance.objectPool.GetEnemy(node.transform.position, Quaternion.identity, entityContainer);//Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
+				enemy.EmemyInit(testEnemyType);
+				enemy.RefreshUI();
+				enemy.SyncWorldPosToGrid();
+                enemy.OnDied += RemoveEntity;
+				node.OccupiedEntity = enemy;
+				enemyEntities.Add(enemy);
+				entitiesInBoard.Add(enemy);
 			}
 		}
         private void RemoveEntity(TileEntity ent)

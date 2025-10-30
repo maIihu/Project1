@@ -7,8 +7,10 @@ namespace __MyGame.Code.Script
     public class GameplayManager : Singleton<GameplayManager>
     {
         [SerializeField] public BoardController board;
+
+        [SerializeField] public GameObjectPool objectPool;
         
-        public GameLogic GameLogic { get; set; }
+        public GameLogic GameLogic { get; private set; }
 
         private void Awake()
         {
@@ -18,12 +20,15 @@ namespace __MyGame.Code.Script
         private void Start()
         {
             GameLogic = new GameLogic(this.board);
+            objectPool.InitEnemyPooling();
+            board.InitBoard();
         }
+        
 
         protected override void OnRegistration()
         {
             base.OnRegistration();
-            Debug.Log("-----GameplayManager registered");
+            //Debug.Log("-----GameplayManager registered");
         }
     }
 }

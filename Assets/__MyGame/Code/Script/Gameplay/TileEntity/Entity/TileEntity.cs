@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using __MyGame.Code.Script;
 using UnityEngine;
 using UnityEngine.Serialization;
+using uPools;
 
 public abstract class TileEntity : MonoBehaviour
 {
@@ -25,8 +26,8 @@ public abstract class TileEntity : MonoBehaviour
 	public void TakeDamage(int damage)
 	{
 		Debug.Log("Taking Damage: " + damage);
-		var text = Instantiate(floatingText);
-		text.PunchText(transform.position, damage.ToString());
+		// var text = Instantiate(floatingText);
+		// text.PunchText(transform.position, damage.ToString());
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if(abosrbedByArmor > 0)
 		{
@@ -54,6 +55,9 @@ public abstract class TileEntity : MonoBehaviour
 	public void Die()
 	{
 		OnDied?.Invoke(this);
+		//Debug.Log("On Dead");
+		//SharedGameObjectPool.Return(gameObject);
+		
 		Destroy(gameObject);
 	}
 	public void SyncWorldPosToGrid()
