@@ -10,7 +10,7 @@ public class SpiderTrait : EnemyTrait, IOnAfterMove
 	[SerializeField] private int webDuration = -1;
 	public void OnAfterMove(BoardController board, EnemyEntity self, Node from, Node to)
 	{
-		if (from == null) return;
+		if (from == null && to == null) return;
 		from.AddEffect(webEffect,webDuration);
 	}
 }

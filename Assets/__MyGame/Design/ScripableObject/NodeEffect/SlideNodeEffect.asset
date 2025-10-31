@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SlideNodeEffect
   m_EditorClassIdentifier: 
   effectName: SlideNode
-  duration: 2
-  effectSpriteOverlay: {fileID: 21300000, guid: 5df85bf584d68304b89d0750154fa985, type: 3}
+  duration: 10
+  effectSpriteOverlay: {fileID: 21300000, guid: fc0e011e410033a4eb6311a7f626f651, type: 3}

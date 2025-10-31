@@ -25,22 +25,17 @@ namespace __MyGame.Code.Script
 
 		public static readonly int BoardSize = 6;
 
-        private List<Node> _nodeInBoard;
-        private List<TileEntity> entitiesInBoard;
+        private List<Node> _nodeInBoard = new List<Node>();
+        private List<TileEntity> entitiesInBoard = new List<TileEntity>();
         public PlayerEntity player;
-        public List<EnemyEntity> enemyEntities; 
+        public List<EnemyEntity> enemyEntities = new List<EnemyEntity>(); 
+        public List<ObstacleEntity> obstacleEntities = new List<ObstacleEntity>();
 
-        private void Awake()
+		private void Awake()
         {
 	        Initialize(this);
         }
         
-        private void Start()
-        {
-            _nodeInBoard = new List<Node>();
-            entitiesInBoard = new List<TileEntity>();
-			enemyEntities = new List<EnemyEntity>();
-        }
 
         public void InitBoard()
         {
@@ -115,7 +110,15 @@ namespace __MyGame.Code.Script
             if(asEnemy) enemyEntities.Remove(asEnemy);
             if(ReferenceEquals(ent, player)) player = null;
 		}
-		public PlayerEntity GetPlayer() => player;
+        public void InstantiateObstacleEntityAtNode(ObstacleEntity obstacle,Node spawnNode)
+        {
+            var obstacleEnt = Instantiate(obstacle, spawnNode.transform.position, Quaternion.identity, entityContainer);
+			obstacleEnt.SyncWorldPosToGrid();
+			spawnNode.OccupiedEntity = obstacleEnt;
+			obstacleEntities.Add(obstacleEnt);
+			entitiesInBoard.Add(obstacleEnt);
+		}
+        public PlayerEntity GetPlayer() => player;
 		public List<EnemyEntity> GetEnemies() => enemyEntities;
 		public List<TileEntity> GetAllEntities() => entitiesInBoard;
 

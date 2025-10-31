@@ -62,17 +62,18 @@ namespace __MyGame.Code.Script
 				if(blocker != null)
 				{
 					blocker.TakeDamage(ent.attack);
-					if (blocker.currentHP > 0) break;
+					break;
 				}
 				var effectNext = probe.nodeEffect?.effect;
 				if (effectNext is SlideNodeEffect) slideLatched = true;
 				next = probe;
 			}
+			var moved = next != fromNode;
 			next.OccupiedEntity = ent;
 			ent.transform.position = next.GridPos;
 			ent.SyncWorldPosToGrid();
 			//place holder for enemy only first
-			if(ent is EnemyEntity enemyEntity)
+			if(ent is EnemyEntity enemyEntity && moved)
 			{
 				enemyEntity.RaiseAfterMove(_board, fromNode, next);
 			}
