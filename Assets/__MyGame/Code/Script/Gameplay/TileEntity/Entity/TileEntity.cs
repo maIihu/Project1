@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using __MyGame.Code.Script;
@@ -19,15 +20,24 @@ public abstract class TileEntity : MonoBehaviour
 
 	public Sprite entitySprite;
 
+	private bool _isDead;
+
 	public event System.Action<int, int> OnHealthChanged;
 	public event System.Action<int> OnArmorChanged;
 	public event System.Action<TileEntity> OnDied;
 	public virtual void OnCollision() { }
+
+	private void OnEnable()
+	{
+		_isDead = false;
+	}
+
 	public void TakeDamage(int damage)
 	{
 		Debug.Log("Taking Damage: " + damage);
-		var text = Instantiate(floatingText);
-		text.PunchText(transform.position, damage.ToString());
+		if(_isDead) return;
+		// var text = Instantiate(floatingText);
+		// text.PunchText(transform.position, damage.ToString());
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if(abosrbedByArmor > 0)
 		{
@@ -54,6 +64,8 @@ public abstract class TileEntity : MonoBehaviour
 	}
 	public void Die()
 	{
+		if (_isDead) return;
+		_isDead = true;
 		OnDied?.Invoke(this);
 		//Debug.Log("On Dead");
 		//SharedGameObjectPool.Return(gameObject);

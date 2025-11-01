@@ -1,3 +1,4 @@
+using System;
 using __MyGame.Code.Script;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,18 +11,18 @@ public class EnemyEntity : TileEntity
 	private List<EnemyTrait> traits = new();
 
 	IOnAfterMove[] afterMoveHooker;
-	public void EmemyInit(EmemyType enemyType)
+	public void EnemyInit(EmemyType type)
 	{
-		this.enemyType = enemyType;
-		SetSpriteRuntime(enemyType.sprite);
-		maxHP = currentHP = enemyType.maxHP;
-		attack = enemyType.attack;
-		armor = enemyType.armor;
-		BlocksMovement = enemyType.blocksMovement;
-		moveStep = enemyType.moveStep;
+		this.enemyType = type;
+		SetSpriteRuntime(type.sprite);
+		maxHP = currentHP = type.maxHP;
+		attack = type.attack;
+		armor = type.armor;
+		BlocksMovement = type.blocksMovement;
+		moveStep = type.moveStep;
 		SyncWorldPosToGrid();
 
-		traits = enemyType.enemyTraits;
+		traits = type.enemyTraits;
 		this.OnDied += HandleDeathTraits;
 		afterMoveHooker = traits.OfType<IOnAfterMove>().ToArray();
 
@@ -41,6 +42,12 @@ public class EnemyEntity : TileEntity
 			}
 		}
 	}
+
+	private void OnDisable()
+	{
+		this.OnDied -= HandleDeathTraits;
+	}
+
 	public void RaiseAfterMove(BoardController board, Node from, Node to)
 	{
 		foreach(var h in afterMoveHooker)
