@@ -35,48 +35,68 @@ namespace __MyGame.Code.Script
 
 		public void Move(TileEntity ent, Vector2 dir)
 		{
-			var cur = _board.GetNodeWithEntity(ent);
-			if (cur == null) return;
-			var fromNode = cur;
-			cur.OccupiedEntity = null;
+			var fromNode = _board.GetNodeWithEntity(ent);
+			if (!fromNode) return;
+
+			fromNode.OccupiedEntity = null;
+			var nextNode = FindNextNode(ent, fromNode, dir);
+			
+			var moved = nextNode != fromNode;
+			
+			nextNode.OccupiedEntity = ent;
+			ent.transform.position = nextNode.GridPos;
+			ent.SyncWorldPosToGrid();
+			
+			if(ent is EnemyEntity enemy && moved)
+				enemy.RaiseAfterMove(_board, fromNode, nextNode);
+		}
+
+		private Node FindNextNode(TileEntity ent, Node fromNode, Vector2 dir)
+		{
 			int stepLeft = Mathf.Max(1, ent.moveStep);
-			var next = cur;
+			var nextNode = fromNode;
 			bool slideLatched = false;
+
 			while (true)
 			{
-				bool forceSlideContinue = false;
-				var effectInst = next.nodeEffect;
-				var effect = effectInst?.effect;
-				if (effect is SlideNodeEffect) slideLatched = true;
-				if(effect is IModifyMovement mod)
-				{
-					mod.ModifyMovement(ref stepLeft, ref forceSlideContinue, _board, ent, next);
-				}
-				if (!forceSlideContinue  && !slideLatched)
-				{
-					if (stepLeft-- <= 0) break;
-				}
-				var probe = _board.GetNodeAtPosition(next.GridPos + dir);
-				if (!probe) break;
-				var blocker = probe.OccupiedEntity;
-				if(blocker != null)
-				{
-					blocker.TakeDamage(ent.attack);
+				bool forceSlideContinues = false;
+				
+				ApplyNodeEffects(ent, nextNode, ref stepLeft, ref slideLatched, ref forceSlideContinues);
+				
+				if(!forceSlideContinues && !slideLatched && stepLeft-- <= 0)
 					break;
-				}
-				var effectNext = probe.nodeEffect?.effect;
-				if (effectNext is SlideNodeEffect) slideLatched = true;
-				next = probe;
+
+				var probeNode = _board.GetNodeAtPosition(nextNode.GridPos + dir);
+				if(!probeNode) break;
+
+				if(HandleBlocker(ent, probeNode)) break;
+				
+				var effectNext = probeNode.nodeEffect?.effect; 
+				if (effectNext is SlideNodeEffect) 
+					slideLatched = true; 
+				
+				nextNode = probeNode;
 			}
-			var moved = next != fromNode;
-			next.OccupiedEntity = ent;
-			ent.transform.position = next.GridPos;
-			ent.SyncWorldPosToGrid();
-			//place holder for enemy only first
-			if(ent is EnemyEntity enemyEntity && moved)
-			{
-				enemyEntity.RaiseAfterMove(_board, fromNode, next);
-			}
+
+			return nextNode;
 		}
-	}
+
+		private void ApplyNodeEffects(TileEntity ent, Node node, 
+			ref int stepLeft, ref bool slideLatched, ref bool forceSlideContinues)
+		{
+			var effect = node.nodeEffect?.effect;
+			if (effect is SlideNodeEffect) slideLatched = true;
+			if(effect is IModifyMovement mod)
+				mod.ModifyMovement(ref stepLeft, ref forceSlideContinues, _board, ent, node);
+		}
+
+		private bool HandleBlocker(TileEntity ent, Node probeNode)
+		{
+			var blocker = probeNode.OccupiedEntity;
+			if (!blocker) return false;
+			blocker.TakeDamage(ent.attack);
+			return true;
+		}
+		
+    }
 }
