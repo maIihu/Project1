@@ -26,22 +26,26 @@ namespace __MyGame.Code.Script
 		public static readonly int BoardSize = 6;
 
         private List<Node> _nodeInBoard = new List<Node>();
-        private List<TileEntity> entitiesInBoard = new List<TileEntity>();
+        private List<TileEntity> entitiesInBoard;
         public PlayerEntity player;
-        public List<EnemyEntity> enemyEntities = new List<EnemyEntity>(); 
-        public List<ObstacleEntity> obstacleEntities = new List<ObstacleEntity>();
+        public List<EnemyEntity> enemyEntities; 
+        public List<ObstacleEntity> obstacleEntities;
 
 		private void Awake()
         {
 	        Initialize(this);
         }
-        
-
+		
         public void InitBoard()
         {
+	        _nodeInBoard = new List<Node>();
+	        entitiesInBoard = new List<TileEntity>();
+	        enemyEntities = new List<EnemyEntity>();
+	        obstacleEntities = new List<ObstacleEntity>();
+	        
 	        SpawnMapWithType(MapType.Green);
 	        SpawmPlayerRandomly();
-	        SpawnEnemiesToMap(3);
+	        SpawnEnemiesToMap(5);
         }
 
 
@@ -90,7 +94,7 @@ namespace __MyGame.Code.Script
             foreach(var node in freeNodes)
             {
 	            var enemy = GameplayManager.Instance.objectPool.GetEnemy(node.transform.position, Quaternion.identity, entityContainer);//Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
-				enemy.EmemyInit(testEnemyType);
+				enemy.EnemyInit(testEnemyType);
 				enemy.RefreshUI();
 				enemy.SyncWorldPosToGrid();
                 enemy.OnDied += RemoveEntity;
