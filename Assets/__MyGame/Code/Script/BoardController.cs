@@ -114,13 +114,15 @@ namespace __MyGame.Code.Script
             if(asEnemy) enemyEntities.Remove(asEnemy);
             if(ReferenceEquals(ent, player)) player = null;
 		}
-        public void InstantiateObstacleEntityAtNode(ObstacleEntity obstacle,Node spawnNode)
+        public ObstacleEntity InstantiateObstacleEntityAtNode(ObstacleEntity obstacle,Node spawnNode)
         {
             var obstacleEnt = Instantiate(obstacle, spawnNode.transform.position, Quaternion.identity, entityContainer);
 			obstacleEnt.SyncWorldPosToGrid();
 			spawnNode.OccupiedEntity = obstacleEnt;
+            obstacleEnt.OnDied += RemoveEntity;
 			obstacleEntities.Add(obstacleEnt);
 			entitiesInBoard.Add(obstacleEnt);
+			return obstacleEnt;
 		}
         public PlayerEntity GetPlayer() => player;
 		public List<EnemyEntity> GetEnemies() => enemyEntities;

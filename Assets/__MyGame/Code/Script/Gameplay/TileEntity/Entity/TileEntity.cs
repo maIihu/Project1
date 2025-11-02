@@ -36,8 +36,8 @@ public abstract class TileEntity : MonoBehaviour
 	{
 		Debug.Log("Taking Damage: " + damage);
 		if(_isDead) return;
-		// var text = Instantiate(floatingText);
-		// text.PunchText(transform.position, damage.ToString());
+		var text = Instantiate(floatingText);
+		text.PunchText(transform.position, damage.ToString());
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if(abosrbedByArmor > 0)
 		{

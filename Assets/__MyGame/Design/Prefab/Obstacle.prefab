@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6679358268894761600
 Transform:
   m_ObjectHideFlags: 0
@@ -566,7 +566,7 @@ Transform:
   m_GameObject: {fileID: 7572569430901403031}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.003, y: 0.046, z: 0}
+  m_LocalPosition: {x: 0.021, y: 0.032, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -613,7 +613,7 @@ SpriteRenderer:
   m_SortingLayerID: -1334078241
   m_SortingLayer: 3
   m_SortingOrder: 28
-  m_Sprite: {fileID: 21300000, guid: e4db1e2ce3cf55f46bfc9162c56675a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e123b2a20c7dbd14ab681a3d6220d07e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -635,9 +635,9 @@ GameObject:
   - component: {fileID: 7107910424271276335}
   - component: {fileID: 6522223490351234078}
   - component: {fileID: 1843300555826281382}
-  - component: {fileID: 215630319969178132}
+  - component: {fileID: 7827912410845276081}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -728,7 +728,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 7470148848989467963}
   hpText: {fileID: 5536379403781327040}
   armorText: {fileID: 2474812546534127139}
---- !u!114 &215630319969178132
+--- !u!114 &7827912410845276081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -737,19 +737,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 8076895596615489029}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee76bd1a2418cc74b8ff2c410e018e33, type: 3}
+  m_Script: {fileID: 11500000, guid: 857b9781531a18d4696e686d56003c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   floatingText: {fileID: 7259772890016131835, guid: 1e4feea2ae4cba74aabe96c8f26b9948, type: 3}
   Pos: {x: 0, y: 0}
-  BlocksMovement: 0
+  BlocksMovement: 1
   moveStep: 0
   maxHP: 0
   currentHP: 0
   armor: 0
   attack: 0
   entitySprite: {fileID: 0}
-  enemyType: {fileID: 0}
+  obstacleData: {fileID: 0}
 --- !u!1 &8135478610824747360
 GameObject:
   m_ObjectHideFlags: 0

@@ -53,7 +53,7 @@ namespace __MyGame.Code.Script
 
 		private Node FindNextNode(TileEntity ent, Node fromNode, Vector2 dir)
 		{
-			int stepLeft = Mathf.Max(1, ent.moveStep);
+			int stepLeft = ent.moveStep;
 			var nextNode = fromNode;
 			bool slideLatched = false;
 
