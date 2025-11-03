@@ -459,7 +459,7 @@ PrefabInstance:
     - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: testEnemyType
       value: 
-      objectReference: {fileID: 11400000, guid: 27624e189a0cb04458a181017e49948c, type: 2}
+      objectReference: {fileID: 11400000, guid: 11cd267dde474904cbd6c7b4c1bd7313, type: 2}
     - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: spikeNodeEffect
       value: 

@@ -7,4 +7,6 @@ public class NodeEffect : ScriptableObject
 	public string effectName;
 	public int duration = -1;
 	public Sprite effectSpriteOverlay;
+
+	public int priority;
 }

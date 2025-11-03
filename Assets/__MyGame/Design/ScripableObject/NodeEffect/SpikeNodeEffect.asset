@@ -15,6 +15,7 @@ MonoBehaviour:
   effectName: SpikeNode
   duration: -1
   effectSpriteOverlay: {fileID: 0}
+  priority: 99
   startActive: 1
   activeTurn: 2
   cooldownTurns: 3

@@ -18,13 +18,19 @@ namespace __MyGame.Code.Script
 
 		public void AddEffect(NodeEffect effect, int duration)
         {
-            if(effect == null ) { ClearEffect(); return; }
+            if(effect == null ) { return; }
+            if(nodeEffect != null && nodeEffect.effect != null)
+            {
+                var cur = nodeEffect.effect;
+                if (cur.priority > effect.priority)
+                    return;
+            }
             nodeEffect = new NodeEffectInstance
             {
                 effect = effect,
                 duration = duration
             };
-            if(effect is CycledNodeEffect cycledNodeEffect)
+			if (effect is CycledNodeEffect cycledNodeEffect)
                 cycledNodeEffect.Initial(this, nodeEffect);
             UpdateVisualEffect();
 		}
