@@ -459,7 +459,11 @@ PrefabInstance:
     - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: testEnemyType
       value: 
-      objectReference: {fileID: 11400000, guid: 7f36920ae9330a6469f762a6c80186f7, type: 2}
+      objectReference: {fileID: 11400000, guid: 27624e189a0cb04458a181017e49948c, type: 2}
+    - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
+      propertyPath: spikeNodeEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 325924604f48cd6469027ed8809bf595, type: 2}
     - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: dontDestroyOnLoad
       value: 0

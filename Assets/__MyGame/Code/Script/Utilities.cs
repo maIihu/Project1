@@ -16,5 +16,7 @@ public class NodeEffectInstance
 {
 	public NodeEffect effect;
 	public int duration;
+	public bool isActive;
+	public int stateCounter;
 }
 public enum ObstacleType { Bones}

@@ -55,4 +55,13 @@ public class EnemyEntity : TileEntity
 			h.OnAfterMove(board, this, from, to);
 		}
 	}
+	public bool HasTrait<T>() where T : class
+	{
+		if (traits == null) return false;
+		for(int i = 0; i < traits.Count; i++)
+		{
+			if(traits[i] is T) return true;
+		}
+		return false;
+	}
 }

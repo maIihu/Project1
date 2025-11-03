@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SlimeTrait
   m_EditorClassIdentifier: 
   slideEffect: {fileID: 11400000, guid: dc1715fab7b22924db365b3e9d0d7b4c, type: 2}
-  slideDuration: 10
+  slideDuration: 3
   radius: 1

@@ -22,6 +22,7 @@ namespace __MyGame.Code.Script
         //test 
         [SerializeField] private CharacterClass testClass;
         [SerializeField] private EmemyType testEnemyType;
+        [SerializeField] private SpikeNodeEffect spikeNodeEffect;
 
 		public static readonly int BoardSize = 6;
 
@@ -30,6 +31,7 @@ namespace __MyGame.Code.Script
         public PlayerEntity player;
         public List<EnemyEntity> enemyEntities; 
         public List<ObstacleEntity> obstacleEntities;
+
 
 		private void Awake()
         {
@@ -70,7 +72,11 @@ namespace __MyGame.Code.Script
                     var positionToSpawn = new Vector3(i - offset, j - offset, 0);
                     var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
                     node.name = node.GridPos.ToString();
-                    node.SetSpriteNode((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
+                    node.SetBaseSprite((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
+                    if (Random.value <= 0.1)
+                    {
+                        SetSpikeNode(node);
+                    }
                     _nodeInBoard.Add(node);
                 }
             }
@@ -98,7 +104,11 @@ namespace __MyGame.Code.Script
 				enemy.RefreshUI();
 				enemy.SyncWorldPosToGrid();
                 enemy.OnDied += RemoveEntity;
-				node.OccupiedEntity = enemy;
+                bool isGhost = enemy.HasTrait<IGhostMove>();
+                if (!isGhost)
+                {
+                    node.OccupiedEntity = enemy;
+                }
 				enemyEntities.Add(enemy);
 				entitiesInBoard.Add(enemy);
 			}
@@ -131,6 +141,11 @@ namespace __MyGame.Code.Script
 		public Node GetNodeWithEntity(TileEntity ent) => _nodeInBoard.FirstOrDefault(n => n.OccupiedEntity == ent);
 		public Node GetNodeAtPosition(Vector2 pos) => _nodeInBoard.FirstOrDefault(n => n.GridPos == pos);
         public List<Node> AllNode => _nodeInBoard;
+
+        public void SetSpikeNode(Node node)
+        {
+            node.AddEffect(spikeNodeEffect,spikeNodeEffect.duration);
+        }
 		#endregion
 	}
 }
