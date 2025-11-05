@@ -10,18 +10,28 @@ public class GhostTrait : EnemyTrait, IGhostMove
 
 	public void OnAfterMove(BoardController board, EnemyEntity self, Node from, Node to)
 	{
-		bool moved = from != null && to != null && from != to;
+		if (to == null || self == null) return;
+
+		bool moved = (to != from);
 		if (moved)
 		{
+			//self.currentHP = Mathf.Max(0, self.currentHP - hpLossPerMove);
+			//self.RefreshUI();
 			self.TakeDamage(hpLossPerMove);
-			if (self.currentHP <= 0) return;
 		}
-
-		var target = to?.OccupiedEntity;
+		var target = to.OccupiedEntity;
+		if(target == null)
+		{
+			Debug.Log("Null");
+		}
 		if (target != null && target != self)
 		{
-			target.TakeDamage(self.currentHP);
-			self.TakeDamage(self.currentHP);
+			int dmg = Mathf.Max(1, self.currentHP);
+			target.TakeDamage(dmg);
+			self.TakeDamage(Mathf.Max(1, self.currentHP));
+			return;
 		}
+		if (self.currentHP <= 0)
+			self.TakeDamage(1);
 	}
 }

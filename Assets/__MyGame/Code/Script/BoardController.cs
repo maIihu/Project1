@@ -47,7 +47,7 @@ namespace __MyGame.Code.Script
 	        
 	        SpawnMapWithType(MapType.Green);
 	        SpawmPlayerRandomly();
-	        SpawnEnemiesToMap(5);
+	        SpawnEnemiesToMap(3);
         }
 
 

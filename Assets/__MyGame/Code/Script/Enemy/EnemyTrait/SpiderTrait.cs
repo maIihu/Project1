@@ -11,6 +11,7 @@ public class SpiderTrait : EnemyTrait, IOnAfterMove
 	public void OnAfterMove(BoardController board, EnemyEntity self, Node from, Node to)
 	{
 		if (from == null && to == null) return;
+		if(from == to) return;	
 		from.AddEffect(webEffect,webDuration);
 	}
 }

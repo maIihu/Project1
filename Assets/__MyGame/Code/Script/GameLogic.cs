@@ -17,33 +17,69 @@ namespace __MyGame.Code.Script
 		public void Shift(Vector2 dir)
 		{
 			var ents = OrderEntitiesByDirection(_board.GetAllEntities(), dir);
-			foreach (var ent in ents) Move(ent, dir);
+			foreach (var ent in ents) {
+				Move(ent, dir);
+				Debug.Log($"{ ent.name} moved to { ent.transform.position}");
+			}
 
-			foreach(var node in _board.AllNode)
+				foreach (var node in _board.AllNode)
 			{
 				node.ReduceExistTurn();
 			}
 		}
 
+		private static bool IsGhost(TileEntity ent) => ent is EnemyEntity ee && ee.HasTrait<IGhostMove>();
+
+		private static int GetMoveLayer(TileEntity e)
+		{
+			if (IsGhost(e)) return 2;
+			if (e is EnemyEntity) return 1;
+			if(e is PlayerEntity) return 0;
+			return 1;
+		}
+
+		private static Vector2Int GridOf(TileEntity e)
+		{
+			var p = e.transform.position;
+			return new Vector2Int(Mathf.RoundToInt(p.x), Mathf.RoundToInt(p.y));
+		}
+
 		private static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
 		{
-			if (dir == Vector2.right) return ents.OrderByDescending(e => e.transform.position.x).ToList();
-			if (dir == Vector2.left) return ents.OrderBy(e => e.transform.position.x).ToList();
-			if (dir == Vector2.up) return ents.OrderByDescending(e => e.transform.position.y).ToList();
-			return ents.OrderBy(e => e.transform.position.y).ToList();
+			return ents
+	.Where(e => e != null)
+	.Select(e =>
+	{
+		var g = GridOf(e);
+		int layer = GetMoveLayer(e);
+		int project = g.x * (int)dir.x + g.y * (int)dir.y;
+		int orth = g.x * (int)dir.y - g.y * (int)dir.x;
+		int id = e.GetInstanceID();
+		return new { e, layer, project, orth, id };
+	})
+	.OrderBy(k => k.layer)               
+	.ThenByDescending(k => k.project)    
+	.ThenBy(k => k.orth)               
+	.ThenBy(k => k.id)                   
+	.Select(k => k.e)
+	.ToList();
 		}
 
 		public void Move(TileEntity ent, Vector2 dir)
 		{
-			var fromNode = _board.GetNodeWithEntity(ent);
+			bool isGhost = ent is EnemyEntity ee && ee.HasTrait<IGhostMove>();
+
+			var fromNode = isGhost
+			? _board.GetNodeAtPosition(ent.transform.position)
+			: _board.GetNodeWithEntity(ent);
 			if (!fromNode) return;
 
-			fromNode.OccupiedEntity = null;
-			var nextNode = FindNextNode(ent, fromNode, dir);
+			if (!isGhost) fromNode.OccupiedEntity = null;
+			var nextNode = FindNextNode(ent, fromNode, dir,isGhost);
 			
 			var moved = nextNode != fromNode;
-			
-			nextNode.OccupiedEntity = ent;
+
+			if (!isGhost) nextNode.OccupiedEntity = ent;
 			ent.transform.position = nextNode.GridPos;
 			ent.SyncWorldPosToGrid();
 			var inst = nextNode.nodeEffect;
@@ -53,12 +89,12 @@ namespace __MyGame.Code.Script
 				onEnter.OnNodeEnter(_board, ent, nextNode);
 			}
 
-			if (ent is EnemyEntity enemy && moved)
+			if (ent is EnemyEntity enemy)
 				enemy.RaiseAfterMove(_board, fromNode, nextNode);
 
 		}
 
-		private Node FindNextNode(TileEntity ent, Node fromNode, Vector2 dir)
+		private Node FindNextNode(TileEntity ent, Node fromNode, Vector2 dir,bool isGhost)
 		{
 			int stepLeft = ent.moveStep;
 			var nextNode = fromNode;
@@ -76,8 +112,8 @@ namespace __MyGame.Code.Script
 				var probeNode = _board.GetNodeAtPosition(nextNode.GridPos + dir);
 				if(!probeNode) break;
 
-				if(HandleBlocker(ent, probeNode)) break;
-				
+				if (!isGhost && HandleBlocker(ent, probeNode)) break;
+
 				var effectNext = probeNode.nodeEffect?.effect; 
 				if (effectNext is SlideNodeEffect) 
 					slideLatched = true; 
