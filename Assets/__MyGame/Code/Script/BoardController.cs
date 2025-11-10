@@ -153,62 +153,10 @@ namespace __MyGame.Code.Script
 		#endregion
 
 		#region
-		//     public IEnumerator ShiftAnimated(Vector2 dir)
-		//     {
-		//         var ordered = GameLogic.OrderEntitiesByDirection(GetAllEntities(), dir);
-		//         logic.RunPhase(CastPhase.BeforeMove);
-		//         var actInstead = logic.RunPhase(CastPhase.InsteadOfMove);
-
-		//         var plan = logic.PlanShift(dir, actInstead);
-		//         foreach(var step in plan)
-		//         {
-		//             if(!step.isGhost && step.startNode && step.startNode.OccupiedEntity == step.ent) step.startNode.OccupiedEntity = null;
-		//}
-		//         int remaining = plan.Count;
-		//         foreach(var p in plan)
-		//         {
-		//             StartCoroutine(RunPlanConcurrent(p, dir, () => remaining--));
-		//         }
-		//         yield return new WaitUntil(() => remaining <= 0);
-		//logic.RunPhase(CastPhase.AfterMove);
-		//foreach (var node in AllNode)
-		//         {
-		//             node.ReduceExistTurn();
-		//}
-		//     }
-		//      private IEnumerator RunPlanConcurrent(EntityMoveStep plan, Vector2 dir, Action done)
-		//      {
-		//          var ent = plan.ent;
-		//          for(int i = 1; i < plan.path.Count; i++)
-		//          {
-		//              var a = plan.path[i - 1].GridPos;
-		//              var b = plan.path[i].GridPos;
-		//		yield return ent.AnimateHop(a, b, ent.moveAnimPerTile);
-		//	}
-
-		//          var front = GetNodeAtPosition(plan.endNode.GridPos + dir);
-		//          if(front && !plan.isGhost && front.OccupiedEntity)
-		//          {
-		//              Vector3 n = (front.GridPos - plan.endNode.GridPos);
-		//              yield return ent.AnimateBump(plan.endNode.GridPos, n);
-		//	}
-
-		//          if(!plan.isGhost) plan.endNode.OccupiedEntity = ent;
-		//          ent.transform.position = plan.endNode.GridPos;
-		//	ent.SyncWorldPosToGrid();
-		//	var inst = plan.endNode.nodeEffect;
-		//	if (inst != null && inst.effect is IOnNodeEnter onEnter)
-		//		onEnter.OnNodeEnter(this, ent, plan.endNode);
-
-		//	if (ent is EnemyEntity ene)
-		//		ene.RaiseAfterMove(this, plan.startNode, plan.endNode);
-
-		//	done?.Invoke();
-		//}
 
 		public IEnumerator ShiftAnimated(Vector2 dir)
 		{
-			var ents = GetAllEntities(); // danh sách entity hiện có
+			var ents = GetAllEntities();
 			var startMap = new Dictionary<TileEntity, Vector3>(ents.Count);
 			foreach (var e in ents) if (e) startMap[e] = e.transform.position;
 
