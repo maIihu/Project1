@@ -21,7 +21,7 @@ namespace __MyGame.Code.Script
 		}
 		private void TryShift(Vector2 dir)
 		{
-			//_gameplay.GameLogic.Shift(dir);
+			if (BoardController.Instance.IsAnimating) return;
 			StartCoroutine(BoardController.Instance.ShiftAnimated(dir));
 		}
 

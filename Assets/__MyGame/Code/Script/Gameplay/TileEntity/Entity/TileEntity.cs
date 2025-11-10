@@ -125,6 +125,19 @@ public abstract class TileEntity : MonoBehaviour
 		Destroy(gameObject);
 	}
 
+	private void OnDisable()
+	{
+		DG.Tweening.DOTween.Kill(gameObject, complete: false);
+		if (sprite) DG.Tweening.DOTween.Kill(sprite.gameObject, complete: false);
+	}
+
+	private void OnDestroy()
+	{
+		DG.Tweening.DOTween.Kill(gameObject, complete: false);
+		if (sprite) DG.Tweening.DOTween.Kill(sprite.gameObject, complete: false);
+	}
+
+
 	public IEnumerator AnimateHop(Vector3 from, Vector3 to, float duration)
 	{
 		transform.position = from;

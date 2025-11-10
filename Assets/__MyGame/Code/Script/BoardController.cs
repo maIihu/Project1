@@ -34,8 +34,12 @@ namespace __MyGame.Code.Script
         public List<EnemyEntity> enemyEntities;
         public List<ObstacleEntity> obstacleEntities;
 
+		//input block 
+		private bool isAnimating;
+		public bool IsAnimating => isAnimating;
 
-        private void Awake()
+
+		private void Awake()
         {
             Initialize(this);
         }
@@ -156,6 +160,10 @@ namespace __MyGame.Code.Script
 
 		public IEnumerator ShiftAnimated(Vector2 dir)
 		{
+
+			if (isAnimating) yield break;
+			isAnimating = true;
+
 			var ents = GetAllEntities();
 			var startMap = new Dictionary<TileEntity, Vector3>(ents.Count);
 			foreach (var e in ents) if (e) startMap[e] = e.transform.position;
@@ -200,6 +208,7 @@ namespace __MyGame.Code.Script
 			}
 
 			yield return new WaitUntil(() => remaining <= 0);
+            isAnimating = false;
 		}
 
 		// Helpers
