@@ -13,6 +13,9 @@ public class CharacterClass : ScriptableObject
 	public int baseAtk;
 	public int baseArmor;
 	public int moveStep;
+	[Header("Ability")]
+	public List<BaseCharacterAbility> abilities = new();
+	
 	
 
 }

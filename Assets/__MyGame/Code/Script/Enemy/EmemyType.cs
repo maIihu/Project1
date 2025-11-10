@@ -17,4 +17,7 @@ public class EmemyType : ScriptableObject
 	public bool blocksMovement;
 	public List<EnemyTrait> enemyTraits;
 
+	[Header("Animation")]
+	public RuntimeAnimatorController animatorController;
+
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ActiveAbility : BaseCharacterAbility
 {
-	public CastPhase phase;
-	public TargetType target;
-	public int baseRange;
-	//public 
+	public override void OnCast(PlayerEntity user, AbilityContext ctx)
+	{
+		throw new System.NotImplementedException();
+	}
 }

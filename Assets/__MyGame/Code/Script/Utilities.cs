@@ -1,3 +1,4 @@
+using __MyGame.Code.Script;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,5 +19,14 @@ public class NodeEffectInstance
 	public int duration;
 	public bool isActive;
 	public int stateCounter;
+}
+
+public struct EntityMoveStep
+{
+	public TileEntity ent;
+	public List<Node> path;
+	public Node startNode;
+	public Node endNode;
+	public bool isGhost;
 }
 public enum ObstacleType { Bones}

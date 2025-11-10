@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using UnityEngine;
 
 namespace __MyGame.Code.Script
@@ -16,13 +17,19 @@ namespace __MyGame.Code.Script
 
 		public void Shift(Vector2 dir)
 		{
-			var ents = OrderEntitiesByDirection(_board.GetAllEntities(), dir);
-			foreach (var ent in ents) {
+			ExecutePhase(CastPhase.BeforeMove);
+			var actedInstead = ExecutePhase(CastPhase.InsteadOfMove);
+
+			var ordered = OrderEntitiesByDirection(_board.GetAllEntities(), dir);
+			foreach (var ent in ordered) {
+				if(ent is PlayerEntity p && actedInstead.Contains(p))
+					continue;
 				Move(ent, dir);
-				Debug.Log($"{ ent.name} moved to { ent.transform.position}");
 			}
 
-				foreach (var node in _board.AllNode)
+			ExecutePhase(CastPhase.AfterMove);	
+
+			foreach (var node in _board.AllNode)
 			{
 				node.ReduceExistTurn();
 			}
@@ -34,7 +41,7 @@ namespace __MyGame.Code.Script
 		{
 			if (IsGhost(e)) return 2;
 			if (e is EnemyEntity) return 1;
-			if(e is PlayerEntity) return 0;
+			if(e is PlayerEntity) return 1;
 			return 1;
 		}
 
@@ -44,7 +51,7 @@ namespace __MyGame.Code.Script
 			return new Vector2Int(Mathf.RoundToInt(p.x), Mathf.RoundToInt(p.y));
 		}
 
-		private static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
+		public static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
 		{
 			return ents
 	.Where(e => e != null)
@@ -140,6 +147,98 @@ namespace __MyGame.Code.Script
 			blocker.TakeDamage(ent.attack);
 			return true;
 		}
-		
-    }
+
+		private HashSet<PlayerEntity> ExecutePhase(CastPhase phase)
+		{
+			var acted = new HashSet<PlayerEntity>();
+
+			var pipeline = GameplayManager.Instance.abilityPipeLine;
+			var casts = pipeline.Drain(phase);	
+			foreach(var c in casts)
+			{
+				if(c.user == null || c.ability == null) continue;
+				if(!c.ability.CanCast(c.user, c.context)) continue;
+				c.ability.OnCast(c.user, c.context);
+				if (!c.user.abilityCooldowns.ContainsKey(c.ability))
+				{
+					c.user.abilityCooldowns[c.ability] = 0;
+				}
+				c.user.abilityCooldowns[c.ability] = Mathf.Max(1,c.ability.cooldownTurns);
+
+				if (c.ability.consumeTurn)
+				{
+					acted.Add(c.user);
+				}
+
+			}
+			return acted;
+		}
+
+		private List<Node> FindPath(TileEntity ent, Node fromNode, Vector2 dir, bool isGhost)
+		{
+			int stepLeft = ent.moveStep;
+			var path = new List<Node>();
+			var nextNode = fromNode;
+			bool slideLatched = false;
+
+			path.Add(fromNode);
+
+			while (true)
+			{
+				bool forcesSlideContinues = false;
+				ApplyNodeEffects(ent, nextNode, ref stepLeft, ref slideLatched, ref forcesSlideContinues);
+
+				if (!forcesSlideContinues && !slideLatched && stepLeft-- <= 0)
+				{
+					break;
+				}
+				var probeNode = _board.GetNodeAtPosition(nextNode.GridPos + dir);
+				if (!probeNode) break;
+				if(!isGhost && HandleBlocker(ent, probeNode)) break;
+
+				var effectNext = probeNode.nodeEffect?.effect;
+				if(effectNext is SlideNodeEffect)
+					slideLatched = true;
+				nextNode = probeNode;
+				path.Add(nextNode);
+			}
+			return path;
+		}
+
+		public List<Node> BuildPath(TileEntity ent, Node fromNode, Vector2 dir, bool isGhost)
+		{
+			return FindPath(ent, fromNode, dir, isGhost);
+		}
+		public HashSet<PlayerEntity> RunPhase(CastPhase phase)
+		{
+			return ExecutePhase(phase);
+		}
+
+		public List<EntityMoveStep> PlanShift(Vector2 dir, HashSet<PlayerEntity> actedInstead = null)
+		{
+			var steps = new List<EntityMoveStep>();
+			var ordered = OrderEntitiesByDirection(_board.GetAllEntities(), dir);
+			foreach(var ent in ordered)
+			{
+				if (!ent) continue;
+				if (actedInstead != null && ent is PlayerEntity p && actedInstead.Contains(p)) continue;
+				bool isGhost = ent is EnemyEntity ee && ee.HasTrait<IGhostMove>();
+				var fromNode = isGhost ? _board.GetNodeAtPosition(ent.transform.position) : _board.GetNodeWithEntity(ent);
+				if(!fromNode) continue;
+				var path = FindPath(ent,fromNode, dir, isGhost);
+				var endNode = path.Count > 0 ? path[^1] : fromNode;
+
+				steps.Add(new EntityMoveStep
+				{
+					ent = ent,
+					path = path,
+					startNode = fromNode,
+					endNode = endNode,
+					isGhost = isGhost
+				});
+
+			}
+			return steps;
+		}
+	}
 }

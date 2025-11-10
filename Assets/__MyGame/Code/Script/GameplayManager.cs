@@ -9,13 +9,24 @@ namespace __MyGame.Code.Script
         [SerializeField] public BoardController board;
 
         [SerializeField] public GameObjectPool objectPool;
-        
-        public GameLogic GameLogic { get; private set; }
+
+        public AbilityPipeLine abilityPipeLine = new AbilityPipeLine();
+
+		public GameLogic GameLogic { get; private set; }
 
         private void Awake()
         {
             Initialize(this);
         }
+
+        public void QueueAbility(PlayerEntity user, BaseCharacterAbility ability, AbilityContext ctx)
+        {
+            abilityPipeLine.Queue(new QueuedCast {
+				user = user,
+				ability = ability,
+				context = ctx
+			});
+		}
 
         private void Start()
         {
