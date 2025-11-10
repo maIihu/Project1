@@ -142,7 +142,8 @@ public abstract class TileEntity : MonoBehaviour
 		}
 		Tween moveT;
 		if (useJumpArc)
-			moveT = transform.DOJump(to, arcHeight, 1, duration).SetEase(moveEase);
+			//moveT = transform.DOJump(to, arcHeight, 1, duration).SetEase(moveEase);
+			moveT = transform.DOMove(to, duration).SetEase(moveEase);
 		else
 			moveT = transform.DOMove(to, duration).SetEase(moveEase);
 
@@ -170,6 +171,7 @@ public abstract class TileEntity : MonoBehaviour
 
 		if (vertical)
 		{
+
 			float toY = at.y + sgn * bumpDistance;
 			seq.Join(transform.DOMoveY(toY, half).SetEase(bumpEaseOut));
 			if (sprite) seq.Join(sprite.DOShakePosition(half, new Vector3(0f, bumpDistance * 0.3f, 0f), 10, 90, false, true));
