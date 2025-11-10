@@ -43,8 +43,8 @@ public abstract class TileEntity : MonoBehaviour
 	[SerializeField] private float squashRecover = 0.06f;
 
 	[Header("Bump")]
-	[SerializeField] private float bumpDistance = 0.9f;
-	[SerializeField] private float bumpDuration = 0.9f;
+	[SerializeField] private float bumpDistance = 1f;
+	[SerializeField] private float bumpDuration = 0.5f;
 	[SerializeField] private Ease bumpEaseOut = Ease.OutQuad;
 	[SerializeField] private Ease bumpEaseIn = Ease.InQuad;
 	public virtual void OnCollision() { }
@@ -156,18 +156,35 @@ public abstract class TileEntity : MonoBehaviour
 	public IEnumerator AnimateBump(Vector3 at, Vector3 dir)
 	{
 		transform.position = at;
-		Vector3 target = at + dir.normalized * bumpDistance;
-
+		bool vertical = Mathf.Abs(dir.y) > Mathf.Abs(dir.x);
+		float sgn = vertical ? Mathf.Sign(dir.y) : Mathf.Sign(dir.x);
+		float half = bumpDuration * 0.5f;
 		var baseScale = sprite ? sprite.localScale : Vector3.one;
+		var squashA = vertical ? new Vector3(baseScale.x * squashX, baseScale.y * squashY, baseScale.z)
+		: new Vector3(baseScale.x * squashY, baseScale.y * squashX, baseScale.z);
+
 
 		Sequence seq = DOTween.Sequence().SetLink(gameObject);
 		if (sprite)
-			seq.Append(sprite.DOScale(new Vector3(baseScale.x * squashX, baseScale.y * squashY, baseScale.z), bumpDuration * 0.5f));
-		seq.Join(transform.DOMove(target, bumpDuration * 0.5f).SetEase(bumpEaseOut));
-		seq.Join(sprite.DOShakePosition(bumpDuration * 0.5f, bumpDistance * 0.1f, 10, 90, false, true));
-		seq.Append(transform.DOMove(at, bumpDuration * 0.5f).SetEase(bumpEaseIn));
+			seq.Append(sprite.DOScale(squashA, half * 0.8f));
+
+		if (vertical)
+		{
+			float toY = at.y + sgn * bumpDistance;
+			seq.Join(transform.DOMoveY(toY, half).SetEase(bumpEaseOut));
+			if (sprite) seq.Join(sprite.DOShakePosition(half, new Vector3(0f, bumpDistance * 0.3f, 0f), 10, 90, false, true));
+			seq.Append(transform.DOMoveY(at.y, half).SetEase(bumpEaseIn));
+		}
+		else
+		{
+			float toX = at.x + sgn * bumpDistance;
+			seq.Join(transform.DOMoveX(toX, half).SetEase(bumpEaseOut));
+			if (sprite) seq.Join(sprite.DOShakePosition(half, new Vector3(bumpDistance * 0.3f, 0f, 0f), 10, 90, false, true));
+			seq.Append(transform.DOMoveX(at.x, half).SetEase(bumpEaseIn));
+		}
+
 		if (sprite)
-			seq.Append(sprite.DOScale(baseScale, bumpDuration * 0.5f));
+			seq.Append(sprite.DOScale(baseScale, half * 0.8f));
 
 		yield return seq.WaitForCompletion();
 		transform.position = at;
