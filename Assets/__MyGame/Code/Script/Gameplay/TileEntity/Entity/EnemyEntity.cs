@@ -36,6 +36,10 @@ public class EnemyEntity : TileEntity
 		{
 			animator.runtimeAnimatorController = type.animatorController;
 		}
+		if(enemyType.portrait)
+		{
+			entityPortrait = enemyType.portrait;
+		}
 
 	}
 	private void HandleDeathTraits(TileEntity entity)

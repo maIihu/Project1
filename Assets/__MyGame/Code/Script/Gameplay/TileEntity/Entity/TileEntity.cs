@@ -19,6 +19,7 @@ public abstract class TileEntity : MonoBehaviour
 	public int attack;
 
 	public Sprite entitySprite;
+	public Sprite entityPortrait;
 
 	protected bool _isDead;
 
@@ -138,7 +139,7 @@ public abstract class TileEntity : MonoBehaviour
 	}
 
 
-	public IEnumerator AnimateHop(Vector3 from, Vector3 to, float duration)
+	public IEnumerator AnimateSlide(Vector3 from, Vector3 to, float duration)
 	{
 		transform.position = from;
 

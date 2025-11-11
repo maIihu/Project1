@@ -1,4 +1,5 @@
 ﻿using System;
+using _MyCore.DesignPattern.Observer.Runtime;
 using _MyCore.DesignPattern.Singleton;
 using UnityEngine;
 
@@ -33,6 +34,7 @@ namespace __MyGame.Code.Script
             GameLogic = new GameLogic(this.board);
             objectPool.InitEnemyPooling();
             board.InitBoard();
+            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameStart));
         }
         
 

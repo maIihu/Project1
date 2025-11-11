@@ -37,6 +37,9 @@ namespace __MyGame.Code.Script
 		//input block 
 		private bool isAnimating;
 		public bool IsAnimating => isAnimating;
+		//init map in scene test 
+		[SerializeField] private MapType editorMapType = MapType.Green;
+		[SerializeField] private bool editorSpawnSpikes = true;
 
 
 		private void Awake()
@@ -189,7 +192,7 @@ namespace __MyGame.Code.Script
 
 				if (moved)
 				{
-					StartCoroutine(RunHop(e, start, end, dur, () => remaining--));
+					StartCoroutine(RunSlide(e, start, end, dur, () => remaining--));
 				}
 				else
 				{
@@ -212,9 +215,9 @@ namespace __MyGame.Code.Script
 		}
 
 		// Helpers
-		private IEnumerator RunHop(TileEntity e, Vector3 from, Vector3 to, float duration, System.Action done)
+		private IEnumerator RunSlide(TileEntity e, Vector3 from, Vector3 to, float duration, System.Action done)
 		{
-			yield return e.AnimateHop(from, to, duration);
+			yield return e.AnimateSlide(from, to, duration);
 			e.transform.position = to;
 			e.SyncWorldPosToGrid();
 			done?.Invoke();
@@ -226,6 +229,68 @@ namespace __MyGame.Code.Script
 			e.transform.position = at;
 			done?.Invoke();
 		}
-		#endregion
+
+		[ContextMenu("Preview/Build Board In Editor")]
+		private void Editor_BuildBoard()
+		{
+			if (Application.isPlaying)
+			{
+				return;
+			}
+
+			Editor_ClearBoard();
+
+			_nodeInBoard = new List<Node>();
+			entitiesInBoard = new List<TileEntity>();
+			enemyEntities = new List<EnemyEntity>();
+			obstacleEntities = new List<ObstacleEntity>();
+
+			var map = mapDataArray?.FirstOrDefault(m => m.mapType == editorMapType)
+					?? mapDataArray?.FirstOrDefault();
+
+			if (map == null)
+			{
+				return;
+			}
+			var offset = BoardSize / 2;
+			for (int i = 0; i < BoardSize; i++)
+			{
+				for (int j = 0; j < BoardSize; j++)
+				{
+					var positionToSpawn = new Vector3(i - offset, j - offset, 0);
+					var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
+					node.name = $"Node ({i},{j})";
+					node.SetBaseSprite((i + j) % 2 == 0 ? map.sprite1 : map.sprite2);
+
+					if (editorSpawnSpikes && Random.value <= 0.1f)
+					{
+						SetSpikeNode(node);
+					}
+
+					_nodeInBoard.Add(node);
+				}
+			}
+		}
+
+		[ContextMenu("Preview/Clear Board In Editor")]
+		private void Editor_ClearBoard()
+		{
+			if (nodeContainer)
+			{
+				for (int i = nodeContainer.childCount - 1; i >= 0; i--)
+					DestroyImmediate(nodeContainer.GetChild(i).gameObject);
+			}
+			if (entityContainer)
+			{
+				for (int i = entityContainer.childCount - 1; i >= 0; i--)
+					DestroyImmediate(entityContainer.GetChild(i).gameObject);
+			}
+
+			_nodeInBoard = new List<Node>();
+			entitiesInBoard = new List<TileEntity>();
+			enemyEntities = new List<EnemyEntity>();
+			obstacleEntities = new List<ObstacleEntity>();
+		}
 	}
+	#endregion
 }

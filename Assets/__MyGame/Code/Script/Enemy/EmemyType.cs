@@ -7,6 +7,7 @@ public class EmemyType : ScriptableObject
 {
 	public string enemyName;
 	public Sprite sprite;
+	public Sprite portrait;
 	[Header("Stats")]
 	public int maxHP;
 	public int attack;

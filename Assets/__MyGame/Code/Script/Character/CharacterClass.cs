@@ -7,6 +7,7 @@ public class CharacterClass : ScriptableObject
 {
 	public string className;
 	public Sprite classIcon;
+	public Sprite classPortrait;
 
 	[Header("Base Stats")]
 	public int baseHP;

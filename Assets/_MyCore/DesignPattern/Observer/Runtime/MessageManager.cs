@@ -11,7 +11,10 @@ namespace _MyCore.DesignPattern.Observer.Runtime
         /// When the game is over
         /// </summary>
         OnGameOver,
-    }
+        OnGameStart,
+		OnActiveskillSelected,
+        OnActivesSkillCancled,
+	}
     public class Message
     {
         public ProjectMessageType Type;
@@ -30,7 +33,9 @@ namespace _MyCore.DesignPattern.Observer.Runtime
     {
         void Handle(Message message);
     }
-    public class MessageManager : Singleton<MessageManager>, ISerializationCallbackReceiver
+
+	[DefaultExecutionOrder(-1000)]
+	public class MessageManager : Singleton<MessageManager>, ISerializationCallbackReceiver
     {
         private static MessageManager instance = null;
     
@@ -40,7 +45,7 @@ namespace _MyCore.DesignPattern.Observer.Runtime
     
     
         private Dictionary<ProjectMessageType, List<IMessageHandle>> _subscribers = new Dictionary<ProjectMessageType, List<IMessageHandle>>();
-        /*public static MessageManager Instance { get { return instance; } }
+		/*public static MessageManager Instance { get { return instance; } }
     void Start()
     {
         if (instance == null)
@@ -51,7 +56,17 @@ namespace _MyCore.DesignPattern.Observer.Runtime
         else
             Destroy(gameObject);
     }*/
-        public void AddSubscriber(ProjectMessageType type, IMessageHandle handle)
+
+		private void Awake()
+		{
+			Initialize(this);
+		}
+
+		protected override void OnRegistration()
+		{
+			base.OnRegistration();
+		}
+		public void AddSubscriber(ProjectMessageType type, IMessageHandle handle)
         {
             if (!_subscribers.ContainsKey(type))
                 _subscribers[type] = new List<IMessageHandle>();

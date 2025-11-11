@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: PiercingShot
   abilityType: 1
-  abilityIcon: {fileID: 0}
+  abilityIcon: {fileID: 21300000, guid: 1dd9100afc80ce048a83ebfecea2a40c, type: 3}
   cooldownTurns: 3
   phase: 1
   consumeTurn: 1

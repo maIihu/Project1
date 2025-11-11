@@ -159,11 +159,11 @@ namespace __MyGame.Code.Script
 				if(c.user == null || c.ability == null) continue;
 				if(!c.ability.CanCast(c.user, c.context)) continue;
 				c.ability.OnCast(c.user, c.context);
-				if (!c.user.abilityCooldowns.ContainsKey(c.ability))
+				if (!c.user.abilities.ContainsKey(c.ability))
 				{
-					c.user.abilityCooldowns[c.ability] = 0;
+					c.user.abilities[c.ability] = 0;
 				}
-				c.user.abilityCooldowns[c.ability] = Mathf.Max(1,c.ability.cooldownTurns);
+				c.user.abilities[c.ability] = Mathf.Max(1,c.ability.cooldownTurns);
 
 				if (c.ability.consumeTurn)
 				{
