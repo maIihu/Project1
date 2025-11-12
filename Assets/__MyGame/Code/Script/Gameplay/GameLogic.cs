@@ -54,22 +54,22 @@ namespace __MyGame.Code.Script
 		public static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
 		{
 			return ents
-	.Where(e => e != null)
-	.Select(e =>
-	{
-		var g = GridOf(e);
-		int layer = GetMoveLayer(e);
-		int project = g.x * (int)dir.x + g.y * (int)dir.y;
-		int orth = g.x * (int)dir.y - g.y * (int)dir.x;
-		int id = e.GetInstanceID();
-		return new { e, layer, project, orth, id };
-	})
-	.OrderBy(k => k.layer)               
-	.ThenByDescending(k => k.project)    
-	.ThenBy(k => k.orth)               
-	.ThenBy(k => k.id)                   
-	.Select(k => k.e)
-	.ToList();
+				.Where(e => e != null)
+				.Select(e =>
+				{
+					var g = GridOf(e);
+					int layer = GetMoveLayer(e);
+					int project = g.x * (int)dir.x + g.y * (int)dir.y;
+					int orth = g.x * (int)dir.y - g.y * (int)dir.x;
+					int id = e.GetInstanceID();
+					return new { e, layer, project, orth, id };
+				})
+				.OrderBy(k => k.layer)               
+				.ThenByDescending(k => k.project)    
+				.ThenBy(k => k.orth)               
+				.ThenBy(k => k.id)                   
+				.Select(k => k.e)
+				.ToList();
 		}
 
 		public void Move(TileEntity ent, Vector2 dir)

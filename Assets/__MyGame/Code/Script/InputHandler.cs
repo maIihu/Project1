@@ -11,8 +11,7 @@ namespace __MyGame.Code.Script
 		private GameplayManager _gameplay;
 		private BoardController _board;
 		private GameLogic _logic;
-
-
+		
 		private void Start()
 		{
 			_gameplay = GameplayManager.Instance;
@@ -22,6 +21,7 @@ namespace __MyGame.Code.Script
 		private void TryShift(Vector2 dir)
 		{
 			if (BoardController.Instance.IsAnimating) return;
+			GameplayManager.Instance.StepMoveCount();
 			StartCoroutine(BoardController.Instance.ShiftAnimated(dir));
 		}
 

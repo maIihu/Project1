@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: Web Node
   duration: -1
-  effectSpriteOverlay: {fileID: 21300000, guid: 1761595c34b7f0a4c91a8a85f1682a6e, type: 3}
+  effectSpriteOverlay: {fileID: 21300000, guid: b0b5eb59f9866354c92998c72005f982, type: 3}
+  priority: 0
   consumeOnHold: 1

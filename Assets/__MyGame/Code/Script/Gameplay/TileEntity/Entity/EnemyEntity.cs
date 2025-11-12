@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class EnemyEntity : TileEntity
 {
-	public EmemyType enemyType;
+	public EnemyType enemyType;
 	private List<EnemyTrait> traits = new();
 
 	IOnAfterMove[] afterMoveHooker;
@@ -17,7 +17,7 @@ public class EnemyEntity : TileEntity
 	{
 		animator = GetComponentInChildren<Animator>();
 	}
-	public void EnemyInit(EmemyType type)
+	public void EnemyInit(EnemyType type)
 	{
 		this.enemyType = type;
 		SetSpriteRuntime(type.sprite);

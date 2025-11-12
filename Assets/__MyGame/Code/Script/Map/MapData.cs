@@ -12,5 +12,9 @@ namespace __MyGame.Code.Script
         public MapType mapType;
         public Sprite sprite1;
         public Sprite sprite2;
+
+        public float mapDifficulty;
+
+        public int stepsToNextLevel;
     }
 }

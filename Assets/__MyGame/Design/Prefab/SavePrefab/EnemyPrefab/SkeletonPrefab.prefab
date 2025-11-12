@@ -702,7 +702,7 @@ SpriteRenderer:
   m_SortingLayerID: -1334078241
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: bfa68e243c57f494483075af41f42854, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a5615ceb0da703f49b7047686c3e82f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -740,7 +740,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee76bd1a2418cc74b8ff2c410e018e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floatingText: {fileID: 7259772890016131835, guid: 1e4feea2ae4cba74aabe96c8f26b9948, type: 3}
   Pos: {x: 0, y: 0}
   BlocksMovement: 0
   moveStep: 0
@@ -749,6 +748,20 @@ MonoBehaviour:
   armor: 0
   attack: 0
   entitySprite: {fileID: 0}
+  entityPortrait: {fileID: 0}
+  floatingText: {fileID: 7259772890016131835, guid: 1e4feea2ae4cba74aabe96c8f26b9948, type: 3}
+  moveAnimPerTile: 0.1
+  moveEase: 4
+  useJumpArc: 1
+  arcHeight: 0.25
+  sprite: {fileID: 0}
+  squashX: 1.08
+  squashY: 0.88
+  squashRecover: 0.06
+  bumpDistance: 1
+  bumpDuration: 0.5
+  bumpEaseOut: 6
+  bumpEaseIn: 5
   enemyType: {fileID: 11400000, guid: 27624e189a0cb04458a181017e49948c, type: 2}
 --- !u!1 &8135478610824747360
 GameObject:

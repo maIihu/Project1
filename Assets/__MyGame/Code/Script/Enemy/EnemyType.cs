@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyType",menuName = "RougueSlide/EnemyType")]
-public class EmemyType : ScriptableObject
+public class EnemyType : ScriptableObject
 {
 	public string enemyName;
 	public Sprite sprite;
 	public Sprite portrait;
-	[Header("Stats")]
+	
+	[Header("----------Stats----------")]
 	public int maxHP;
 	public int attack;
 	public int armor;
 	public int moveStep;
 
-	[Header("Traits")]
+	[Header("----------Traits----------")]
 	public bool blocksMovement;
 	public List<EnemyTrait> enemyTraits;
 
-	[Header("Animation")]
+	[Header("----------Animation----------")]
 	public RuntimeAnimatorController animatorController;
+
+	[Header("----------Spawn Rate----------")]
+	public int spawnWeight;
 
 }

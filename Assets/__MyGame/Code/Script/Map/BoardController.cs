@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace __MyGame.Code.Script
@@ -20,10 +21,10 @@ namespace __MyGame.Code.Script
 
         [SerializeField] private MapData[] mapDataArray;
 
-        //test 
         [SerializeField] private CharacterClass testClass;
-        [SerializeField] private EmemyType testEnemyType;
+	    [SerializeField] private EnemyType[] enemyTypeArr;
         [SerializeField] private SpikeNodeEffect spikeNodeEffect;
+        
         private GameLogic logic;
 
         public static readonly int BoardSize = 6;
@@ -37,11 +38,13 @@ namespace __MyGame.Code.Script
 		//input block 
 		private bool isAnimating;
 		public bool IsAnimating => isAnimating;
+		
 		//init map in scene test 
 		[SerializeField] private MapType editorMapType = MapType.Green;
 		[SerializeField] private bool editorSpawnSpikes = true;
-
-
+		
+		public MapData CurrentMapData { get; private set; }
+		
 		private void Awake()
         {
             Initialize(this);
@@ -57,16 +60,16 @@ namespace __MyGame.Code.Script
 
             SpawnMapWithType(MapType.Green);
             SpawmPlayerRandomly();
-            SpawnEnemiesToMap(3);
+            //SpawnEnemiesToMap(3);
         }
-
-
+        
         private void SpawnMapWithType(MapType mapType)
         {
             foreach (var map in mapDataArray)
             {
                 if (map.mapType == mapType)
                 {
+	                CurrentMapData = map;
                     GenerateBoard(map);
                 }
             }
@@ -92,7 +95,7 @@ namespace __MyGame.Code.Script
             }
         }
 
-        #region
+        #region 
         private void SpawmPlayerRandomly()
         {
             var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).First();
@@ -104,13 +107,15 @@ namespace __MyGame.Code.Script
             free.OccupiedEntity = player;
             entitiesInBoard.Add(player);
         }
+        
         private void SpawnEnemiesToMap(int amount)
         {
             var freeNodes = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
             foreach (var node in freeNodes)
             {
-                var enemy = GameplayManager.Instance.objectPool.GetEnemy(node.transform.position, Quaternion.identity, entityContainer);//Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
-                enemy.EnemyInit(testEnemyType);
+                var enemy = GameplayManager.Instance.objectPool.GetEnemy(node.transform.position, Quaternion.identity, entityContainer);
+                //Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
+                enemy.EnemyInit(GetRandomEnemy());
                 enemy.RefreshUI();
                 enemy.SyncWorldPosToGrid();
                 enemy.OnDied += RemoveEntity;
@@ -123,6 +128,20 @@ namespace __MyGame.Code.Script
                 entitiesInBoard.Add(enemy);
             }
         }
+
+        private EnemyType GetRandomEnemy()
+        {
+	        var spawnModifier = GameplayManager.Instance.SpawnModifier;
+	        var sumEnemyRate = enemyTypeArr.Sum(e => e.spawnWeight);
+	        var arr = enemyTypeArr.Select(e => 1.0f * e.spawnWeight / sumEnemyRate).ToList();
+	        var enemy = enemyTypeArr[arr
+			        .Select((v, i) => new { v, i })
+			        .OrderBy(x => Mathf.Abs(x.v - spawnModifier))
+			        .First().i
+		        ];
+	        return enemy;
+        }
+        
         private void RemoveEntity(TileEntity ent)
         {
             var node = GetNodeWithEntity(ent);
@@ -158,12 +177,9 @@ namespace __MyGame.Code.Script
             node.AddEffect(spikeNodeEffect, spikeNodeEffect.duration);
         }
 		#endregion
-
-		#region
-
+		
 		public IEnumerator ShiftAnimated(Vector2 dir)
 		{
-
 			if (isAnimating) yield break;
 			isAnimating = true;
 
@@ -212,6 +228,8 @@ namespace __MyGame.Code.Script
 
 			yield return new WaitUntil(() => remaining <= 0);
             isAnimating = false;
+            
+            SpawnEnemiesToMap(1);
 		}
 
 		// Helpers
@@ -230,6 +248,8 @@ namespace __MyGame.Code.Script
 			done?.Invoke();
 		}
 
+		#region ----------Editor----------
+
 		[ContextMenu("Preview/Build Board In Editor")]
 		private void Editor_BuildBoard()
 		{
@@ -246,7 +266,7 @@ namespace __MyGame.Code.Script
 			obstacleEntities = new List<ObstacleEntity>();
 
 			var map = mapDataArray?.FirstOrDefault(m => m.mapType == editorMapType)
-					?? mapDataArray?.FirstOrDefault();
+			          ?? mapDataArray?.FirstOrDefault();
 
 			if (map == null)
 			{
@@ -291,6 +311,9 @@ namespace __MyGame.Code.Script
 			enemyEntities = new List<EnemyEntity>();
 			obstacleEntities = new List<ObstacleEntity>();
 		}
+
+		#endregion
+
+
 	}
-	#endregion
 }
