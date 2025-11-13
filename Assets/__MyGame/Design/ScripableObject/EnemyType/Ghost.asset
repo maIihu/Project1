@@ -23,4 +23,4 @@ MonoBehaviour:
   enemyTraits:
   - {fileID: 11400000, guid: 9ac621d51e398a44385c7254059c55d8, type: 2}
   animatorController: {fileID: 0}
-  spawnWeight: 0
+  spawnWeight: 1

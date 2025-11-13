@@ -22,7 +22,7 @@ public class GhostTrait : EnemyTrait, IGhostMove
 		var target = to.OccupiedEntity;
 		if(target == null)
 		{
-			Debug.Log("Null");
+			//Debug.Log("Null");
 		}
 		if (target != null && target != self)
 		{

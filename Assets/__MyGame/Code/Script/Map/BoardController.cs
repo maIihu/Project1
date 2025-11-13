@@ -131,16 +131,43 @@ namespace __MyGame.Code.Script
 
         private EnemyType GetRandomEnemy()
         {
-	        var spawnModifier = GameplayManager.Instance.SpawnModifier;
-	        var sumEnemyRate = enemyTypeArr.Sum(e => e.spawnWeight);
-	        var arr = enemyTypeArr.Select(e => 1.0f * e.spawnWeight / sumEnemyRate).ToList();
-	        var enemy = enemyTypeArr[arr
-			        .Select((v, i) => new { v, i })
-			        .OrderBy(x => Mathf.Abs(x.v - spawnModifier))
-			        .First().i
-		        ];
-	        return enemy;
+	        float spawnModifier = GameplayManager.Instance.SpawnModifier; 
+	        Debug.Log(spawnModifier);
+    
+	        // Tổng weight cơ bản
+	        float sumBase = enemyTypeArr.Sum(e => e.spawnWeight);
+
+	        // Tính weight điều chỉnh
+	        var adjustedWeights = enemyTypeArr.Select(e =>
+	        {
+		        float baseRate = e.spawnWeight / sumBase; // tỉ lệ gốc
+
+		        // bias nhẹ theo spawnModifier (ví dụ: 20%)
+		        float difficultyBias = Mathf.Lerp(1f, 1f + (e.spawnWeight - 0.5f) * 0.4f, spawnModifier);
+
+		        // thêm nhiễu ngẫu nhiên nhỏ
+		        float noise = Random.Range(0.9f, 1.1f);
+
+		        return baseRate * difficultyBias * noise;
+	        }).ToList();
+
+	        // Chuẩn hóa lại tổng về 1
+	        float sumAdjusted = adjustedWeights.Sum();
+	        var normalized = adjustedWeights.Select(w => w / sumAdjusted).ToList();
+
+	        // Random chọn theo tỉ lệ
+	        float r = Random.value;
+	        float cumulative = 0;
+	        for (int i = 0; i < enemyTypeArr.Length; i++)
+	        {
+		        cumulative += normalized[i];
+		        if (r < cumulative)
+			        return enemyTypeArr[i];
+	        }
+
+	        return enemyTypeArr.Last();
         }
+
         
         private void RemoveEntity(TileEntity ent)
         {

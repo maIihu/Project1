@@ -92,7 +92,7 @@ namespace __MyGame.Code.Script
 			var inst = nextNode.nodeEffect;
 			if(inst != null && inst.effect is IOnNodeEnter onEnter)
 			{
-				Debug.Log($"Entity {ent.name} entered node at {nextNode.GridPos} with effect {inst.effect.GetType().Name}");
+				//Debug.Log($"Entity {ent.name} entered node at {nextNode.GridPos} with effect {inst.effect.GetType().Name}");
 				onEnter.OnNodeEnter(_board, ent, nextNode);
 			}
 

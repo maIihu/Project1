@@ -22,7 +22,7 @@ public abstract class CycledNodeEffect : NodeEffect, IOnNodeEnter, IOnCoolDown, 
 	{
 		if (inst == null || inst.effect != this) return baseSprite;
 		var sprite = inst.isActive ? (activeSprite ? activeSprite : baseSprite) : (inactiveSprite ? inactiveSprite : baseSprite);
-		Debug.Log(sprite.name);
+		//Debug.Log(sprite.name);
 		return sprite;
 	}
 
@@ -52,7 +52,7 @@ public abstract class CycledNodeEffect : NodeEffect, IOnNodeEnter, IOnCoolDown, 
 			inst.isActive = !inst.isActive;
 			inst.stateCounter = inst.isActive ? activeTurn : cooldownTurns;
 		}
-		if (!inst.isActive)
-			Debug.Log("Spike not active");
+		//if (!inst.isActive)
+			//Debug.Log("Spike not active");
 	}
 }

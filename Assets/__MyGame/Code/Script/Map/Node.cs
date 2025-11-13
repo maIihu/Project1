@@ -42,7 +42,7 @@ namespace __MyGame.Code.Script
                 return; }
             if (nodeEffect.effect is IChangeNodeSprite changer)
             {
-                Debug.Log(changer.GetNodeEffectSprite(this, nodeEffect, baseSprite).name);
+                //Debug.Log(changer.GetNodeEffectSprite(this, nodeEffect, baseSprite).name);
 				SetSpriteNode(changer.GetNodeEffectSprite(this, nodeEffect, baseSprite));
             }
             else
