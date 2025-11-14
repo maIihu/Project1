@@ -132,30 +132,22 @@ namespace __MyGame.Code.Script
         private EnemyType GetRandomEnemy()
         {
 	        float spawnModifier = GameplayManager.Instance.SpawnModifier; 
-	        Debug.Log(spawnModifier);
+	        //Debug.Log(spawnModifier);
     
-	        // Tổng weight cơ bản
 	        float sumBase = enemyTypeArr.Sum(e => e.spawnWeight);
 
-	        // Tính weight điều chỉnh
 	        var adjustedWeights = enemyTypeArr.Select(e =>
 	        {
-		        float baseRate = e.spawnWeight / sumBase; // tỉ lệ gốc
-
-		        // bias nhẹ theo spawnModifier (ví dụ: 20%)
+		        float baseRate = e.spawnWeight / sumBase; 
 		        float difficultyBias = Mathf.Lerp(1f, 1f + (e.spawnWeight - 0.5f) * 0.4f, spawnModifier);
-
-		        // thêm nhiễu ngẫu nhiên nhỏ
 		        float noise = Random.Range(0.9f, 1.1f);
 
 		        return baseRate * difficultyBias * noise;
 	        }).ToList();
 
-	        // Chuẩn hóa lại tổng về 1
 	        float sumAdjusted = adjustedWeights.Sum();
 	        var normalized = adjustedWeights.Select(w => w / sumAdjusted).ToList();
 
-	        // Random chọn theo tỉ lệ
 	        float r = Random.value;
 	        float cumulative = 0;
 	        for (int i = 0; i < enemyTypeArr.Length; i++)

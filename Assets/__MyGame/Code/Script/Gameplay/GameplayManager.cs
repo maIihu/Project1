@@ -17,9 +17,9 @@ namespace __MyGame.Code.Script
 
         public AbilityPipeLine abilityPipeLine = new AbilityPipeLine();
 
-        private float _progressFactor;
-        private float _playerFactor;
-        private float _mapDifficulty;
+        private float _progressFactor; // step control
+        private float _playerFactor; // level player
+        private float _mapDifficulty; 
         private float _randomFluctuation;
         
         private int _stepMoveCounter;
@@ -42,7 +42,12 @@ namespace __MyGame.Code.Script
             GameLogic = new GameLogic(this.board);
             objectPool.InitEnemyPooling();
             board.InitBoard();
+            
             _mapDifficulty = board.CurrentMapData.mapDifficulty;
+            _playerFactor = 1f;
+
+            CalculateSpawnRate();
+            
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameStart));
         }
 
@@ -84,7 +89,7 @@ namespace __MyGame.Code.Script
 
         public void CalculateSpawnRate()
         {
-            _playerFactor = 1f;
+            
             _randomFluctuation = Random.Range(-0.2f, 0.2f);
             SpawnModifier = _progressFactor * 0.4f + _playerFactor * 0.2f 
                                                   + _mapDifficulty * 0.3f + _randomFluctuation * 0.1f;
