@@ -14,6 +14,7 @@ namespace _MyCore.DesignPattern.Observer.Runtime
         OnGameStart,
 		OnActiveskillSelected,
         OnActivesSkillCancled,
+        OnMoveControl
 	}
     public class Message
     {
