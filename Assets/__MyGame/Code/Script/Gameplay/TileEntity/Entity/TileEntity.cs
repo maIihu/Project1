@@ -59,10 +59,10 @@ public abstract class TileEntity : MonoBehaviour
 	{
 		//Debug.Log("Taking Damage: " + damage);
 		if (_isDead) return;
-		
-		// var text = Instantiate(floatingText);
-		// text.PunchText(transform.position, damage.ToString());
-		
+
+		var text = Instantiate(floatingText);
+		text.PunchText(transform.position, damage.ToString());
+
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if (abosrbedByArmor > 0)
 		{
@@ -170,6 +170,15 @@ public abstract class TileEntity : MonoBehaviour
 		transform.position = to;
 	}
 
+	public IEnumerator AnimateHit()
+	{
+		yield return transform.DOShakePosition(0.25f, 0.2f, 10, 90, false, true).SetLink(gameObject);
+	}
+	public IEnumerator AnimateJump(Vector3 from ,Vector3 to, float duration = 0.4f)
+	{
+		transform.position = from;
+		yield return transform.DOJump(to,arcHeight,1,duration).SetEase(moveEase).SetLink(gameObject);
+	}
 	public IEnumerator AnimateBump(Vector3 at, Vector3 dir)
 	{
 		transform.position = at;

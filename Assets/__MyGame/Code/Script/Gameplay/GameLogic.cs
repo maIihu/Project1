@@ -157,7 +157,12 @@ namespace __MyGame.Code.Script
 			foreach(var c in casts)
 			{
 				if(c.user == null || c.ability == null) continue;
-				if(!c.ability.CanCast(c.user, c.context)) continue;
+				//if(!c.ability.CanCast(c.user, c.context)) continue;
+				var routine = c.ability.OnCast(c.user, c.context);
+				if(routine != null)
+				{
+					GameplayManager.Instance.StartCoroutine(routine);
+				}
 				c.ability.OnCast(c.user, c.context);
 				if (!c.user.abilities.ContainsKey(c.ability))
 				{

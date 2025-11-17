@@ -11,9 +11,15 @@ namespace __MyGame.Code.Script
 		public Vector2 GridPos => transform.position;
 		public NodeEffectInstance nodeEffect { get; private set; }
 
+        [Header("Highlight")]
+        [SerializeField] private Color highlightColor = new Color(1f, 1f, 0f, 0.4f);
+        [SerializeField] private SpriteRenderer highlightRenderer;
+
 		private void Awake()
 		{
             if (!spriteRenderer) spriteRenderer = this.GetComponent<SpriteRenderer>();
+			highlightRenderer.enabled = false;
+			highlightRenderer.color = highlightColor;
 		}
 
 		public void AddEffect(NodeEffect effect, int duration)
@@ -34,7 +40,10 @@ namespace __MyGame.Code.Script
                 cycledNodeEffect.Initial(this, nodeEffect);
             UpdateVisualEffect();
 		}
-
+        public void SetHighlighted(bool on)
+        {
+			highlightRenderer.enabled = on;
+		}
         private void UpdateVisualEffect()
         {
             if (nodeEffect == null) {

@@ -10,21 +10,22 @@ public class SkillListController : MonoBehaviour, IMessageHandle
 	[SerializeField] private Transform skillListContainer;
 
 	private readonly Dictionary<BaseCharacterAbility, ActiveSkillButtonUI> skillButtonUIs = new Dictionary<BaseCharacterAbility, ActiveSkillButtonUI>();
-	//private ActiveSkillButtonUI currentSelected;
+	private ActiveSkillButtonUI currentSelected;
 
 	public void Handle(Message message)
 	{
 		switch(message.Type)
 		{
 			case ProjectMessageType.OnActiveskillSelected:
-
+				OnSkillSelected();
 				break;
 			case ProjectMessageType.OnActivesSkillCancled:
-
 				break;
 		}
 	}
-
+	private void OnSkillSelected()
+	{
+	}
 	public void BuildForm(PlayerEntity player)
 	{
 		Clear();

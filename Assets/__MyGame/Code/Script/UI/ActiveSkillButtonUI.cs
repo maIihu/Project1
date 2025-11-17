@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ActiveSkillButtonUI : MonoBehaviour
 {
+	public static System.Action<BaseCharacterAbility> OnActiveSkillButtonClicked;
 	[SerializeField] private Image skillIcon;
 	[SerializeField] private Image cooldownOverlay;
 	[SerializeField] private Button btn;
@@ -29,7 +30,8 @@ public class ActiveSkillButtonUI : MonoBehaviour
 	{
 		if (ability != null)
 		{
-			MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnActiveskillSelected));
+			//MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnActiveskillSelected));
+			OnActiveSkillButtonClicked?.Invoke(ability);
 		}
 	}
 }

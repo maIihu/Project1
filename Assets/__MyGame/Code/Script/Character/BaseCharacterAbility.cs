@@ -7,6 +7,7 @@ public abstract class BaseCharacterAbility : ScriptableObject
 	[Header("Info")]
 	public string abilityName;
 	public AbilityType abilityType;
+	public AbilityTarget target;
 	public Sprite abilityIcon;
 
 	public int cooldownTurns;
@@ -16,5 +17,5 @@ public abstract class BaseCharacterAbility : ScriptableObject
 	public bool consumeTurn;
 
 	public virtual bool CanCast(PlayerEntity user, AbilityContext ctx) => true;
-	public abstract void OnCast(PlayerEntity user, AbilityContext ctx);
+	public abstract IEnumerator OnCast(PlayerEntity user, AbilityContext ctx);
 }

@@ -9,8 +9,10 @@ public class Utilities
 public enum AbilityType { Passive, Active }
 public enum DamageType { Physical, Piercing }
 
-public enum CastPhase { BeforeMove, InsteadOfMove, AfterMove, Reaction }
+public enum CastPhase { Instant, BeforeMove, InsteadOfMove, AfterMove, Reaction }
 public enum TargetType { Self, Adjacent, Line, Column }
+
+public enum AbilityTarget { Instant, Direction, Node}
 
 [System.Serializable]
 public class NodeEffectInstance

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActiveAbility : BaseCharacterAbility
 {
-	public override void OnCast(PlayerEntity user, AbilityContext ctx)
+	public override IEnumerator OnCast(PlayerEntity user, AbilityContext ctx)
 	{
 		throw new System.NotImplementedException();
 	}

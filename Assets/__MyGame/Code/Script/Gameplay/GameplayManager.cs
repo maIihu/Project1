@@ -14,8 +14,9 @@ namespace __MyGame.Code.Script
         [SerializeField] public BoardController board;
 
         [SerializeField] public GameObjectPool objectPool;
+        public SkillSelectedUIController skillSelectedUIController;
 
-        public AbilityPipeLine abilityPipeLine = new AbilityPipeLine();
+		public AbilityPipeLine abilityPipeLine = new AbilityPipeLine();
 
         private float _progressFactor; // step control
         private float _playerFactor; // level player
@@ -49,6 +50,7 @@ namespace __MyGame.Code.Script
             CalculateSpawnRate();
             
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameStart));
+            skillSelectedUIController.InitiateReference();
         }
 
         private void CameraFit()

@@ -27,28 +27,11 @@ namespace __MyGame.Code.Script
 
 		private void Update()
 		{
-			if (_gameplay == null || _board == null || _logic == null) return;
-			Vector2Int aim = Vector2Int.zero;
-			if (Input.GetKeyDown(KeyCode.L)) aim = Vector2Int.right;
-			if (Input.GetKeyDown(KeyCode.J)) aim = Vector2Int.left;
-			if (Input.GetKeyDown(KeyCode.I)) aim = Vector2Int.up;
-			if (Input.GetKeyDown(KeyCode.K)) aim = Vector2Int.down;
+			if (SkillSelectedUIController.Instance != null && SkillSelectedUIController.Instance.IsSelecting)
+				return;
 
-			if (aim != Vector2Int.zero && testPiercingShot != null)
-			{
-				var player = _board.player;
-				if (player != null)
-				{
-					var ctx = new AbilityContext
-					{
-						board = _board,
-						gameLogic = _logic,
-						direction = aim
-					};
-					_gameplay.QueueAbility(player, testPiercingShot, ctx);
-					_logic.Shift(aim);
-				}
-			}
+			if (_gameplay == null || _board == null || _logic == null) return;
+
 
 			if (Input.GetKeyDown(KeyCode.LeftArrow)) TryShift(Vector2.left);
 			if (Input.GetKeyDown(KeyCode.RightArrow)) TryShift(Vector2.right);
