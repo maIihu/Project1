@@ -83,10 +83,17 @@ namespace __MyGame.Code.Script
             _stepMoveCounter++;
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnMoveControl, 
                 new object[]{_stepMoveCounter, _maxStepMoveLevel}));
+            
+            if(_stepMoveCounter == _maxStepMoveLevel)
+            {
+                Debug.Log("Step move");
+                BoardController.Instance.SpawnDoor();
+                return;
+            }
+            
             if (_stepMoveCounter == 10 * i)
             {
                 i++;
-                //TODO: tinh lai progressFactor
                 _progressFactor = 1.0f * _stepMoveCounter / board.CurrentMapData.stepsToNextLevel;
                 CalculateSpawnRate();
             }

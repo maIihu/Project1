@@ -51,7 +51,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 				break;
 			case ProjectMessageType.OnMoveControl:
 				var data = message.Data;
-				gameplayScreen.UpdateProgress((int)data[0], 10);//(int)data[1]);
+				gameplayScreen.UpdateProgress((int)data[0], (int)data[1]);
 				break;
 		}
 	}
