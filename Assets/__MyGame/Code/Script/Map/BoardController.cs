@@ -15,6 +15,7 @@ namespace __MyGame.Code.Script
         [SerializeField] private Node nodePrefab;
         [SerializeField] private Transform nodeContainer;
         [SerializeField] private PlayerEntity playerPrefab;
+        [SerializeField] private DoorEntity doorPrefab;
         //[SerializeField] private EnemyEntity enemyPrefab;
 
         [SerializeField] private Transform entityContainer;
@@ -61,6 +62,14 @@ namespace __MyGame.Code.Script
             SpawnMapWithType(MapType.Green);
             SpawmPlayerRandomly();
             //SpawnEnemiesToMap(3);
+        }
+
+        public void SpawnDoor()
+        {            
+	        Debug.Log("Spawning door");
+	        var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).First();
+	        var door = Instantiate(doorPrefab, free.transform.position, Quaternion.identity,  entityContainer);
+	        free.OccupiedEntity = door;
         }
         
         private void SpawnMapWithType(MapType mapType)

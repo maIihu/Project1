@@ -24,6 +24,7 @@ namespace __MyGame.Code.Script
         private float _randomFluctuation;
         
         private int _stepMoveCounter;
+        private int _maxStepMoveLevel;
         private int i = 1;
 
         public GameLogic GameLogic { get; private set; }
@@ -46,6 +47,10 @@ namespace __MyGame.Code.Script
             
             _mapDifficulty = board.CurrentMapData.mapDifficulty;
             _playerFactor = 1f;
+            _stepMoveCounter = 0;
+            _maxStepMoveLevel = board.CurrentMapData.stepsToNextLevel;
+            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnMoveControl, 
+                new object[]{_stepMoveCounter, _maxStepMoveLevel}));
 
             CalculateSpawnRate();
             
@@ -78,12 +83,19 @@ namespace __MyGame.Code.Script
         public void StepMoveCount()
         {
             _stepMoveCounter++;
-            //Debug.Log(_stepMoveCounter);
-            // thay doi moi 10 lan
+            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnMoveControl, 
+                new object[]{_stepMoveCounter, _maxStepMoveLevel}));
+            
+            if(_stepMoveCounter == _maxStepMoveLevel)
+            {
+                Debug.Log("Step move");
+                BoardController.Instance.SpawnDoor();
+                return;
+            }
+            
             if (_stepMoveCounter == 10 * i)
             {
                 i++;
-                //TODO: tinh lai progressFactor
                 _progressFactor = 1.0f * _stepMoveCounter / board.CurrentMapData.stepsToNextLevel;
                 CalculateSpawnRate();
             }
