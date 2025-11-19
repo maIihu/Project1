@@ -26,8 +26,10 @@ namespace __MyGame.Code.Script
         private int _stepMoveCounter;
         private int _maxStepMoveLevel;
         private int i = 1;
+        private int _inputLockCount;
+        public bool IsInputLocked => _inputLockCount > 0;
 
-        public GameLogic GameLogic { get; private set; }
+		public GameLogic GameLogic { get; private set; }
         
         public float SpawnModifier { get; private set; }
 
@@ -57,6 +59,15 @@ namespace __MyGame.Code.Script
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameStart));
             skillSelectedUIController.InitiateReference();
         }
+
+        public void LockInput()
+        {
+            _inputLockCount++;
+        }
+        public void UnlockInput()
+        {
+			_inputLockCount = Mathf.Max(0, _inputLockCount - 1);
+		}
 
         private void CameraFit()
         {
@@ -89,7 +100,7 @@ namespace __MyGame.Code.Script
             if(_stepMoveCounter == _maxStepMoveLevel)
             {
                 Debug.Log("Step move");
-                BoardController.Instance.SpawnDoor();
+                //BoardController.Instance.SpawnDoor();
                 return;
             }
             

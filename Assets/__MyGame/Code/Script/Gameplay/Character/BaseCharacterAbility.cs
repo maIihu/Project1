@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class BaseCharacterAbility : ScriptableObject
@@ -17,5 +18,7 @@ public abstract class BaseCharacterAbility : ScriptableObject
 	public bool consumeTurn;
 
 	public virtual bool CanCast(PlayerEntity user, AbilityContext ctx) => true;
-	public abstract IEnumerator OnCast(PlayerEntity user, AbilityContext ctx);
+	//public abstract IEnumerator OnCast(PlayerEntity user, AbilityContext ctx);
+
+	public abstract Task OnCast(PlayerEntity user, AbilityContext ctx);
 }

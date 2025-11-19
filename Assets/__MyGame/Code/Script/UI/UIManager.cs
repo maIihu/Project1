@@ -14,6 +14,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 	
 	[SerializeField] private SkillListController skillListController;
 	[SerializeField] private PlayerInfoController playerInfoController;
+	[SerializeField] private SkillDestinationUI skillDestinationUI;
 
 	private void Awake()
 	{
@@ -24,6 +25,9 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameStart, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameOver, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnMoveControl, this);
+		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnDirectionRequiredSkillSelected,this);
+		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnNodeRequiredSkillSelected, this);
+		MessageManager.Instance.AddSubscriber(ProjectMessageType.EndOfSkillRequireSelection, this);	
 	}
 
 	private void OnDisable()
@@ -31,8 +35,10 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnGameStart, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnGameOver, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnMoveControl, this);
-		
-		
+		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnDirectionRequiredSkillSelected, this);
+		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnNodeRequiredSkillSelected, this);
+		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.EndOfSkillRequireSelection,this);
+
 	}
 	public void Handle(Message message)
 	{
@@ -52,6 +58,15 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 			case ProjectMessageType.OnMoveControl:
 				var data = message.Data;
 				gameplayScreen.UpdateProgress((int)data[0], (int)data[1]);
+				break;
+			case ProjectMessageType.OnDirectionRequiredSkillSelected:
+				skillDestinationUI.Show("Choose skill direction.");
+				break;
+			case ProjectMessageType.OnNodeRequiredSkillSelected:
+				skillDestinationUI.Show("Choose skill target node.");
+				break;
+			case ProjectMessageType.EndOfSkillRequireSelection:
+				skillDestinationUI.Hide();
 				break;
 		}
 	}

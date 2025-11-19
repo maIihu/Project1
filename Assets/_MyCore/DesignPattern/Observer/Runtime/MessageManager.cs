@@ -14,7 +14,10 @@ namespace _MyCore.DesignPattern.Observer.Runtime
         OnGameStart,
 		OnActiveskillSelected,
         OnActivesSkillCancled,
-        OnMoveControl
+        OnMoveControl,
+        OnDirectionRequiredSkillSelected,
+		OnNodeRequiredSkillSelected,
+        EndOfSkillRequireSelection,
 	}
     public class Message
     {

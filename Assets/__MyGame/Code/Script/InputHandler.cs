@@ -7,7 +7,6 @@ namespace __MyGame.Code.Script
 {
 	public class InputHandler : MonoBehaviour
 	{
-		public PiercingShoot testPiercingShot;
 		private GameplayManager _gameplay;
 		private BoardController _board;
 		private GameLogic _logic;
@@ -20,18 +19,20 @@ namespace __MyGame.Code.Script
 		}
 		private void TryShift(Vector2 dir)
 		{
-			if (BoardController.Instance.IsAnimating) return;
+			//if (BoardController.Instance.IsAnimating) return;
 			GameplayManager.Instance.StepMoveCount();
 			StartCoroutine(BoardController.Instance.ShiftAnimated(dir));
 		}
 
 		private void Update()
 		{
+			//Debug.Log(GameplayManager.Instance.IsInputLocked);
+			if (GameplayManager.Instance.IsInputLocked)
+				return;
 			if (SkillSelectedUIController.Instance != null && SkillSelectedUIController.Instance.IsSelecting)
 				return;
 
 			if (_gameplay == null || _board == null || _logic == null) return;
-
 
 			if (Input.GetKeyDown(KeyCode.LeftArrow)) TryShift(Vector2.left);
 			if (Input.GetKeyDown(KeyCode.RightArrow)) TryShift(Vector2.right);

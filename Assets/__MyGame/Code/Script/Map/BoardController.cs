@@ -38,7 +38,7 @@ namespace __MyGame.Code.Script
 
 		//input block 
 		private bool isAnimating;
-		public bool IsAnimating => isAnimating;
+		//public bool IsAnimating => isAnimating;
 		
 		//init map in scene test 
 		[SerializeField] private MapType editorMapType = MapType.Green;
@@ -210,7 +210,7 @@ namespace __MyGame.Code.Script
 		{
 			if (isAnimating) yield break;
 			isAnimating = true;
-
+			GameplayManager.Instance.LockInput();
 			var ents = GetAllEntities();
 			var startMap = new Dictionary<TileEntity, Vector3>(ents.Count);
 			foreach (var e in ents) if (e) startMap[e] = e.transform.position;
@@ -256,8 +256,9 @@ namespace __MyGame.Code.Script
 
 			yield return new WaitUntil(() => remaining <= 0);
             isAnimating = false;
-            
-            SpawnEnemiesToMap(1);
+			GameplayManager.Instance.UnlockInput();
+
+			SpawnEnemiesToMap(1);
 		}
 
 		// Helpers
@@ -275,7 +276,6 @@ namespace __MyGame.Code.Script
 			e.transform.position = at;
 			done?.Invoke();
 		}
-
 		#region ----------Editor----------
 
 		[ContextMenu("Preview/Build Board In Editor")]

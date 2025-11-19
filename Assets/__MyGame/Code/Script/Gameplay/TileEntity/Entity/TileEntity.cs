@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using __MyGame.Code.Script;
 using DG.Tweening;
 using UnityEngine;
@@ -167,17 +169,30 @@ public abstract class TileEntity : MonoBehaviour
 
 		if (squashSeq != null) squashSeq.Join(moveT);
 		yield return (squashSeq != null ? squashSeq.WaitForCompletion() : moveT.WaitForCompletion());
+		if(_isDead) yield break;
 		transform.position = to;
 	}
 
-	public IEnumerator AnimateHit()
+	//public IEnumerator AnimateHit()
+	//{
+	//	yield return transform.DOShakePosition(0.25f, 0.2f, 10, 90, false, true).SetLink(gameObject);
+	//}
+
+	public async Task AnimateHit()
 	{
-		yield return transform.DOShakePosition(0.25f, 0.2f, 10, 90, false, true).SetLink(gameObject);
+		await transform.DOShakePosition(0.5f,0.4f,10,90,false,true).SetLink(gameObject).AsyncWaitForCompletion();
+		//await Task.Delay(1000);
 	}
-	public IEnumerator AnimateJump(Vector3 from ,Vector3 to, float duration = 0.4f)
+	//public IEnumerator AnimateJump(Vector3 from ,Vector3 to, float duration = 0.4f)
+	//{
+	//	transform.position = from;
+	//	yield return transform.DOJump(to,arcHeight,1,duration).SetEase(moveEase).SetLink(gameObject);
+	//}
+
+	public async Task AnimateJump(Vector3 from, Vector3 to, float duration = 0.4f)
 	{
 		transform.position = from;
-		yield return transform.DOJump(to,arcHeight,1,duration).SetEase(moveEase).SetLink(gameObject);
+		await transform.DOJump(to, arcHeight, 1, duration).SetEase(moveEase).SetLink(gameObject).AsyncWaitForCompletion();
 	}
 	public IEnumerator AnimateBump(Vector3 at, Vector3 dir)
 	{
@@ -214,6 +229,7 @@ public abstract class TileEntity : MonoBehaviour
 			seq.Append(sprite.DOScale(baseScale, half * 0.8f));
 
 		yield return seq.WaitForCompletion();
+		if (_isDead) yield break;
 		transform.position = at;
 	}
 	#endregion

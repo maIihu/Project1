@@ -1,7 +1,9 @@
 using __MyGame.Code.Script;
+using _MyCore.DesignPattern.Observer.Runtime;
 using _MyCore.DesignPattern.Singleton;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 
@@ -47,6 +49,7 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 
 	private void OnSkillButtonClicked(BaseCharacterAbility ability)
 	{
+		isSelecting = true;
 		if (ability == null && player == null)
 		{
 			Debug.Log("Null");
@@ -63,9 +66,11 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 				//CastInstant();
 				break;
 			case AbilityTarget.Node:
+				MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnNodeRequiredSkillSelected));
 				StartNodeMode();
 				break;
 			case AbilityTarget.Direction:
+				MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnDirectionRequiredSkillSelected));
 				break;
 		}
 	}
@@ -123,11 +128,6 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 	#region Node mode
 	private void StartNodeMode()
 	{
-		if (boardController == null)
-		{
-			Debug.LogError("SkillSelectedUIController: boardController is NULL.");
-			return;
-		}
 		player = boardController.GetPlayer();
 		currentNode = boardController.GetNodeAtPosition(player.transform.position);
 		UpdateNodeHighLight();
@@ -165,7 +165,7 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 		var p = new Vector2Int(Mathf.RoundToInt(world.x), Mathf.RoundToInt(world.y));
 		return boardController.GetNodeAtPosition(p);
 	}
-	private void ConfirmNode()
+	private async void ConfirmNode()
 	{
 		if (player == null || currentAbility == null || currentNode == null)
 			return;
@@ -180,23 +180,43 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 		{
 			if (currentAbility.CanCast(player, ctx))
 			{
-				StartCoroutine(CastImmediate(player, currentAbility, ctx));
+				//StartCoroutine(CastImmediate(player, currentAbility, ctx));
+				await CastImediate(player, currentAbility, ctx);
+
 			}
 		}
 		else
 		{
 			gameplayManager.QueueAbility(player, currentAbility, ctx);	
 		}
-		FinishSelection();
 	}
-	private IEnumerator CastImmediate(PlayerEntity user, BaseCharacterAbility ability, AbilityContext context)
+	//private IEnumerator CastImmediate(PlayerEntity user, BaseCharacterAbility ability, AbilityContext context)
+	//{
+	//	gameplayManager.LockInput();
+	//	Debug.Log(gameplayManager.IsInputLocked);
+	//	yield return ability.OnCast(user, context);
+	//	if (!user.abilities.ContainsKey(ability))
+	//	{
+	//		user.abilities[ability] = 0;
+	//	}
+	//	user.abilities[ability] = Mathf.Max(1, ability.cooldownTurns);
+	//	gameplayManager.UnlockInput();
+	//	Debug.Log(gameplayManager.IsInputLocked);
+	//	FinishSelection();
+	//}
+	private async Task CastImediate(PlayerEntity user, BaseCharacterAbility ability, AbilityContext context)
 	{
-		yield return ability.OnCast(user, context);
+		gameplayManager.LockInput();
+		Debug.Log(gameplayManager.IsInputLocked);
+		await ability.OnCast(user, context);
 		if (!user.abilities.ContainsKey(ability))
 		{
 			user.abilities[ability] = 0;
 		}
 		user.abilities[ability] = Mathf.Max(1, ability.cooldownTurns);
+		gameplayManager.UnlockInput();
+		Debug.Log(gameplayManager.IsInputLocked);
+		FinishSelection();
 	}
 	private void CancelSelection()
 	{
@@ -204,7 +224,6 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 	}
 	private void FinishSelection()
 	{
-		isSelecting = false;
 		currentAbility = null;
 		currentNode = null;
 		currentTarget = AbilityTarget.Instant;
@@ -212,6 +231,8 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 		foreach (var n in highlightedNodes)
 			n.SetHighlighted(false);
 		highlightedNodes.Clear();
+		MessageManager.Instance.SendMessage(new Message(ProjectMessageType.EndOfSkillRequireSelection));
+		isSelecting = false;
 	}
 
 	#endregion

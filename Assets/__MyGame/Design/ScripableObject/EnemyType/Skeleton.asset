@@ -15,8 +15,8 @@ MonoBehaviour:
   enemyName: Skeleton
   sprite: {fileID: 21300000, guid: 9ba700d6d85061e49afef30c2fb5357b, type: 3}
   portrait: {fileID: 0}
-  maxHP: 1
-  attack: 0
+  maxHP: 5
+  attack: 1
   armor: 0
   moveStep: 2
   blocksMovement: 1

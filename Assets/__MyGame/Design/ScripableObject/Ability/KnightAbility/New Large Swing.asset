@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba7252f95634f1438041ffdf91cc8d0, type: 3}
+  m_Name: New Large Swing
+  m_EditorClassIdentifier: 
+  abilityName: Large Swing
+  abilityType: 1
+  target: 1
+  abilityIcon: {fileID: 21300000, guid: 870af2e7af43a134dbe0be37c19c5efd, type: 3}
+  cooldownTurns: 2
+  phase: 3
+  consumeTurn: 1
+  damage: 2
+  radius: 1
