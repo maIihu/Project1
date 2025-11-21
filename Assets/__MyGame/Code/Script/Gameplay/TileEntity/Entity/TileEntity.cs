@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using __MyGame.Code.Script;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -178,7 +179,7 @@ public abstract class TileEntity : MonoBehaviour
 	//	yield return transform.DOShakePosition(0.25f, 0.2f, 10, 90, false, true).SetLink(gameObject);
 	//}
 
-	public async Task AnimateHit()
+	public async UniTask AnimateHit()
 	{
 		await transform.DOShakePosition(0.5f,0.4f,10,90,false,true).SetLink(gameObject).AsyncWaitForCompletion();
 		//await Task.Delay(1000);
@@ -189,7 +190,7 @@ public abstract class TileEntity : MonoBehaviour
 	//	yield return transform.DOJump(to,arcHeight,1,duration).SetEase(moveEase).SetLink(gameObject);
 	//}
 
-	public async Task AnimateJump(Vector3 from, Vector3 to, float duration = 0.4f)
+	public async UniTask AnimateJump(Vector3 from, Vector3 to, float duration = 0.4f)
 	{
 		transform.position = from;
 		await transform.DOJump(to, arcHeight, 1, duration).SetEase(moveEase).SetLink(gameObject).AsyncWaitForCompletion();

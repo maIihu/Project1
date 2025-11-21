@@ -256,8 +256,7 @@ namespace __MyGame.Code.Script
 
 			yield return new WaitUntil(() => remaining <= 0);
             isAnimating = false;
-			GameplayManager.Instance.UnlockInput();
-
+			GameplayManager.Instance.OnShiftFinishedAfterMoved();
 			SpawnEnemiesToMap(1);
 		}
 

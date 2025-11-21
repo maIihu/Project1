@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using __MyGame.Code.Script.Helper;
 using _MyCore.DesignPattern.Observer.Runtime;
 using _MyCore.DesignPattern.Singleton;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -28,7 +30,7 @@ namespace __MyGame.Code.Script
         private int i = 1;
         private int _inputLockCount;
         public bool IsInputLocked => _inputLockCount > 0;
-
+        private List<Func<UniTask>> postMoveActions = new List<Func<UniTask>>();
 		public GameLogic GameLogic { get; private set; }
         
         public float SpawnModifier { get; private set; }
@@ -59,8 +61,36 @@ namespace __MyGame.Code.Script
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameStart));
             skillSelectedUIController.InitiateReference();
         }
+        public void RegisterPostMoveAction(Func<UniTask> action)
+		{
+            if(action != null)
+			    postMoveActions.Add(action);
+		}
 
-        public void LockInput()
+        public async void OnShiftFinishedAfterMoved()
+        {
+            if (postMoveActions.Count == 0)
+            {
+                UnlockInput();
+                return;
+            }
+            var actions = postMoveActions.ToArray();
+            postMoveActions.Clear();
+
+            foreach (var action in actions)
+            {
+                try
+                {
+                    await action();
+                }
+                catch(Exception e)
+                {
+                    Debug.Log($"Error when executing post-move action: {e}");
+				}
+            }
+            UnlockInput();
+		}
+		public void LockInput()
         {
             _inputLockCount++;
         }

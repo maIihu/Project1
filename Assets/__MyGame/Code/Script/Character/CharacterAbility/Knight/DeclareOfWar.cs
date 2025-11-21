@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ public class DeclareOfWar : BaseCharacterAbility
 		return true;
 	}
 
-	public override async Task OnCast(PlayerEntity user, AbilityContext ctx)
+	public override async UniTask OnCast(PlayerEntity user, AbilityContext ctx)
 	{
 		var board = ctx.board;
 		if(board == null || ctx.targetNode == null)
@@ -60,7 +61,6 @@ public class DeclareOfWar : BaseCharacterAbility
 				if (target != null)
 				{
 					_ = target.AnimateHit();
-					//await target.AnimateHit();
 					target.TakeDamage(damage);
 				}
 			}
