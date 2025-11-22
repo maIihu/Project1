@@ -72,6 +72,8 @@ public abstract class TileEntity : MonoBehaviour
 		// var text = Instantiate(floatingText);
 		// text.PunchText(transform.position, damage.ToString());
 
+		//GameplayManager.Instance.objectPool.GetAttackEffect(this.transform.position);
+		
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if (abosrbedByArmor > 0)
 		{
@@ -103,7 +105,8 @@ public abstract class TileEntity : MonoBehaviour
 		_isDead = true;
 		OnDied?.Invoke(this);
 		//Debug.Log("On Dead");
-		//SharedGameObjectPool.Return(gameObject);
+		if (SharedGameObjectPool.TryReturn(gameObject))
+			return;
 
 		Destroy(gameObject);
 	}

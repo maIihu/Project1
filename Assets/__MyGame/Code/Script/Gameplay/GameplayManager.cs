@@ -24,6 +24,8 @@ namespace __MyGame.Code.Script
         private float _playerFactor; // level player
         private float _mapDifficulty; 
         private float _randomFluctuation;
+
+        private float _mapLevel;
         
         private int _stepMoveCounter;
         private int _maxStepMoveLevel;
@@ -44,23 +46,45 @@ namespace __MyGame.Code.Script
 
         private void Start()
         {
-            CameraFit();
+            InitGame();
+        }
+
+        private void InitGame()
+        {
             GameLogic = new GameLogic(this.board);
-            objectPool.InitEnemyPooling();
+            CameraFit();
+            objectPool.InitObjectPooling();
             board.InitBoard();
             
+            _mapLevel = 1f;
             _mapDifficulty = board.CurrentMapData.mapDifficulty;
             _playerFactor = 1f;
             _stepMoveCounter = 0;
             _maxStepMoveLevel = board.CurrentMapData.stepsToNextLevel;
+            CalculateSpawnRate();
+
+            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnLoadGame));
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnMoveControl, 
                 new object[]{_stepMoveCounter, _maxStepMoveLevel}));
-
-            CalculateSpawnRate();
-            
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameStart));
             skillSelectedUIController.InitiateReference();
         }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                LoadNewMapLevel();
+            }
+        }
+
+        private void LoadNewMapLevel()
+        {
+            BoardController.Instance.ClearBoard();
+            board.InitBoard();
+        }
+
+
         public void RegisterPostMoveAction(Func<UniTask> action)
 		{
             if(action != null)

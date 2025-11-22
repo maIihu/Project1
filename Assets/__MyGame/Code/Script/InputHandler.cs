@@ -11,6 +11,8 @@ namespace __MyGame.Code.Script
 		private BoardController _board;
 		private GameLogic _logic;
 		
+		public static event Action<Vector2> OnInputDirection;
+		
 		private void Start()
 		{
 			_gameplay = GameplayManager.Instance;
@@ -22,6 +24,7 @@ namespace __MyGame.Code.Script
 			//if (BoardController.Instance.IsAnimating) return;
 			GameplayManager.Instance.StepMoveCount();
 			StartCoroutine(BoardController.Instance.ShiftAnimated(dir));
+			OnInputDirection?.Invoke(dir);  
 		}
 
 		private void Update()

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
+using uPools;
 using Random = UnityEngine.Random;
 
 namespace __MyGame.Code.Script
@@ -60,8 +61,25 @@ namespace __MyGame.Code.Script
             obstacleEntities = new List<ObstacleEntity>();
 
             SpawnMapWithType(MapType.Green);
-            SpawmPlayerRandomly();
+            SpawnPlayerRandomly();
             //SpawnEnemiesToMap(3);
+        }
+        
+        public void ClearBoard()
+        {
+	        //foreach (var node in _nodeInBoard)
+	        foreach (var node in _nodeInBoard)
+	        {
+		        SharedGameObjectPool.TryReturn(node.gameObject);
+	        }
+	        foreach (var enity in entitiesInBoard)
+	        {
+		        SharedGameObjectPool.TryReturn(enity.gameObject);
+	        }
+	        _nodeInBoard.Clear();
+	        entitiesInBoard.Clear();
+	        enemyEntities.Clear();
+	        obstacleEntities.Clear();
         }
 
         public void SpawnDoor()
@@ -93,7 +111,8 @@ namespace __MyGame.Code.Script
                 for (int j = 0; j < BoardSize; j++)
                 {
                     var positionToSpawn = new Vector3(i - offset, j - offset, 0);
-                    var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
+                    var node = GameplayManager.Instance.objectPool.GetNode(positionToSpawn, Quaternion.identity);
+	                    //Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
                     node.name = node.GridPos.ToString();
                     node.SetBaseSprite((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
                     if (Random.value <= 0.1)
@@ -106,10 +125,11 @@ namespace __MyGame.Code.Script
         }
 
         #region 
-        private void SpawmPlayerRandomly()
+        private void SpawnPlayerRandomly()
         {
-            var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).First();
-            player = Instantiate(playerPrefab, free.transform.position, Quaternion.identity, entityContainer);
+            var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(n => Random.value).First();
+            player = GameplayManager.Instance.objectPool.GetPlayer(free.transform.position, Quaternion.identity);
+	            //Instantiate(playerPrefab, free.transform.position, Quaternion.identity, entityContainer);
             player.CharacterInitial(testClass);
             player.RefreshUI();
             player.SyncWorldPosToGrid();
@@ -123,7 +143,7 @@ namespace __MyGame.Code.Script
             var freeNodes = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
             foreach (var node in freeNodes)
             {
-                var enemy = GameplayManager.Instance.objectPool.GetEnemy(node.transform.position, Quaternion.identity, entityContainer);
+                var enemy = GameplayManager.Instance.objectPool.GetEnemy(node.transform.position, Quaternion.identity);
                 //Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
                 enemy.EnemyInit(GetRandomEnemy());
                 enemy.RefreshUI();
@@ -183,9 +203,10 @@ namespace __MyGame.Code.Script
             if (asEnemy) enemyEntities.Remove(asEnemy);
             if (ReferenceEquals(ent, player)) player = null;
         }
-        public ObstacleEntity InstantiateObstacleEntityAtNode(ObstacleEntity obstacle, Node spawnNode)
+        public ObstacleEntity SpawnObstacleEntityAtNode(ObstacleEntity obstacle, Node spawnNode)
         {
-            var obstacleEnt = Instantiate(obstacle, spawnNode.transform.position, Quaternion.identity, entityContainer);
+            var obstacleEnt = GameplayManager.Instance.objectPool.GetObstacle(spawnNode.transform.position, Quaternion.identity);
+	            //Instantiate(obstacle, spawnNode.transform.position, Quaternion.identity, entityContainer);
             obstacleEnt.SyncWorldPosToGrid();
             spawnNode.OccupiedEntity = obstacleEnt;
             obstacleEnt.OnDied += RemoveEntity;
@@ -248,7 +269,6 @@ namespace __MyGame.Code.Script
 					}
 					else
 					{
-
 						e.transform.position = end;
 						remaining--;
 					}

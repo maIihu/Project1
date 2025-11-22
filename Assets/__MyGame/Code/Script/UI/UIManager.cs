@@ -11,7 +11,8 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>, IMessageHandle
 {
 	[SerializeField] private UIGameplayScreen gameplayScreen;
-	
+
+	[SerializeField] private UIFade uiFade;
 	[SerializeField] private SkillListController skillListController;
 	[SerializeField] private PlayerInfoController playerInfoController;
 	[SerializeField] private SkillDestinationUI skillDestinationUI;
@@ -23,6 +24,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 	private void OnEnable()
 	{
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameStart, this);
+		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnLoadGame, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameOver, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnMoveControl, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnDirectionRequiredSkillSelected,this);
@@ -33,6 +35,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 	private void OnDisable()
 	{
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnGameStart, this);
+		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnLoadGame, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnGameOver, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnMoveControl, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnDirectionRequiredSkillSelected, this);
@@ -50,6 +53,9 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 				if (player == null) return;
 				playerInfoController.Bind(player);
 				skillListController.BuildForm(player);
+				break;
+			case ProjectMessageType.OnLoadGame:
+				uiFade.Fade();
 				break;
 			case ProjectMessageType.OnGameOver:
 				skillListController.Clear();
