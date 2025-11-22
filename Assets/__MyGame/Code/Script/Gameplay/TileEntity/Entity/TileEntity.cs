@@ -33,7 +33,8 @@ public abstract class TileEntity : MonoBehaviour
 	public event System.Action<TileEntity> OnDied;
 
 	//animation stuff
-	[FormerlySerializedAs("textPunch")][SerializeField] private FloatingText floatingText;
+	[SerializeField] private FloatingText floatingText;
+	
 	[Header("DOTween Move")]
 	[SerializeField] public float moveAnimPerTile = 0.10f;
 	[SerializeField] public Ease moveEase = Ease.InOutSine;
@@ -60,11 +61,16 @@ public abstract class TileEntity : MonoBehaviour
 
 	public void TakeDamage(int damage)
 	{
+		if (this is DoorEntity door)
+		{
+			Debug.Log("Cant attack door");
+			return;
+		}
 		//Debug.Log("Taking Damage: " + damage);
 		if (_isDead) return;
 
-		var text = Instantiate(floatingText);
-		text.PunchText(transform.position, damage.ToString());
+		// var text = Instantiate(floatingText);
+		// text.PunchText(transform.position, damage.ToString());
 
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if (abosrbedByArmor > 0)

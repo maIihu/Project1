@@ -69,6 +69,7 @@ namespace __MyGame.Code.Script
 	        Debug.Log("Spawning door");
 	        var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).First();
 	        var door = Instantiate(doorPrefab, free.transform.position, Quaternion.identity,  entityContainer);
+	        door.InitDoor();
 	        free.OccupiedEntity = door;
         }
         

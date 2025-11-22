@@ -144,7 +144,10 @@ namespace __MyGame.Code.Script
 		{
 			var blocker = probeNode.OccupiedEntity;
 			if (!blocker) return false;
-			blocker.TakeDamage(ent.attack);
+			if (blocker is DoorEntity door)
+				door.NextLevel();
+			else
+				blocker.TakeDamage(ent.attack);
 			return true;
 		}
 

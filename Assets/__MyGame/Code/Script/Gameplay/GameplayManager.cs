@@ -130,7 +130,7 @@ namespace __MyGame.Code.Script
             if(_stepMoveCounter == _maxStepMoveLevel)
             {
                 Debug.Log("Step move");
-                //BoardController.Instance.SpawnDoor();
+                BoardController.Instance.SpawnDoor();
                 return;
             }
             
