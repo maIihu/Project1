@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e927de4969ab3a044b5863ccda7a5405, type: 3}
+  m_Name: Explosive Node Effect
+  m_EditorClassIdentifier: 
+  effectName: ExplosiveNode
+  duration: -1
+  effectSpriteOverlay: {fileID: 21300000, guid: 1de47692c1c0a7e4485fdf5f23b9ff55, type: 3}
+  priority: 90
+  damage: 1
+  radius: 1
+  explodeEffect: {fileID: 5802697189771157560, guid: 8ad721a3d5551b7489d0d1bc15975b68, type: 3}

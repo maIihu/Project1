@@ -64,7 +64,7 @@ public class PiercingShoot : BaseCharacterAbility
 			if(target != null && target != user) 
 			{
 				_ = target.AnimateHit();
-				target.TakeDamage(user.attack + damage);
+				target.TakeDamage(user.attack + damage,user);
 			}
 		}
 		Object.Destroy(arrow);
@@ -76,24 +76,5 @@ public class PiercingShoot : BaseCharacterAbility
 		target = AbilityTarget.Direction;
 		consumeTurn = true;
 	}
-	//public override IEnumerator OnCast(PlayerEntity user, AbilityContext ctx)
-	//{
-	//	var board = ctx.board;
-	//	var dir = ctx.direction;
-	//	var node = board.GetNodeAtPosition(user.transform.position);
-
-	//	for (int i = 1; i <= range; i++)
-	//	{
-	//		var probe = board.GetNodeAtPosition(node.GridPos + dir * i);
-	//		if (probe == null) break;
-
-	//		if (probe.OccupiedEntity is ObstacleEntity) continue;
-
-	//		var target = probe.OccupiedEntity;
-	//		if (target != null && target != user)
-	//			target.TakeDamage(user.attack + damage);
-	//	}
-	//	yield return null;
-	//}
 
 }

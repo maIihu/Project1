@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: PiercingShot
   abilityType: 1
+  target: 1
   abilityIcon: {fileID: 21300000, guid: 1dd9100afc80ce048a83ebfecea2a40c, type: 3}
   cooldownTurns: 3
-  phase: 1
+  phase: 2
   consumeTurn: 1
   range: 6
   damage: 2
+  arrowPrefab: {fileID: 8830757333877170087, guid: 1924aa01ffa20a04a9c9281aa743790e, type: 3}

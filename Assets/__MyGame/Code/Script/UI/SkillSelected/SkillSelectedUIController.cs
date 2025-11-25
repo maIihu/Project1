@@ -207,7 +207,6 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 	private async Task CastImediate(PlayerEntity user, BaseCharacterAbility ability, AbilityContext context)
 	{
 		gameplayManager.LockInput();
-		Debug.Log(gameplayManager.IsInputLocked);
 		await ability.OnCast(user, context);
 		if (!user.abilities.ContainsKey(ability))
 		{
@@ -215,7 +214,6 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 		}
 		user.abilities[ability] = Mathf.Max(1, ability.cooldownTurns);
 		gameplayManager.UnlockInput();
-		Debug.Log(gameplayManager.IsInputLocked);
 		FinishSelection();
 	}
 	private void CancelSelection()

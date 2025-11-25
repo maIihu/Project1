@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ecc1674cffae4f468fa182db5350371, type: 3}
-  m_Name: New Declare Of War
+  m_Script: {fileID: 11500000, guid: 90daf7ebe132f5e489a2680efdeabf06, type: 3}
+  m_Name: New Detonation Trap
   m_EditorClassIdentifier: 
-  abilityName: Declare of War
+  abilityName: Detonation Trap
   abilityType: 1
   target: 2
-  abilityIcon: {fileID: 21300000, guid: 63d5e877d79342d46bf2ae18b370277b, type: 3}
+  abilityIcon: {fileID: 21300000, guid: f290650f1fc331f4fa372914ec6ab19b, type: 3}
   cooldownTurns: 3
   phase: 0
   consumeTurn: 0
-  damage: 1
-  radius: 1
-  jumpEffect: {fileID: 5802697189771157560, guid: 961521a1091d73e43bd7ed561da4f174, type: 3}
+  explosiveEffect: {fileID: 11400000, guid: 6842e1097c4b2174cb6212e727d85fdc, type: 2}

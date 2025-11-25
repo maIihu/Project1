@@ -42,6 +42,15 @@ public class EnemyEntity : TileEntity
 		}
 
 	}
+
+	public override void Die()
+	{
+		if(lastAttacker is PlayerEntity player && player is ILevelUpAble levelupAble)
+		{
+			levelupAble.GainExp(EXPReward);
+		}
+		base.Die();
+	}
 	private void HandleDeathTraits(TileEntity entity)
 	{
 		var board = BoardController.Instance;
@@ -79,6 +88,8 @@ public class EnemyEntity : TileEntity
 		}
 		return false;
 	}
+
+	public int EXPReward => enemyType.expYield;	
 	#region
 	public void AE_DeathImpact()
 	{

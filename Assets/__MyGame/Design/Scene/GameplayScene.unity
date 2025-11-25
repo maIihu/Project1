@@ -1954,7 +1954,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107084451}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -2606,6 +2606,7 @@ GameObject:
   - component: {fileID: 1426190015}
   - component: {fileID: 1426190014}
   - component: {fileID: 1426190016}
+  - component: {fileID: 1426190017}
   m_Layer: 5
   m_Name: LeftSideContainer
   m_TagString: Untagged
@@ -2691,6 +2692,19 @@ MonoBehaviour:
   playerHealth: {fileID: 999312117}
   playerAttack: {fileID: 1608052986}
   playerArmor: {fileID: 1902980413}
+--- !u!114 &1426190017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426190012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6edbf78886f3d5940b301dcc38fa9a89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expBar: {fileID: 1638268012}
 --- !u!114 &1447508962 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
@@ -3086,13 +3100,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1638268010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65d5fe2e8d684559b3f0836cea49c185, type: 3}
+  m_Script: {fileID: 11500000, guid: a591a7a071d876d4eb7e40de632b6f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   circle: {fileID: 1664079155}
   start: {fileID: 485407777}
   end: {fileID: 1201410602}
-  text: {fileID: 2042775723}
+  expText: {fileID: 290509914}
+  levelText: {fileID: 2042775723}
 --- !u!1 &1664079154
 GameObject:
   m_ObjectHideFlags: 0
@@ -3329,6 +3344,7 @@ MonoBehaviour:
   skillListController: {fileID: 831012596}
   playerInfoController: {fileID: 1426190016}
   skillDestinationUI: {fileID: 1987797152}
+  growthUIManager: {fileID: 1426190017}
 --- !u!1 &1889926102
 GameObject:
   m_ObjectHideFlags: 0
