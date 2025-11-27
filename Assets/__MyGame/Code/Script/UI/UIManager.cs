@@ -57,7 +57,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 				growthUIManager.Initial(player);
 				break;
 			case ProjectMessageType.OnLoadGame:
-				uiFade.Fade();
+				//uiFade.Fade();
 				break;
 			case ProjectMessageType.OnGameOver:
 				skillListController.Clear();
