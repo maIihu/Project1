@@ -23,4 +23,9 @@ MonoBehaviour:
   enemyTraits:
   - {fileID: 11400000, guid: 820722113cec390449562eebc530c8c1, type: 2}
   animatorController: {fileID: 0}
+<<<<<<< HEAD
   spawnWeight: 6
+=======
+  spawnWeight: 8
+  expYield: 3
+>>>>>>> origin/BA29/10

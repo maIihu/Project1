@@ -24,3 +24,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d968aca02dd434f4698282086c38e7a8, type: 2}
   animatorController: {fileID: 0}
   spawnWeight: 4
+  expYield: 2

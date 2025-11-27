@@ -52,6 +52,9 @@ public abstract class TileEntity : MonoBehaviour
 	[SerializeField] private float bumpDuration = 0.5f;
 	[SerializeField] private Ease bumpEaseOut = Ease.OutQuad;
 	[SerializeField] private Ease bumpEaseIn = Ease.InQuad;
+
+	protected TileEntity lastAttacker;
+	public TileEntity LastAttack => lastAttacker;
 	public virtual void OnCollision() { }
 
 	private void OnEnable()
@@ -59,13 +62,17 @@ public abstract class TileEntity : MonoBehaviour
 		_isDead = false;
 	}
 
-	public void TakeDamage(int damage)
+	public virtual void TakeDamage(int damage,TileEntity attacker = null)
 	{
+<<<<<<< HEAD
 		if (this is DoorEntity door)
 		{
 			Debug.Log("Cant attack door");
 			return;
 		}
+=======
+		lastAttacker = attacker;
+>>>>>>> origin/BA29/10
 		//Debug.Log("Taking Damage: " + damage);
 		if (_isDead) return;
 
@@ -99,7 +106,7 @@ public abstract class TileEntity : MonoBehaviour
 		OnArmorChanged?.Invoke(armor);
 
 	}
-	public void Die()
+	public virtual void Die()
 	{
 		if (_isDead) return;
 		_isDead = true;
@@ -127,12 +134,6 @@ public abstract class TileEntity : MonoBehaviour
 		OnSpriteChanged?.Invoke(entitySprite);
 	}
 	#region
-	protected void BeginDeath()
-	{
-		if (_isDead || isDying) return;
-		isDying = true;
-		OnDied?.Invoke(this);
-	}
 	protected virtual IEnumerator DeathRoutine()
 	{
 		_isDead = true;
@@ -170,7 +171,6 @@ public abstract class TileEntity : MonoBehaviour
 		}
 		Tween moveT;
 		if (useJumpArc)
-			//moveT = transform.DOJump(to, arcHeight, 1, duration).SetEase(moveEase);
 			moveT = transform.DOMove(to, duration).SetEase(moveEase);
 		else
 			moveT = transform.DOMove(to, duration).SetEase(moveEase);
@@ -183,21 +183,10 @@ public abstract class TileEntity : MonoBehaviour
 		transform.position = to;
 	}
 
-	//public IEnumerator AnimateHit()
-	//{
-	//	yield return transform.DOShakePosition(0.25f, 0.2f, 10, 90, false, true).SetLink(gameObject);
-	//}
-
 	public async UniTask AnimateHit()
 	{
 		await transform.DOShakePosition(0.5f,0.4f,10,90,false,true).SetLink(gameObject).AsyncWaitForCompletion();
-		//await Task.Delay(1000);
 	}
-	//public IEnumerator AnimateJump(Vector3 from ,Vector3 to, float duration = 0.4f)
-	//{
-	//	transform.position = from;
-	//	yield return transform.DOJump(to,arcHeight,1,duration).SetEase(moveEase).SetLink(gameObject);
-	//}
 
 	public async UniTask AnimateJump(Vector3 from, Vector3 to, float duration = 0.4f)
 	{

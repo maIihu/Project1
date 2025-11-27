@@ -9,6 +9,7 @@ public class DeclareOfWar : BaseCharacterAbility
 {
 	public int damage = 1;
 	public int radius = 1;
+	[SerializeField] private BaseSkillEffect jumpEffect;
 
 	private void OnEnable()
 	{
@@ -50,6 +51,8 @@ public class DeclareOfWar : BaseCharacterAbility
 		user.SyncWorldPosToGrid();
 		targetNode.OccupiedEntity = user;
 		var center = targetNode.GridPos;
+		var jumpEffect = GameObject.Instantiate(this.jumpEffect, targetNode.transform.position, Quaternion.identity);
+		jumpEffect.Play();
 		for (int dx = -radius; dx <= radius; dx++)
 		{
 			for (int dy = -radius; dy <= radius; dy++)
@@ -61,46 +64,10 @@ public class DeclareOfWar : BaseCharacterAbility
 				if (target != null)
 				{
 					_ = target.AnimateHit();
-					target.TakeDamage(damage);
+					target.TakeDamage(damage,user);
 				}
 			}
 		}
 	}
-	//public override IEnumerator OnCast(PlayerEntity user, AbilityContext ctx)
-	//{
-	//	var board = ctx.board;
-	//	if (board == null || ctx.targetNode == null)
-	//	{
-	//		Debug.Log("Declare Of War bug");
-	//		yield break;
-	//	}
-	//	var fromNode = board.GetNodeWithEntity(user);
-	//	var targetNode = ctx.targetNode;
-	//	if (fromNode != null && ReferenceEquals(fromNode.OccupiedEntity, user))
-	//	{
-	//		fromNode.OccupiedEntity = null;
-	//		yield return user.AnimateJump(fromNode.GridPos, targetNode.GridPos);
-	//		Debug.Log("Jumped");	
-	//	}
-	//	user.SyncWorldPosToGrid();
-	//	targetNode.OccupiedEntity = user;
-	//	var center = targetNode.GridPos;
-	//	for(int dx = -radius; dx <= radius; dx++)
-	//	{
-	//		for(int dy = -radius; dy <= radius; dy++)
-	//		{
-	//			if(dx == 0 && dy == 0) continue;
-	//			var probe = board.GetNodeAtPosition(center + new Vector2Int(dx, dy));
-	//			if (probe == null) continue;
-	//			var target = probe.OccupiedEntity;
-	//			if(target != null)
-	//			{
-	//				yield return target.AnimateHit();
-	//				target.TakeDamage(damage);
-	//			}
-	//		}
-	//	}
-	//	yield return null;
-	//}
 
 }

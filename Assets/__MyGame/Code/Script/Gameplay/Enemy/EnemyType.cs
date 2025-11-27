@@ -25,4 +25,6 @@ public class EnemyType : ScriptableObject
 	[Header("----------Spawn Rate----------")]
 	public int spawnWeight;
 
+	[Header("----------ExpYield----------")]
+	public int expYield;
 }

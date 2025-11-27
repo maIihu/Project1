@@ -15,6 +15,9 @@ namespace __MyGame.Code.Script
         [SerializeField] private Color highlightColor = new Color(1f, 1f, 0f, 0.4f);
         [SerializeField] private SpriteRenderer highlightRenderer;
 
+        protected TileEntity nodeEffectChangeEntity;
+        public TileEntity NodeEffectChangeEntity => nodeEffectChangeEntity;
+
 		private void Awake()
 		{
             if (!spriteRenderer) spriteRenderer = this.GetComponent<SpriteRenderer>();
@@ -22,9 +25,11 @@ namespace __MyGame.Code.Script
 			highlightRenderer.color = highlightColor;
 		}
 
-		public void AddEffect(NodeEffect effect, int duration)
+		public void AddEffect(NodeEffect effect, int duration,TileEntity effectChanger = null)
         {
-            if(effect == null ) { return; }
+            if(effectChanger != null)
+				SetNodeEffectChangeEntity(effectChanger);
+			if (effect == null ) { return; }
             if(nodeEffect != null && nodeEffect.effect != null)
             {
                 var cur = nodeEffect.effect;
@@ -58,10 +63,16 @@ namespace __MyGame.Code.Script
                 SetBaseSprite(baseSprite);
 
 		}
-        public void ClearEffect()
+
+		public void SetNodeEffectChangeEntity(TileEntity entity)
+		{
+			nodeEffectChangeEntity = entity;
+		}
+		public void ClearEffect()
         {
             nodeEffect = null;
             spriteRenderer.sprite = baseSprite;
+            nodeEffectChangeEntity = null;
 		}
         public void ReduceExistTurn()
         {

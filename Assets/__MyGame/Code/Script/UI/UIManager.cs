@@ -16,6 +16,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 	[SerializeField] private SkillListController skillListController;
 	[SerializeField] private PlayerInfoController playerInfoController;
 	[SerializeField] private SkillDestinationUI skillDestinationUI;
+	[SerializeField] private GrowthUIManager growthUIManager;
 
 	private void Awake()
 	{
@@ -53,6 +54,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 				if (player == null) return;
 				playerInfoController.Bind(player);
 				skillListController.BuildForm(player);
+				growthUIManager.Initial(player);
 				break;
 			case ProjectMessageType.OnLoadGame:
 				uiFade.Fade();
