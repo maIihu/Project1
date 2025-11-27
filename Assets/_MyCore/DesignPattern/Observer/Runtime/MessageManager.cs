@@ -10,7 +10,7 @@ namespace _MyCore.DesignPattern.Observer.Runtime
         /// <summary>
         /// When the game is over
         /// </summary>
-        OnGameOver,
+        OnGameOver, OnLoadGame,
         OnGameStart,
 		OnActiveskillSelected,
         OnActivesSkillCancled,

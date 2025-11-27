@@ -33,7 +33,8 @@ public abstract class TileEntity : MonoBehaviour
 	public event System.Action<TileEntity> OnDied;
 
 	//animation stuff
-	[FormerlySerializedAs("textPunch")][SerializeField] private FloatingText floatingText;
+	[SerializeField] private FloatingText floatingText;
+	
 	[Header("DOTween Move")]
 	[SerializeField] public float moveAnimPerTile = 0.10f;
 	[SerializeField] public Ease moveEase = Ease.InOutSine;
@@ -64,12 +65,19 @@ public abstract class TileEntity : MonoBehaviour
 	public virtual void TakeDamage(int damage,TileEntity attacker = null)
 	{
 		lastAttacker = attacker;
+		if (this is DoorEntity door)
+		{
+			Debug.Log("Cant attack door");
+			return;
+		}
 		//Debug.Log("Taking Damage: " + damage);
 		if (_isDead) return;
 
-		var text = Instantiate(floatingText);
-		text.PunchText(transform.position, damage.ToString());
+		// var text = Instantiate(floatingText);
+		// text.PunchText(transform.position, damage.ToString());
 
+		//GameplayManager.Instance.objectPool.GetAttackEffect(this.transform.position);
+		
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if (abosrbedByArmor > 0)
 		{
@@ -101,7 +109,8 @@ public abstract class TileEntity : MonoBehaviour
 		_isDead = true;
 		OnDied?.Invoke(this);
 		//Debug.Log("On Dead");
-		//SharedGameObjectPool.Return(gameObject);
+		if (SharedGameObjectPool.TryReturn(gameObject))
+			return;
 
 		Destroy(gameObject);
 	}

@@ -11,7 +11,7 @@ public class SkeletonTrait : EnemyTrait, IOnDeath
 	public void OnDeath(BoardController board, EnemyEntity self, Node node)
 	{
 		if(!node) return;
-		var obs = board.InstantiateObstacleEntityAtNode(ObstaclePrefab, node);
+		var obs = board.SpawnObstacleEntityAtNode(ObstaclePrefab, node);
 		if (obs && ObstacleEntitySO) obs.InitialObstacle(ObstacleEntitySO);
 	}
 }
