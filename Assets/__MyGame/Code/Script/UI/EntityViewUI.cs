@@ -7,8 +7,8 @@ public class EntityViewUI : MonoBehaviour
 {
 	[SerializeField] SpriteRenderer spriteRenderer;
 	[Header("UI")]
-	[SerializeField] TextMeshProUGUI hpText;
-	[SerializeField] TextMeshProUGUI armorText;
+	[SerializeField] TextMeshPro hpText;
+	[SerializeField] TextMeshPro armorText;
 
 	TileEntity entity;
 
