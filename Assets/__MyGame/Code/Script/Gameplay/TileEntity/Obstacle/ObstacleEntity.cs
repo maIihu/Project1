@@ -8,12 +8,14 @@ public class ObstacleEntity : TileEntity
 
 	public void InitialObstacle(ObstacleEntitySO obstacle)
 	{
-		obstacleData = obstacle;
+ 		obstacleData = obstacle;
 		maxHP = currentHP = obstacle.Health;
 		attack = 0;
 		armor = 0;
 		BlocksMovement = obstacle.BlockMovement;
 		moveStep = 0;
 		SetSpriteRuntime(obstacle.Sprite);
+		statView.InitView();
+
 	}
 }

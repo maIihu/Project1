@@ -33,7 +33,7 @@ public abstract class TileEntity : MonoBehaviour
 	public event System.Action<TileEntity> OnDied;
 
 	//animation stuff
-	[SerializeField] private FloatingText floatingText;
+	[SerializeField] protected EntityStatView statView;
 	
 	[Header("DOTween Move")]
 	[SerializeField] public float moveAnimPerTile = 0.10f;

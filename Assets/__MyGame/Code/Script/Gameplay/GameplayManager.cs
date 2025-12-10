@@ -72,10 +72,10 @@ namespace __MyGame.Code.Script
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                LoadNewMapLevel();
-            }
+            // if (Input.GetKeyDown(KeyCode.Space))
+            // {
+            //     LoadNewMapLevel();
+            // }
         }
 
         private void LoadNewMapLevel()

@@ -40,6 +40,8 @@ public class EnemyEntity : TileEntity
 		{
 			entityPortrait = enemyType.portrait;
 		}
+		
+		statView.InitView();
 
 	}
 

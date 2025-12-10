@@ -62,7 +62,6 @@ namespace __MyGame.Code.Script
 
             SpawnMapWithType(MapType.Green);
             SpawnPlayerRandomly();
-            //SpawnEnemiesToMap(3);
         }
         
         public void ClearBoard()
@@ -111,14 +110,16 @@ namespace __MyGame.Code.Script
                 for (int j = 0; j < BoardSize; j++)
                 {
                     var positionToSpawn = new Vector3(i - offset, j - offset, 0);
-                    var node = GameplayManager.Instance.objectPool.GetNode(positionToSpawn, Quaternion.identity);
+                    var node = GameplayManager.Instance.objectPool.GetNode();
+                    node.transform.position = positionToSpawn;
+                    
 	                    //Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
                     node.name = node.GridPos.ToString();
                     node.SetBaseSprite((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
-                    if (Random.value <= 0.1)
-                    {
-                        SetSpikeNode(node);
-                    }
+                    // if (Random.value <= 0.1)
+                    // {
+                    //     SetSpikeNode(node);
+                    // }
                     _nodeInBoard.Add(node);
                 }
             }
@@ -128,7 +129,8 @@ namespace __MyGame.Code.Script
         private void SpawnPlayerRandomly()
         {
             var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(n => Random.value).First();
-            player = GameplayManager.Instance.objectPool.GetPlayer(free.transform.position, Quaternion.identity);
+            player = GameplayManager.Instance.objectPool.GetPlayer();
+            player.transform.position = free.transform.position;
 	            //Instantiate(playerPrefab, free.transform.position, Quaternion.identity, entityContainer);
             player.CharacterInitial(testClass);
             player.RefreshUI();
@@ -143,7 +145,8 @@ namespace __MyGame.Code.Script
             var freeNodes = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
             foreach (var node in freeNodes)
             {
-                var enemy = GameplayManager.Instance.objectPool.GetEnemy(node.transform.position, Quaternion.identity);
+                var enemy = GameplayManager.Instance.objectPool.GetEnemy();
+                enemy.transform.position = node.transform.position;
                 //Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
                 enemy.EnemyInit(GetRandomEnemy());
                 enemy.RefreshUI();
@@ -205,7 +208,8 @@ namespace __MyGame.Code.Script
         }
         public ObstacleEntity SpawnObstacleEntityAtNode(ObstacleEntity obstacle, Node spawnNode)
         {
-            var obstacleEnt = GameplayManager.Instance.objectPool.GetObstacle(spawnNode.transform.position, Quaternion.identity);
+            var obstacleEnt = GameplayManager.Instance.objectPool.GetObstacle();
+            obstacleEnt.transform.position = spawnNode.transform.position;
 	            //Instantiate(obstacle, spawnNode.transform.position, Quaternion.identity, entityContainer);
             obstacleEnt.SyncWorldPosToGrid();
             spawnNode.OccupiedEntity = obstacleEnt;

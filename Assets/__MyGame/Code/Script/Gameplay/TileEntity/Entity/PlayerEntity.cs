@@ -36,6 +36,8 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		level = 1;
 		currentExp = 0;
 		OnExpChanged?.Invoke(currentExp, ExpToNextLevel);
+		
+		statView.InitView();
 	}
 
 	public bool CanUse(BaseCharacterAbility ability) => abilities.ContainsKey(ability) == false || abilities[ability] <= 0;

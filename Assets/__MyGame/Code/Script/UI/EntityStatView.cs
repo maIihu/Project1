@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EntityViewUI : MonoBehaviour
+public class EntityStatView : MonoBehaviour
 {
 	[SerializeField] SpriteRenderer spriteRenderer;
 	[Header("UI")]
@@ -12,18 +12,21 @@ public class EntityViewUI : MonoBehaviour
 
 	TileEntity entity;
 
-	private void Awake()
+	private void OnEnable()
 	{
 		entity = GetComponent<TileEntity>();
 		entity.OnHealthChanged += HandleHP;
 		entity.OnArmorChanged += HandleArmor;
 		entity.OnSpriteChanged += SetSprite;
-		HandleHP(entity.currentHP,entity.maxHP);
-		HandleArmor(entity.armor);
-
 	}
 
-	private void OnDestroy()
+	public void InitView()
+	{
+		HandleHP(entity.currentHP,entity.maxHP);
+		HandleArmor(entity.armor);
+	}
+
+	private void OnDisable()
 	{
 		entity.OnHealthChanged -= HandleHP;
 		entity.OnArmorChanged -= HandleArmor;
