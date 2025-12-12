@@ -11,7 +11,7 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 
 	[SerializeField] private int baseExpToLevel = 100;
 	[SerializeField] private float expGrowthRate = 1.5f;
-
+	[SerializeField] private DamageFlashController damageFlash;
 	public int ExpToNextLevel => Mathf.FloorToInt(baseExpToLevel * Mathf.Pow(expGrowthRate, level - 1));
 
 	public event System.Action<int> OnLevelChanged;
@@ -66,6 +66,7 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 	public override void TakeDamage(int damage, TileEntity attacker = null)
 	{
 		base.TakeDamage(damage, attacker);
+		//damageFlash.StartFlash();
 		var ft = FloatingTextPool.Instance.Get();
 		ft.Play("-" + damage, this.transform.position);
 

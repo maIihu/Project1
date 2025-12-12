@@ -18,21 +18,16 @@ public class DamageFlashController : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         flashMaterial = spriteRenderer.material; 
-    }
+        flashMaterial.SetColor("_FlashColor", new Color(1f, 0.3f, 0.3f)); 
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space)) StartFlash();
     }
     
     public void StartFlash()
     {
-        // Ngăn Coroutine trước nếu đang chạy
         if (flashRoutine != null)
         {
             StopCoroutine(flashRoutine);
         }
-        // Bắt đầu Coroutine mới
         flashRoutine = StartCoroutine(FlashCoroutine());
     }
 
@@ -47,13 +42,11 @@ public class DamageFlashController : MonoBehaviour
 
         flashMaterial.SetFloat(FlashAmountID, 0f); 
 
-        // Tùy chọn: Tắt dần (Dampen)
         
         float timer = 0f;
         while (timer < flashDuration)
         {
             timer += Time.deltaTime * flashSpeed;
-            // Dùng Lerp để giảm dần FlashAmount từ 1 xuống 0
             float flashValue = Mathf.Lerp(1f, 0f, timer);
             flashMaterial.SetFloat(FlashAmountID, flashValue);
             yield return null;
