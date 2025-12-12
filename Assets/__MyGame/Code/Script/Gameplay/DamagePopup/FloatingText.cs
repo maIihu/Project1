@@ -7,14 +7,8 @@ public class FloatingText : MonoBehaviour
 {
     public TextMeshPro textMesh;
     
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space)) Play("-1", this.transform.position);
-    }
-
     public void Play(string value, Vector3 pos, float duration = 0.8f)
     {
-
         transform.position = pos;
         transform.localScale = Vector3.one * 0.7f;
 
@@ -33,11 +27,11 @@ public class FloatingText : MonoBehaviour
             .Append(transform.DOMove(upPos, duration * 0.6f).SetEase(Ease.OutQuad))
             .Append(transform.DOMove(downPos, duration * 0.6f).SetEase(Ease.InQuad))
             .Join(textMesh.DOFade(0f, duration))
-
             .OnComplete(() =>
             {
-                transform.localPosition = Vector3.zero;
+                FloatingTextPool.Instance.Release(this);
             });
+
     }
 
 

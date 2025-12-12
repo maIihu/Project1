@@ -62,4 +62,12 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		maxHP += hpGained;
 		OnLevelChanged?.Invoke(level);
 	}
+
+	public override void TakeDamage(int damage, TileEntity attacker = null)
+	{
+		base.TakeDamage(damage, attacker);
+		var ft = FloatingTextPool.Instance.Get();
+		ft.Play("-" + damage, this.transform.position);
+
+	}
 }

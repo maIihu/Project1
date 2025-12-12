@@ -62,7 +62,7 @@ public abstract class TileEntity : MonoBehaviour
 		_isDead = false;
 	}
 
-	public virtual void TakeDamage(int damage,TileEntity attacker = null)
+	public virtual void TakeDamage(int damage, TileEntity attacker = null)
 	{
 		lastAttacker = attacker;
 		if (this is DoorEntity door)
@@ -75,8 +75,6 @@ public abstract class TileEntity : MonoBehaviour
 
 		// var text = Instantiate(floatingText);
 		// text.PunchText(transform.position, damage.ToString());
-
-		//GameplayManager.Instance.objectPool.GetAttackEffect(this.transform.position);
 		
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if (abosrbedByArmor > 0)
