@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
-using uPools;
 using Random = UnityEngine.Random;
 
 namespace __MyGame.Code.Script
@@ -17,7 +16,7 @@ namespace __MyGame.Code.Script
         [SerializeField] private Transform nodeContainer;
         [SerializeField] private PlayerEntity playerPrefab;
         [SerializeField] private DoorEntity doorPrefab;
-        //[SerializeField] private EnemyEntity enemyPrefab;
+        [SerializeField] private EnemyEntity enemyPrefab;
 
         [SerializeField] private Transform entityContainer;
 
@@ -69,11 +68,11 @@ namespace __MyGame.Code.Script
 	        //foreach (var node in _nodeInBoard)
 	        foreach (var node in _nodeInBoard)
 	        {
-		        SharedGameObjectPool.TryReturn(node.gameObject);
+		        Destroy(node.gameObject);
 	        }
 	        foreach (var enity in entitiesInBoard)
 	        {
-		        SharedGameObjectPool.TryReturn(enity.gameObject);
+		        Destroy(enity.gameObject);
 	        }
 	        _nodeInBoard.Clear();
 	        entitiesInBoard.Clear();
@@ -110,10 +109,7 @@ namespace __MyGame.Code.Script
                 for (int j = 0; j < BoardSize; j++)
                 {
                     var positionToSpawn = new Vector3(i - offset, j - offset, 0);
-                    var node = GameplayManager.Instance.objectPool.GetNode();
-                    node.transform.position = positionToSpawn;
-                    
-	                    //Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
+                    var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
                     node.name = node.GridPos.ToString();
                     node.SetBaseSprite((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
                     // if (Random.value <= 0.1)
@@ -129,9 +125,7 @@ namespace __MyGame.Code.Script
         private void SpawnPlayerRandomly()
         {
             var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(n => Random.value).First();
-            player = GameplayManager.Instance.objectPool.GetPlayer();
-            player.transform.position = free.transform.position;
-	            //Instantiate(playerPrefab, free.transform.position, Quaternion.identity, entityContainer);
+            player = Instantiate(playerPrefab, free.transform.position, Quaternion.identity, entityContainer);
             player.CharacterInitial(testClass);
             player.RefreshUI();
             player.SyncWorldPosToGrid();
@@ -145,9 +139,7 @@ namespace __MyGame.Code.Script
             var freeNodes = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(_nodeInBoard => Random.value).Take(amount);
             foreach (var node in freeNodes)
             {
-                var enemy = GameplayManager.Instance.objectPool.GetEnemy();
-                enemy.transform.position = node.transform.position;
-                //Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
+                var enemy = Instantiate(enemyPrefab, node.transform.position, Quaternion.identity, entityContainer);
                 enemy.EnemyInit(GetRandomEnemy());
                 enemy.RefreshUI();
                 enemy.SyncWorldPosToGrid();
@@ -208,9 +200,7 @@ namespace __MyGame.Code.Script
         }
         public ObstacleEntity SpawnObstacleEntityAtNode(ObstacleEntity obstacle, Node spawnNode)
         {
-            var obstacleEnt = GameplayManager.Instance.objectPool.GetObstacle();
-            obstacleEnt.transform.position = spawnNode.transform.position;
-	            //Instantiate(obstacle, spawnNode.transform.position, Quaternion.identity, entityContainer);
+            var obstacleEnt = Instantiate(obstacle, spawnNode.transform.position, Quaternion.identity, entityContainer);
             obstacleEnt.SyncWorldPosToGrid();
             spawnNode.OccupiedEntity = obstacleEnt;
             obstacleEnt.OnDied += RemoveEntity;

@@ -37,7 +37,7 @@ namespace __MyGame.Code.Script.Gameplay.Enemy.ExpBall
                 Vector3 offset = new Vector3(Random.Range(-0.8f, 0.8f), Random.Range(-.8f, 0.8f), 0);
                 Vector3 burstPos = origin + offset;
                 
-                Sequence seq = DOTween.Sequence();
+                Sequence seq = DOTween.Sequence().SetTarget(this);
                 
                 seq.Append(ball.transform.DOMove(burstPos, 0.3f).SetEase(Ease.OutSine))
                     .AppendInterval(0.05f)
@@ -45,6 +45,10 @@ namespace __MyGame.Code.Script.Gameplay.Enemy.ExpBall
                     .OnComplete(() => { ball.SetActive(false); });
             }
         }
-        
+
+        private void OnDestroy()
+        {
+            transform.DOKill();
+        }
     }
 }

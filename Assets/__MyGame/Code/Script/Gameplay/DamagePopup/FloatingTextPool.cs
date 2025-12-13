@@ -42,7 +42,10 @@ public class FloatingTextPool : MonoBehaviour
 
     public void Release(FloatingText ft)
     {
+        if (ft == null) return;
+
         ft.gameObject.SetActive(false);
         pool.Enqueue(ft);
     }
+
 }

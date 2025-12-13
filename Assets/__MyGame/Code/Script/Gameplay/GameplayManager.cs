@@ -15,7 +15,6 @@ namespace __MyGame.Code.Script
 
         [SerializeField] public BoardController board;
 
-        [SerializeField] public GameObjectPool objectPool;
         public SkillSelectedUIController skillSelectedUIController;
 
 		public AbilityPipeLine abilityPipeLine = new AbilityPipeLine();
@@ -53,7 +52,6 @@ namespace __MyGame.Code.Script
         {
             GameLogic = new GameLogic(this.board);
             CameraFit();
-            objectPool.InitObjectPooling();
             board.InitBoard();
             
             _mapLevel = 1f;

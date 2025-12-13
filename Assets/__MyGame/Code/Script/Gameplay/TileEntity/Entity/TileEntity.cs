@@ -8,7 +8,6 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
-using uPools;
 
 public abstract class TileEntity : MonoBehaviour
 {
@@ -99,16 +98,14 @@ public abstract class TileEntity : MonoBehaviour
 	{
 		armor = Mathf.Max(value, 0);
 		OnArmorChanged?.Invoke(armor);
-
 	}
+	
 	public virtual void Die()
 	{
 		if (_isDead) return;
 		_isDead = true;
 		OnDied?.Invoke(this);
 		//Debug.Log("On Dead");
-		if (SharedGameObjectPool.TryReturn(gameObject))
-			return;
 
 		Destroy(gameObject);
 	}
@@ -138,8 +135,8 @@ public abstract class TileEntity : MonoBehaviour
 
 	private void OnDisable()
 	{
-		DG.Tweening.DOTween.Kill(gameObject, complete: false);
-		if (sprite) DG.Tweening.DOTween.Kill(sprite.gameObject, complete: false);
+		DOTween.Kill(gameObject, complete: false);
+		if (sprite) DOTween.Kill(sprite.gameObject, complete: false);
 	}
 
 	private void OnDestroy()
@@ -182,7 +179,7 @@ public abstract class TileEntity : MonoBehaviour
 	{
 		transform.position = from;
 
-		var seq = DOTween.Sequence().SetLink(gameObject);
+		var seq = DOTween.Sequence().SetLink(gameObject).SetTarget(this);
 
 		seq.Append(transform.DOMove(to, duration).SetEase(Ease.OutCubic));
 
@@ -249,4 +246,5 @@ public abstract class TileEntity : MonoBehaviour
 		transform.position = at;
 	}
 	#endregion
+	
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using __MyGame.Code.Script.Gameplay.Enemy.ExpBall;
 using __MyGame.Code.Script.Helper;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerEntity : TileEntity, ILevelUpAble
@@ -76,4 +77,6 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		ft.Play("-" + damage, this.transform.position);
 		CameraManager.Instance.Shake();
 	}
+
+
 }
