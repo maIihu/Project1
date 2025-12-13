@@ -14,7 +14,7 @@ namespace __MyGame.Code.Script
         Playing, Pause, 
     }
     
-    public class GameplayManager : Singleton<GameplayManager>
+    public class GameplayManager : Singleton<GameplayManager>, IMessageHandle
     {
         [SerializeField] private BoxCollider2D boundCol;
 
@@ -46,6 +46,16 @@ namespace __MyGame.Code.Script
         private void Awake()
         {
             Initialize(this);
+        }
+
+        private void OnEnable()
+        {
+            MessageManager.Instance.AddSubscriber(ProjectMessageType.OnShowPopup, this);
+        }
+
+        private void OnDisable()
+        {
+            MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnShowPopup, this);
         }
 
         private void Start()
@@ -205,6 +215,17 @@ namespace __MyGame.Code.Script
         {
             base.OnRegistration();
             //Debug.Log("-----GameplayManager registered");
+        }
+
+        public void Handle(Message message)
+        {
+            switch (message.Type)
+            {
+                case ProjectMessageType.OnShowPopup:
+                    ChangeState(GameState.Pause);
+                    Debug.Log("Show popup");
+                    break;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _MyCore.DesignPattern.Observer.Runtime;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace __MyGame.Code.Script.UI.Screens
@@ -31,6 +32,7 @@ namespace __MyGame.Code.Script.UI.Screens
         private void OnPauseButtonClicked()
         {
             UIManager.Instance.ShowPausePopup();
+            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnShowPopup));
         }
 
     }
