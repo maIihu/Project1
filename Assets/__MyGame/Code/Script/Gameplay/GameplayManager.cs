@@ -78,13 +78,12 @@ namespace __MyGame.Code.Script
             // }
         }
 
-        private void LoadNewMapLevel()
+        public void LoadNewMapLevel()
         {
             BoardController.Instance.ClearBoard();
             board.InitBoard();
         }
-
-
+        
         public void RegisterPostMoveAction(Func<UniTask> action)
 		{
             if(action != null)
@@ -153,7 +152,7 @@ namespace __MyGame.Code.Script
             
             if(_stepMoveCounter == _maxStepMoveLevel)
             {
-                Debug.Log("Step move");
+                //Debug.Log("Step move");
                 BoardController.Instance.SpawnDoor();
                 return;
             }

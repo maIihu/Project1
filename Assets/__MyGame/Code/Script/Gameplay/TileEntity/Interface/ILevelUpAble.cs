@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface ILevelUpAble
 {
-	public void GainExp(int exp);
+	public void GainExp(int exp, Vector3 sourcePos);
 	public void LevelUp();
 }

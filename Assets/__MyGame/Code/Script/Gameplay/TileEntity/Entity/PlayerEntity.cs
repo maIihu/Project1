@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using __MyGame.Code.Script.Gameplay.Enemy.ExpBall;
 using __MyGame.Code.Script.Helper;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 	[SerializeField] private int baseExpToLevel = 100;
 	[SerializeField] private float expGrowthRate = 1.5f;
 	[SerializeField] private DamageFlashController damageFlash;
+	[SerializeField] private ExpBallControl expBall;
 	public int ExpToNextLevel => Mathf.FloorToInt(baseExpToLevel * Mathf.Pow(expGrowthRate, level - 1));
 
 	public event System.Action<int> OnLevelChanged;
@@ -39,12 +41,14 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		OnExpChanged?.Invoke(currentExp, ExpToNextLevel);
 		
 		statView.InitView();
+		expBall.Init();
 	}
 
 	public bool CanUse(BaseCharacterAbility ability) => abilities.ContainsKey(ability) == false || abilities[ability] <= 0;
 
-	public void GainExp(int exp)
+	public void GainExp(int exp, Vector3 sourcePos)
 	{
+		expBall.Play(sourcePos);
 		if(exp <= 0) return;
 		currentExp += exp;
 		while (currentExp >= ExpToNextLevel)
@@ -53,7 +57,7 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 			LevelUp();
 		}
 		OnExpChanged?.Invoke(currentExp, ExpToNextLevel);
-		Debug.Log($"player gained {exp} exp point");
+		//Debug.Log($"player gained {exp} exp point");
 	}
 
 	public void LevelUp()

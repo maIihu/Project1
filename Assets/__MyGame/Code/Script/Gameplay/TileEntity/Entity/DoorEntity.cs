@@ -1,4 +1,5 @@
 ﻿
+using __MyGame.Code.Script;
 using UnityEngine;
 
 public class DoorEntity : TileEntity
@@ -11,5 +12,6 @@ public class DoorEntity : TileEntity
     public void NextLevel()
     {
         Debug.Log("NextLevel");
+        GameplayManager.Instance.LoadNewMapLevel();
     }
 }

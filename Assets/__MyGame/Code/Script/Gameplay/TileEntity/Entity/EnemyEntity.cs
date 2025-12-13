@@ -49,7 +49,7 @@ public class EnemyEntity : TileEntity
 	{
 		if(lastAttacker is PlayerEntity player && player is ILevelUpAble levelupAble)
 		{
-			levelupAble.GainExp(EXPReward);
+			levelupAble.GainExp(EXPReward, transform.position);
 		}
 		base.Die();
 	}

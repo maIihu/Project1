@@ -35,10 +35,21 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 
 	private void Start()
 	{
-		gameplayScreen.Init();
+		InitALlScreen();
+		InitAllPopup();
 		pausePopup.Hide();
 	}
 
+	private void InitALlScreen()
+	{
+		gameplayScreen.Init();
+	}
+
+	private void InitAllPopup()
+	{
+		pausePopup.Init();
+	}
+	
 	private void OnEnable()
 	{
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameStart, this);
