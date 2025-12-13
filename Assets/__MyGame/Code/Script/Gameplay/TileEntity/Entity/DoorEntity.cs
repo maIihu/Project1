@@ -1,5 +1,6 @@
 ﻿
 using __MyGame.Code.Script;
+using DG.Tweening;
 using UnityEngine;
 
 public class DoorEntity : TileEntity
@@ -12,6 +13,11 @@ public class DoorEntity : TileEntity
     public void NextLevel()
     {
         Debug.Log("NextLevel");
-        GameplayManager.Instance.LoadNewMapLevel();
+        GameplayManager.Instance.ChangeState(GameState.Pause);
+        DOVirtual.DelayedCall(1f, () =>
+            {
+                GameplayManager.Instance.ReloadAllLevel();
+            }
+        );
     }
 }

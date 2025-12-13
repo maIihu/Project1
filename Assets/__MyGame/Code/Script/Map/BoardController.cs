@@ -66,14 +66,14 @@ namespace __MyGame.Code.Script
         public void ClearBoard()
         {
 	        //foreach (var node in _nodeInBoard)
-	        foreach (var node in _nodeInBoard)
-	        {
-		        Destroy(node.gameObject);
-	        }
-	        foreach (var enity in entitiesInBoard)
-	        {
-		        Destroy(enity.gameObject);
-	        }
+	        foreach (var node in _nodeInBoard.Where(node => node != null)) Destroy(node.gameObject);
+	        
+	        foreach (var enity in entitiesInBoard.Where(enity => enity != null)) Destroy(enity.gameObject);
+
+	        foreach (var obstacle in obstacleEntities.Where(obstacle => obstacle)) Destroy(obstacle.gameObject);
+
+	        foreach (var enemy in enemyEntities.Where(enemy => enemy)) Destroy(enemy.gameObject);
+	        
 	        _nodeInBoard.Clear();
 	        entitiesInBoard.Clear();
 	        enemyEntities.Clear();
@@ -87,6 +87,7 @@ namespace __MyGame.Code.Script
 	        var door = Instantiate(doorPrefab, free.transform.position, Quaternion.identity,  entityContainer);
 	        door.InitDoor();
 	        free.OccupiedEntity = door;
+	        entitiesInBoard.Add(door);
         }
         
         private void SpawnMapWithType(MapType mapType)
@@ -231,7 +232,7 @@ namespace __MyGame.Code.Script
 			var startMap = new Dictionary<TileEntity, Vector3>(ents.Count);
 			foreach (var e in ents) if (e) startMap[e] = e.transform.position;
 
-			var logic = new __MyGame.Code.Script.GameLogic(this);
+			var logic = new GameLogic(this);
 			logic.Shift(dir);
 
 			int remaining = 0;
@@ -272,6 +273,7 @@ namespace __MyGame.Code.Script
 			yield return new WaitUntil(() => remaining <= 0);
             isAnimating = false;
 			GameplayManager.Instance.OnShiftFinishedAfterMoved();
+			
 			SpawnEnemiesToMap(1);
 		}
 

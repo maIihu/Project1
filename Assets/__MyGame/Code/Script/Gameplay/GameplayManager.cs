@@ -9,6 +9,11 @@ using Random = UnityEngine.Random;
 
 namespace __MyGame.Code.Script
 {
+    public enum GameState
+    {
+        Playing, Pause, 
+    }
+    
     public class GameplayManager : Singleton<GameplayManager>
     {
         [SerializeField] private BoxCollider2D boundCol;
@@ -23,13 +28,13 @@ namespace __MyGame.Code.Script
         private float _playerFactor; // level player
         private float _mapDifficulty; 
         private float _randomFluctuation;
-
         private float _mapLevel;
-        
         private int _stepMoveCounter;
         private int _maxStepMoveLevel;
         private int i = 1;
         private int _inputLockCount;
+        private GameState _currentState;
+        
         public bool IsInputLocked => _inputLockCount > 0;
         private List<Func<UniTask>> postMoveActions = new List<Func<UniTask>>();
 		public GameLogic GameLogic { get; private set; }
@@ -66,6 +71,22 @@ namespace __MyGame.Code.Script
                 new object[]{_stepMoveCounter, _maxStepMoveLevel}));
             MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameStart));
             skillSelectedUIController.InitiateReference();
+            
+            ChangeState(GameState.Playing);
+        }
+
+        public GameState CurrentState() => _currentState;
+        
+        public void ChangeState(GameState state)
+        {
+            _currentState = state;
+            switch (_currentState)
+            {
+                case GameState.Playing:
+                    break;
+                case GameState.Pause:
+                    break;
+            }
         }
 
         private void Update()
@@ -76,10 +97,16 @@ namespace __MyGame.Code.Script
             // }
         }
 
-        public void LoadNewMapLevel()
+        public void ReloadAllLevel()
         {
             BoardController.Instance.ClearBoard();
             board.InitBoard();
+            _stepMoveCounter = 0;
+            _maxStepMoveLevel = board.CurrentMapData.stepsToNextLevel;
+            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnMoveControl,
+                new object[]{_stepMoveCounter, _maxStepMoveLevel}));
+            ChangeState(GameState.Playing);
+            Debug.Log("Reload");
         }
         
         public void RegisterPostMoveAction(Func<UniTask> action)

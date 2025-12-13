@@ -37,10 +37,13 @@ namespace __MyGame.Code.Script
 
 			if (_gameplay == null || _board == null || _logic == null) return;
 
-			if (Input.GetKeyDown(KeyCode.LeftArrow)) TryShift(Vector2.left);
-			if (Input.GetKeyDown(KeyCode.RightArrow)) TryShift(Vector2.right);
-			if (Input.GetKeyDown(KeyCode.UpArrow)) TryShift(Vector2.up);
-			if (Input.GetKeyDown(KeyCode.DownArrow)) TryShift(Vector2.down);
+			if (GameplayManager.Instance.CurrentState() == GameState.Playing)
+			{
+				if (Input.GetKeyDown(KeyCode.LeftArrow)) TryShift(Vector2.left);
+				if (Input.GetKeyDown(KeyCode.RightArrow)) TryShift(Vector2.right);
+				if (Input.GetKeyDown(KeyCode.UpArrow)) TryShift(Vector2.up);
+				if (Input.GetKeyDown(KeyCode.DownArrow)) TryShift(Vector2.down);
+			}
 		}
 	}
 }

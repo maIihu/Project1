@@ -91,6 +91,11 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 				skillListController.Clear();
 				playerInfoController.Unbind();	
 				break;
+			// case ProjectMessageType.OnGameReload:
+			// 	var dataReload = message.Data;
+			// 	Debug.Log(dataReload[0]);
+			// 	gameplayScreen.UpdateProgress((int)dataReload[0], (int)dataReload[1]);
+			// 	break;
 			case ProjectMessageType.OnMoveControl:
 				var data = message.Data;
 				gameplayScreen.UpdateProgress((int)data[0], (int)data[1]);
@@ -104,6 +109,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 			case ProjectMessageType.EndOfSkillRequireSelection:
 				skillDestinationUI.Hide();
 				break;
+
 		}
 	}
 	
