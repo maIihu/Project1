@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using __MyGame.Code.Script.Helper;
 using UnityEngine;
 
 public class PlayerEntity : TileEntity, ILevelUpAble
@@ -69,6 +70,6 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		//damageFlash.StartFlash();
 		var ft = FloatingTextPool.Instance.Get();
 		ft.Play("-" + damage, this.transform.position);
-
+		CameraManager.Instance.Shake();
 	}
 }

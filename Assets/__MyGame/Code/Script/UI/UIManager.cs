@@ -1,8 +1,10 @@
+using System;
 using __MyGame.Code.Script;
 using _MyCore.DesignPattern.Observer.Runtime;
 using _MyCore.DesignPattern.Singleton;
 using System.Collections;
 using System.Collections.Generic;
+using __MyGame.Code.Script.UI.Popups;
 using __MyGame.Code.Script.UI.Screens;
 using UnityEngine;
 
@@ -10,18 +12,33 @@ using UnityEngine;
 [DefaultExecutionOrder(-900)]
 public class UIManager : Singleton<UIManager>, IMessageHandle
 {
+	[Header("----------SCREEN----------")]
 	[SerializeField] private UIGameplayScreen gameplayScreen;
+	
+	[Header("----------POPUP----------")]
+	[SerializeField] private UIPausePopup pausePopup;
 
+	[Header("----------OTHERS----------")]
 	[SerializeField] private UIFade uiFade;
 	[SerializeField] private SkillListController skillListController;
 	[SerializeField] private PlayerInfoController playerInfoController;
 	[SerializeField] private SkillDestinationUI skillDestinationUI;
 	[SerializeField] private GrowthUIManager growthUIManager;
+	
+	private UIScreenBase _currentScreen;
+	private UIPopupBase _currentPopup;
 
 	private void Awake()
 	{
 		Initialize(this);
 	}
+
+	private void Start()
+	{
+		gameplayScreen.Init();
+		pausePopup.Hide();
+	}
+
 	private void OnEnable()
 	{
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameStart, this);
@@ -77,5 +94,10 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 				skillDestinationUI.Hide();
 				break;
 		}
+	}
+	
+	public void ShowPausePopup()
+	{
+		pausePopup.Show();
 	}
 }

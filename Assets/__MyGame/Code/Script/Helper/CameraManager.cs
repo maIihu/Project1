@@ -1,4 +1,5 @@
 ﻿using _MyCore.DesignPattern.Singleton;
+using DG.Tweening;
 using UnityEngine;
 
 namespace __MyGame.Code.Script.Helper
@@ -6,10 +7,15 @@ namespace __MyGame.Code.Script.Helper
     public class CameraManager : Singleton<CameraManager>
     {
         public Camera mainCamera;
+        
+        private Vector3 originPos;
+        private Tween shakeTween;
 
         private void Awake()
         {
             Initialize(this);
+            originPos = transform.localPosition;
+
         }
 
         //2D OrthorCamera
@@ -80,6 +86,16 @@ namespace __MyGame.Code.Script.Helper
             mainCamera.transform.position = cameraCenter + (mainCamera.transform.rotation * Vector3.back) * Mathf.Abs(mainCamera.transform.position.z);
             Vector3 pos = mainCamera.transform.position + mainCamera.transform.forward * -60;
             mainCamera.transform.position = pos;
+        }
+        
+        public void Shake(float duration = 0.08f, float strength = 0.1f)
+        {
+            shakeTween?.Kill();
+            transform.localPosition = originPos;
+
+            shakeTween = transform
+                .DOShakePosition(duration, strength, vibrato: 20, randomness: 90, fadeOut: true)
+                .SetUpdate(true); 
         }
     }
 }
