@@ -187,72 +187,9 @@ namespace __MyGame.Code.Script
 			}
 			return acted;
 		}
-
-		//private List<Node> FindPath(TileEntity ent, Node fromNode, Vector2 dir, bool isGhost)
-		//{
-		//	int stepLeft = ent.moveStep;
-		//	var path = new List<Node>();
-		//	var nextNode = fromNode;
-		//	bool slideLatched = false;
-
-		//	path.Add(fromNode);
-
-		//	while (true)
-		//	{
-		//		bool forcesSlideContinues = false;
-		//		ApplyNodeEffects(ent, nextNode, ref stepLeft, ref slideLatched, ref forcesSlideContinues);
-
-		//		if (!forcesSlideContinues && !slideLatched && stepLeft-- <= 0)
-		//		{
-		//			break;
-		//		}
-		//		var probeNode = _board.GetNodeAtPosition(nextNode.GridPos + dir);
-		//		if (!probeNode) break;
-		//		if(!isGhost && HandleBlocker(ent, probeNode)) break;
-
-		//		var effectNext = probeNode.nodeEffect?.effect;
-		//		if(effectNext is SlideNodeEffect)
-		//			slideLatched = true;
-		//		nextNode = probeNode;
-		//		path.Add(nextNode);
-		//	}
-		//	return path;
-		//}
-
-		//public List<Node> BuildPath(TileEntity ent, Node fromNode, Vector2 dir, bool isGhost)
-		//{
-		//	return FindPath(ent, fromNode, dir, isGhost);
-		//}
-		//public HashSet<PlayerEntity> RunPhase(CastPhase phase)
-		//{
-		//	return ExecutePhase(phase);
-		//}
-
-		//public List<EntityMoveStep> PlanShift(Vector2 dir, HashSet<PlayerEntity> actedInstead = null)
-		//{
-		//	var steps = new List<EntityMoveStep>();
-		//	var ordered = OrderEntitiesByDirection(_board.GetAllEntities(), dir);
-		//	foreach(var ent in ordered)
-		//	{
-		//		if (!ent) continue;
-		//		if (actedInstead != null && ent is PlayerEntity p && actedInstead.Contains(p)) continue;
-		//		bool isGhost = ent is EnemyEntity ee && ee.HasTrait<IGhostMove>();
-		//		var fromNode = isGhost ? _board.GetNodeAtPosition(ent.transform.position) : _board.GetNodeWithEntity(ent);
-		//		if(!fromNode) continue;
-		//		var path = FindPath(ent,fromNode, dir, isGhost);
-		//		var endNode = path.Count > 0 ? path[^1] : fromNode;
-
-		//		steps.Add(new EntityMoveStep
-		//		{
-		//			ent = ent,
-		//			path = path,
-		//			startNode = fromNode,
-		//			endNode = endNode,
-		//			isGhost = isGhost
-		//		});
-
-		//	}
-		//	return steps;
-		//}
+		public HashSet<PlayerEntity> RunPhase(CastPhase phase)
+		{
+			return ExecutePhase(phase);
+		}
 	}
 }

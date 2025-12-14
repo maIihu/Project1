@@ -165,6 +165,42 @@ namespace __MyGame.Code.Script
             boundCol.enabled = false;
         }
 
+        public void OnEntityDamaged(TileEntity damagedEntity,TileEntity attacker, int damageTaken)
+        {
+            if(damagedEntity is PlayerEntity player)
+            {
+                foreach(var kv in player.abilities)
+                {
+                    var ability = kv.Key;
+                    if (ability == null) continue;
+                    if (ability.phase != CastPhase.Reaction) continue;
+                    if (!player.CanUse(ability)) continue;
+
+                    var ctx = new AbilityContext
+                    {
+                        board = board,
+                        gameLogic = GameLogic,
+                        targetNode = attacker != null ? board.GetNodeWithEntity(attacker) : null,
+                        direction = attacker != null ? Vector2Int.RoundToInt((Vector2)(attacker.transform.position - player.transform.position))
+                    : Vector2Int.zero
+                    };
+					QueueAbility(player, ability, ctx);
+				}
+                GameLogic.RunPhase(CastPhase.Reaction);
+			}
+            if(damagedEntity is EnemyEntity enemy)
+            {
+                var node = board.GetNodeWithEntity(enemy);
+                foreach (var t in enemy.enemyType.enemyTraits)
+                {
+                    if(t is IOnDamaged reactive)
+                    {
+                        reactive.OnDamaged(board, enemy, attacker, damageTaken);
+					}
+                }
+			}
+        }
+
         #endregion
 
         #region ----------Public Method----------
