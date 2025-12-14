@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pos: {x: 0, y: 0}
-  BlocksMovement: 0
+  BlocksMovement: 1
   moveStep: 0
   maxHP: 0
   currentHP: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   attack: 0
   entitySprite: {fileID: 0}
   entityPortrait: {fileID: 0}
-  floatingText: {fileID: 0}
+  statView: {fileID: 0}
   moveAnimPerTile: 0.1
   moveEase: 4
   useJumpArc: 1

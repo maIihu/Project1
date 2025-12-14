@@ -94,6 +94,7 @@ namespace __MyGame.Code.Script
         {
             spriteRenderer.sprite = sprite;
 		}
+		
 		public void SetBaseSprite(Sprite sprite)
 		{
 			baseSprite = sprite;
