@@ -81,7 +81,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 				if(player == null) Debug.Log(message.Type + " player is null");
 				if (player == null) return;
 				playerInfoController.Bind(player);
-				skillListController.BuildForm(player);
+				skillListController.BuildPlayerSkill(player);
 				growthUIManager.Initial(player);
 				break;
 			case ProjectMessageType.OnLoadGame:

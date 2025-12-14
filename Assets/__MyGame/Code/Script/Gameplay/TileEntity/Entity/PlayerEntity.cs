@@ -8,7 +8,10 @@ using UnityEngine;
 public class PlayerEntity : TileEntity, ILevelUpAble
 {
 	public CharacterClass characterClass;
-	public Dictionary<BaseCharacterAbility,int> abilities = new Dictionary<BaseCharacterAbility, int>();
+	private readonly HashSet<BaseCharacterAbility> learnedAbilities = new HashSet<BaseCharacterAbility>();
+	public Dictionary<BaseCharacterAbility,int> cooldowns = new Dictionary<BaseCharacterAbility, int>();
+
+	public IEnumerable<BaseCharacterAbility> LearnedAbilities => learnedAbilities;
 	public int level { get; private set; } = 1;
 	public int currentExp { get; private set; } = 0;
 
@@ -21,6 +24,8 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 	public event System.Action<int> OnLevelChanged;
 	public event System.Action<int,int> OnExpChanged;
 
+	public event System.Action<BaseCharacterAbility> OnAbilityLearned;
+	public event System.Action<BaseCharacterAbility,int> OnAbilityCooldownChanged;	
 	public void CharacterInitial(CharacterClass characterClass)
 	{
 		this.characterClass = characterClass;
@@ -33,19 +38,20 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		{
 			entityPortrait = characterClass.classPortrait;
 		}
-		abilities.Clear();
 		moveStep = characterClass.moveStep;
 		SyncWorldPosToGrid();
 
 		level = 1;
 		currentExp = 0;
 		OnExpChanged?.Invoke(currentExp, ExpToNextLevel);
-		
+
+		learnedAbilities.Clear();
+		cooldowns.Clear();
+
+		UnlockSkillsForCurrentLevel();
 		statView.InitView();
 		expBall.Init();
 	}
-
-	public bool CanUse(BaseCharacterAbility ability) => abilities.ContainsKey(ability) == false || abilities[ability] <= 0;
 
 	public void GainExp(int exp, Vector3 sourcePos)
 	{
@@ -67,8 +73,61 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		int hpGained = Mathf.RoundToInt(characterClass.baseHP * 0.2f);
 		maxHP += hpGained;
 		OnLevelChanged?.Invoke(level);
+
+		UnlockSkillsForCurrentLevel();
+	}
+	private void UnlockSkillsForCurrentLevel()
+	{
+		if (characterClass == null || characterClass.abilities == null) return;
+
+		foreach(var slot in characterClass.abilities)
+		{
+			if (slot.ability == null) continue;
+			if (slot.unlockLevel > level) continue;
+
+			if (learnedAbilities.Add(slot.ability))
+			{
+				OnAbilityLearned?.Invoke(slot.ability);
+			}
+		}
 	}
 
+	//CoolDown
+	public bool IsAbilityUnlocked(BaseCharacterAbility ability)
+		=> ability != null && learnedAbilities.Contains(ability);
+	public bool CanUse(BaseCharacterAbility ability)
+	{
+		if (ability == null) return false;
+		if (!IsAbilityUnlocked(ability)) return false;
+
+		return !cooldowns.TryGetValue(ability, out int cd) || cd <= 0;
+	}
+	public void StartCooldown(BaseCharacterAbility ability)
+	{
+		if (ability == null) return;
+		int cd = Mathf.Max(ability.cooldownTurns, 0);
+
+		cooldowns[ability] = cd;
+		OnAbilityCooldownChanged?.Invoke(ability, cd);
+	}
+
+	public void TickCooldowns()
+	{
+		var keys = new List<BaseCharacterAbility>(cooldowns.Keys);
+		foreach (var ab in keys)
+		{
+			int old = cooldowns[ab];
+			if (old <= 0) continue;
+			int nu = old - 1;
+			cooldowns[ab] = nu;
+			OnAbilityCooldownChanged?.Invoke(ab, nu);
+		}
+	}
+
+	public int GetCooldown(BaseCharacterAbility ability)
+	{
+		return cooldowns.TryGetValue(ability, out int cd) ? cd : 0;
+	}
 	public override void TakeDamage(int damage, TileEntity attacker = null)
 	{
 		base.TakeDamage(damage, attacker);

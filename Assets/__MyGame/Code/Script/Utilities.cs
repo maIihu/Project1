@@ -32,3 +32,9 @@ public struct EntityMoveStep
 	public bool isGhost;
 }
 public enum ObstacleType { Bones}
+[System.Serializable]
+public class ClassAbilityEntry
+{
+	public BaseCharacterAbility ability;
+	public int unlockLevel = 1;
+}

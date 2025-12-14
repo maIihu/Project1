@@ -169,9 +169,8 @@ namespace __MyGame.Code.Script
         {
             if(damagedEntity is PlayerEntity player)
             {
-                foreach(var kv in player.abilities)
+                foreach(var ability in player.LearnedAbilities)
                 {
-                    var ability = kv.Key;
                     if (ability == null) continue;
                     if (ability.phase != CastPhase.Reaction) continue;
                     if (!player.CanUse(ability)) continue;

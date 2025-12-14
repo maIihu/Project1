@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3511681036aa1a7439518f9bc85be851, type: 3}
   m_Name: New Counter Attack
   m_EditorClassIdentifier: 
-  abilityName: 
+  abilityName: Counter Attack
   abilityType: 0
   target: 0
-  abilityIcon: {fileID: 0}
-  cooldownTurns: 0
-  phase: 0
+  abilityIcon: {fileID: 21300000, guid: 22ecc89089c0f7d4a8d7c285b8cec8e4, type: 3}
+  cooldownTurns: 2
+  phase: 4
   consumeTurn: 0
-  bonusDamage: 1
+  deflectDamage: 1

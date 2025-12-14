@@ -49,12 +49,17 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 
 	private void OnSkillButtonClicked(BaseCharacterAbility ability)
 	{
-		isSelecting = true;
 		if (ability == null && player == null)
 		{
 			Debug.Log("Null");
 			return;
 		}
+		if(!player.CanUse(ability))
+		{
+			Debug.Log("Cannot use ability");
+			return;
+		}
+
 		currentAbility = ability;
 		currentTarget = ability.target;
 		isSelecting = true;
@@ -110,9 +115,8 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 	private void ConfirmDirection(Vector2Int dir)
 	{
 		if (player == null || currentAbility == null)
-		{
 			return;
-		}
+
 		var ctx = new AbilityContext
 		{
 			board = boardController,
@@ -120,10 +124,18 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 			direction = dir,
 			targetNode = null
 		};
+
+		if (!player.CanUse(currentAbility) || !currentAbility.CanCast(player, ctx))
+		{
+			FinishSelection();
+			return;
+		}
+
 		gameplayManager.QueueAbility(player, currentAbility, ctx);
 		StartCoroutine(boardController.ShiftAnimated(dir));
 		FinishSelection();
 	}
+
 	#endregion
 	#region Node mode
 	private void StartNodeMode()
@@ -187,7 +199,8 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 		}
 		else
 		{
-			gameplayManager.QueueAbility(player, currentAbility, ctx);	
+			gameplayManager.QueueAbility(player, currentAbility, ctx);
+			FinishSelection();
 		}
 	}
 	//private IEnumerator CastImmediate(PlayerEntity user, BaseCharacterAbility ability, AbilityContext context)
@@ -206,16 +219,21 @@ public class SkillSelectedUIController : Singleton<SkillSelectedUIController>
 	//}
 	private async Task CastImediate(PlayerEntity user, BaseCharacterAbility ability, AbilityContext context)
 	{
+		if (!user.CanUse(ability) || !ability.CanCast(user, context))
+		{
+			FinishSelection();
+			return;
+		}
+
 		gameplayManager.LockInput();
 		await ability.OnCast(user, context);
-		if (!user.abilities.ContainsKey(ability))
-		{
-			user.abilities[ability] = 0;
-		}
-		user.abilities[ability] = Mathf.Max(1, ability.cooldownTurns);
+
+		user.StartCooldown(ability);
+
 		gameplayManager.UnlockInput();
 		FinishSelection();
 	}
+
 	private void CancelSelection()
 	{
 		FinishSelection();

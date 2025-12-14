@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0cb9399eb9c594ea210d4d350c1230, type: 3}
   m_Name: RedMapSpikeNode
   m_EditorClassIdentifier: 
-  spikeEffect: {fileID: 0}
+  spikeEffect: {fileID: 11400000, guid: 325924604f48cd6469027ed8809bf595, type: 2}

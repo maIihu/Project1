@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb38a5a094549c198c0fd587bdb22c9, type: 3}
   m_Name: MapRed
   m_EditorClassIdentifier: 
-  mapType: 0
-  sprite1: {fileID: 0}
-  sprite2: {fileID: 0}
-  mapDifficulty: 0
-  stepsToNextLevel: 0
-  effects: []
+  mapType: 2
+  sprite1: {fileID: 21300000, guid: e5d842e5a5979214c92bd577b25a34b0, type: 3}
+  sprite2: {fileID: 21300000, guid: 63009de0200d28e4d88f302214efc5bc, type: 3}
+  mapDifficulty: 1
+  stepsToNextLevel: 10
+  effects:
+  - {fileID: 11400000, guid: fa400b452fa8e4e45a8449b4a25ed4e6, type: 2}

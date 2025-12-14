@@ -440,12 +440,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 215630319969178132, guid: 2de9e3533d9a5774b8bc71ff3bddbe89, type: 3}
     - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
+      propertyPath: editorMapType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: mapEffectRunner
       value: 
       objectReference: {fileID: 415082005}
     - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
+      propertyPath: editorSpawnSpikes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: enemyTypeArr.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
+      propertyPath: mapDataArray.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: enemyTypeArr.Array.data[0]
@@ -463,6 +475,10 @@ PrefabInstance:
       propertyPath: enemyTypeArr.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: 11cd267dde474904cbd6c7b4c1bd7313, type: 2}
+    - target: {fileID: 4946722010099701228, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
+      propertyPath: mapDataArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: b15910733ce2ab54882319eec5db3b42, type: 2}
     - target: {fileID: 6944341175958657524, guid: 2ee01f416b81f22439d96fc3f8ef2c45, type: 3}
       propertyPath: m_Name
       value: Board
@@ -732,6 +748,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1485312719631784142, guid: d0adbdd2bf61da34cbb17a03a832cbc3, type: 3}
+      propertyPath: passiveSkillPrefab
+      value: 
+      objectReference: {fileID: 7492182912283416308, guid: a02607993b12445499aa0206368567f9, type: 3}
     - target: {fileID: 7307483321491694143, guid: d0adbdd2bf61da34cbb17a03a832cbc3, type: 3}
       propertyPath: m_Name
       value: ===UI=== h

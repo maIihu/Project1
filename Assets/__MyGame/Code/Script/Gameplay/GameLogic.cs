@@ -33,6 +33,7 @@ namespace __MyGame.Code.Script
 			{
 				node.ReduceExistTurn();
 			}
+				_board.player.TickCooldowns();
 		}
 
 		private static bool IsGhost(TileEntity ent) => ent is EnemyEntity ee && ee.HasTrait<IGhostMove>();
@@ -161,29 +162,22 @@ namespace __MyGame.Code.Script
 			var acted = new HashSet<PlayerEntity>();
 
 			var pipeline = GameplayManager.Instance.abilityPipeLine;
-			var casts = pipeline.Drain(phase);	
-			foreach(var c in casts)
+			var casts = pipeline.Drain(phase);
+			foreach (var c in casts)
 			{
-				if(c.user == null || c.ability == null) continue;
-				//if(!c.ability.CanCast(c.user, c.context)) continue;
-				//var routine = c.ability.OnCast(c.user, c.context);
-				//if(routine != null)
-				//{
-				//	GameplayManager.Instance.StartCoroutine(routine);
-				//}
+				if (c.user == null || c.ability == null) continue;
+
+				if (!c.user.CanUse(c.ability)) continue;
+				if (!c.ability.CanCast(c.user, c.context)) continue;
 
 				c.ability.OnCast(c.user, c.context);
-				if (!c.user.abilities.ContainsKey(c.ability))
-				{
-					c.user.abilities[c.ability] = 0;
-				}
-				c.user.abilities[c.ability] = Mathf.Max(1,c.ability.cooldownTurns);
+
+				c.user.StartCooldown(c.ability);
 
 				if (c.ability.consumeTurn)
 				{
 					acted.Add(c.user);
 				}
-
 			}
 			return acted;
 		}

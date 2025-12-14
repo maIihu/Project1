@@ -30,7 +30,7 @@ public class CounterAttack : BaseCharacterAbility
 	private void OnEnable()
 	{
 		abilityName = "Counter Attack";
-		abilityType = AbilityType.Active;
+		abilityType = AbilityType.Passive;
 		target = AbilityTarget.Instant;
 		phase = CastPhase.Reaction;
 		consumeTurn = false;

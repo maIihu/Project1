@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectName: Wind Node Effect
   duration: -1
-  effectSpriteOverlay: {fileID: -9161075430419204010, guid: 8461c0594822c744d9275eb0efc74c67, type: 3}
+  effectSpriteOverlay: {fileID: 21300000, guid: ce6766fb60eae8c4a8de8d39cd33798c, type: 3}
   priority: 1000
