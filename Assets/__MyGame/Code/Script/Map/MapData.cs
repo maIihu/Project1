@@ -6,6 +6,7 @@ namespace __MyGame.Code.Script
     {
         Green, Blue, Red
     }
+    
     [CreateAssetMenu()]
     public class MapData : ScriptableObject
     {
