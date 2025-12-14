@@ -81,9 +81,13 @@ namespace __MyGame.Code.Script
 			: _board.GetNodeWithEntity(ent);
 			if (!fromNode) return;
 
+			var effectiveDir = dir;
+			if (fromNode.nodeEffect?.effect is IModifyDirection md)
+				md.ModifyDirection(ref effectiveDir, _board, ent, fromNode);
+
 			if (!isGhost) fromNode.OccupiedEntity = null;
-			var nextNode = FindNextNode(ent, fromNode, dir,isGhost);
-			
+			var nextNode = FindNextNode(ent, fromNode, effectiveDir, isGhost);
+
 			var moved = nextNode != fromNode;
 
 			if (!isGhost) nextNode.OccupiedEntity = ent;

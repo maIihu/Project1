@@ -24,7 +24,6 @@ namespace __MyGame.Code.Script
 
         [SerializeField] private CharacterClass testClass;
 	    [SerializeField] private EnemyType[] enemyTypeArr;
-        [SerializeField] private SpikeNodeEffect spikeNodeEffect;
         
         private GameLogic logic;
 
@@ -43,7 +42,9 @@ namespace __MyGame.Code.Script
 		//init map in scene test 
 		[SerializeField] private MapType editorMapType = MapType.Green;
 		[SerializeField] private bool editorSpawnSpikes = true;
-		
+
+		[SerializeField] private MapEffectRunner mapEffectRunner;
+
 		public MapData CurrentMapData { get; private set; }
 		
 		private void Awake()
@@ -59,7 +60,7 @@ namespace __MyGame.Code.Script
             enemyEntities = new List<EnemyEntity>();
             obstacleEntities = new List<ObstacleEntity>();
 
-            SpawnMapWithType(MapType.Green);
+            SpawnMapWithType(MapType.Red);
             SpawnPlayerRandomly();
         }
         
@@ -113,14 +114,11 @@ namespace __MyGame.Code.Script
                     var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
                     node.name = node.GridPos.ToString();
                     node.SetBaseSprite((i + j) % 2 == 0 ? mapData.sprite1 : mapData.sprite2);
-                    // if (Random.value <= 0.1)
-                    // {
-                    //     SetSpikeNode(node);
-                    // }
                     _nodeInBoard.Add(node);
                 }
             }
-        }
+			mapEffectRunner.ApplyAll(mapData,this);
+		}
 
         #region 
         private void SpawnPlayerRandomly()
@@ -217,10 +215,6 @@ namespace __MyGame.Code.Script
         public Node GetNodeAtPosition(Vector2 pos) => _nodeInBoard.FirstOrDefault(n => n.GridPos == pos);
         public List<Node> AllNode => _nodeInBoard;
 
-        public void SetSpikeNode(Node node)
-        {
-            node.AddEffect(spikeNodeEffect, spikeNodeEffect.duration);
-        }
 		#endregion
 		
 		public IEnumerator ShiftAnimated(Vector2 dir)
@@ -294,67 +288,26 @@ namespace __MyGame.Code.Script
 		}
 		#region ----------Editor----------
 
-		[ContextMenu("Preview/Build Board In Editor")]
-		private void Editor_BuildBoard()
-		{
-			if (Application.isPlaying)
-			{
-				return;
-			}
 
-			Editor_ClearBoard();
+		//[ContextMenu("Preview/Clear Board In Editor")]
+		//private void Editor_ClearBoard()
+		//{
+		//	if (nodeContainer)
+		//	{
+		//		for (int i = nodeContainer.childCount - 1; i >= 0; i--)
+		//			DestroyImmediate(nodeContainer.GetChild(i).gameObject);
+		//	}
+		//	if (entityContainer)
+		//	{
+		//		for (int i = entityContainer.childCount - 1; i >= 0; i--)
+		//			DestroyImmediate(entityContainer.GetChild(i).gameObject);
+		//	}
 
-			_nodeInBoard = new List<Node>();
-			entitiesInBoard = new List<TileEntity>();
-			enemyEntities = new List<EnemyEntity>();
-			obstacleEntities = new List<ObstacleEntity>();
-
-			var map = mapDataArray?.FirstOrDefault(m => m.mapType == editorMapType)
-			          ?? mapDataArray?.FirstOrDefault();
-
-			if (map == null)
-			{
-				return;
-			}
-			var offset = BoardSize / 2;
-			for (int i = 0; i < BoardSize; i++)
-			{
-				for (int j = 0; j < BoardSize; j++)
-				{
-					var positionToSpawn = new Vector3(i - offset, j - offset, 0);
-					var node = Instantiate(nodePrefab, positionToSpawn, Quaternion.identity, nodeContainer);
-					node.name = $"Node ({i},{j})";
-					node.SetBaseSprite((i + j) % 2 == 0 ? map.sprite1 : map.sprite2);
-
-					if (editorSpawnSpikes && Random.value <= 0.1f)
-					{
-						SetSpikeNode(node);
-					}
-
-					_nodeInBoard.Add(node);
-				}
-			}
-		}
-
-		[ContextMenu("Preview/Clear Board In Editor")]
-		private void Editor_ClearBoard()
-		{
-			if (nodeContainer)
-			{
-				for (int i = nodeContainer.childCount - 1; i >= 0; i--)
-					DestroyImmediate(nodeContainer.GetChild(i).gameObject);
-			}
-			if (entityContainer)
-			{
-				for (int i = entityContainer.childCount - 1; i >= 0; i--)
-					DestroyImmediate(entityContainer.GetChild(i).gameObject);
-			}
-
-			_nodeInBoard = new List<Node>();
-			entitiesInBoard = new List<TileEntity>();
-			enemyEntities = new List<EnemyEntity>();
-			obstacleEntities = new List<ObstacleEntity>();
-		}
+		//	_nodeInBoard = new List<Node>();
+		//	entitiesInBoard = new List<TileEntity>();
+		//	enemyEntities = new List<EnemyEntity>();
+		//	obstacleEntities = new List<ObstacleEntity>();
+		//}
 
 		#endregion
 

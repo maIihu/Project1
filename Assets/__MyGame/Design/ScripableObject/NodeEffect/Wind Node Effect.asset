@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ecc35525abd544ca9ba75d99b3acaa, type: 3}
+  m_Name: Wind Node Effect
+  m_EditorClassIdentifier: 
+  effectName: Wind Node Effect
+  duration: -1
+  effectSpriteOverlay: {fileID: -9161075430419204010, guid: 8461c0594822c744d9275eb0efc74c67, type: 3}
+  priority: 1000

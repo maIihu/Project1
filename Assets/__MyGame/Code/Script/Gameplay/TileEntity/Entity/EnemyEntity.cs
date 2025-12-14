@@ -92,48 +92,5 @@ public class EnemyEntity : TileEntity
 	}
 
 	public int EXPReward => enemyType.expYield;	
-	#region
-	public void AE_DeathImpact()
-	{
-		var board = BoardController.Instance;
-		var node = board.GetNodeWithEntity(this);
-		if(traits != null)
-		{
-			foreach(var t in traits)
-			{
-				if(t is IOnDeath deathTrait)
-				{
-					deathTrait.OnDeath(board, this, node);
-				}
-			}
-		}
-	}
-	public void AE_DeathEnd()
-	{
-		CompleteDeath();
-	}
-	private void CompleteDeath()
-	{
-		Destroy(gameObject);
-	}
-	protected override IEnumerator DeathRoutine()
-	{
-		_isDead = true;
-
-		BlocksMovement = false;
-
-		if (animator)
-		{
-			animator.SetTrigger("Die");
-			yield return new WaitForSeconds(1f);
-			CompleteDeath();
-		}
-		else
-		{
-			yield return null;
-			CompleteDeath();
-		}
-	}
-	#endregion
 
 }

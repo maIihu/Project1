@@ -16,5 +16,6 @@ namespace __MyGame.Code.Script
         public float mapDifficulty;
 
         public int stepsToNextLevel;
+        public MapEffect[] effects;
     }
 }
