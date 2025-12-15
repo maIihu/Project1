@@ -7,6 +7,7 @@ using UnityEngine;
 public class ThornyTrait : EnemyTrait, IOnDamaged
 {
 	public int reflectDamage = 1;
+	public int cooldownTurns = 2;
 	public void OnDamaged(BoardController board, EnemyEntity self, TileEntity attacker, int damageTaken)
 	{
 		if (attacker == null) return;

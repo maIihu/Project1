@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5187262428414255921}
   - component: {fileID: 5090245698669060810}
-  - component: {fileID: 4729136020795367945}
+  - component: {fileID: 4273016410763056734}
   m_Layer: 0
   m_Name: LargeSwingAnimation
   m_TagString: Untagged
@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 916782364671411926}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7630068, w: 0.64639044}
-  m_LocalPosition: {x: -1.1000034, y: -2.5197, z: -0.0012778159}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,18 +74,18 @@ SpriteRenderer:
   m_SortingLayerID: -1334078241
   m_SortingLayer: 3
   m_SortingOrder: 393
-  m_Sprite: {fileID: -405105488, guid: ac90bf5232338074f9018b924128003c, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.28}
+  m_Size: {x: 1.26, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4729136020795367945
+--- !u!114 &4273016410763056734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,16 +94,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 916782364671411926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88117e99ecaa76449a30e86e8e98dbaf, type: 3}
+  m_Script: {fileID: 11500000, guid: c50f291af672d844e9606d2b84f6e0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRender: {fileID: 5090245698669060810}
   frames:
-  - {fileID: -1032340038, guid: ac90bf5232338074f9018b924128003c, type: 3}
-  - {fileID: 1834249467, guid: ac90bf5232338074f9018b924128003c, type: 3}
-  - {fileID: -1865540592, guid: ac90bf5232338074f9018b924128003c, type: 3}
-  - {fileID: -405105488, guid: ac90bf5232338074f9018b924128003c, type: 3}
-  - {fileID: -693955518, guid: ac90bf5232338074f9018b924128003c, type: 3}
-  - {fileID: -1243032749, guid: ac90bf5232338074f9018b924128003c, type: 3}
-  - {fileID: -175012848, guid: ac90bf5232338074f9018b924128003c, type: 3}
-  frameRate: 0.1
+  - {fileID: 21300000, guid: bb21e9bb15a6ff249b8228241cb68ac6, type: 3}
+  - {fileID: 21300000, guid: 29f5f49a3272dd04ea9b81d30867552e, type: 3}
+  - {fileID: 21300000, guid: 6d81c594790d24a48a4a8fec878953d8, type: 3}
+  - {fileID: 21300000, guid: 7115e91291ce586498fb487a05eca4e1, type: 3}
+  frameRate: 0.25

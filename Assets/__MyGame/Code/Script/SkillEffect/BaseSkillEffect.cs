@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class BaseSkillEffect : MonoBehaviour
 {
-	[SerializeField] private SpriteRenderer spriteRender;
-	[SerializeField] private Sprite[] frames;
-	[SerializeField] private float frameRate = 0.1f;
+	[SerializeField] protected SpriteRenderer spriteRender;
+	[SerializeField] protected Sprite[] frames;
+	[SerializeField] protected float frameRate = 0.1f;
 
-	private CancellationTokenSource token;
+	protected CancellationTokenSource token;
 
 	private void Awake()
 	{
@@ -20,16 +20,8 @@ public class BaseSkillEffect : MonoBehaviour
 	private void OnDisable()
 	{
 		token?.Cancel();
-		token?.Dispose();
+		token?.Dispose();	
 		token = null;
-	}
-
-	public void PlayWithDirection(Vector2Int dir)
-	{
-		token?.Cancel();
-		token?.Dispose();
-		token = new CancellationTokenSource();
-		_= PlayAnimation(dir, token.Token);
 	}
 
 	public void Play()
@@ -40,7 +32,7 @@ public class BaseSkillEffect : MonoBehaviour
 		_ = PlayAnimation(Vector2Int.zero, token.Token);
 	}
 
-	public async UniTask PlayAnimation(Vector2Int dir, CancellationToken cts)
+	public virtual async UniTask PlayAnimation(Vector2Int dir, CancellationToken cts)
 	{
 		float angle = 0f;
 		if (dir == Vector2Int.right) angle = -90f;
