@@ -107,10 +107,10 @@ MonoBehaviour:
   entitySprite: {fileID: 0}
   entityPortrait: {fileID: 0}
   statView: {fileID: 0}
-  moveAnimPerTile: 0.1
-  moveEase: 4
+  moveAnimPerTile: 0
+  moveEase: 0
   useJumpArc: 1
-  arcHeight: 0.25
+  arcHeight: 0
   sprite: {fileID: 0}
   squashX: 1.08
   squashY: 0.88

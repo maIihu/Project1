@@ -110,10 +110,10 @@ namespace __MyGame.Code.Script
         public void ReloadAllLevel()
         {
             BoardController.Instance.ClearBoard();
-            board.InitBoard();
+            board.LoadNewMapWithPlayer();
             _stepMoveCounter = 0;
             _maxStepMoveLevel = board.CurrentMapData.stepsToNextLevel;
-            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnMoveControl,
+            MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameReload,
                 new object[]{_stepMoveCounter, _maxStepMoveLevel}));
             ChangeState(GameState.Playing);
             Debug.Log("Reload");
@@ -239,7 +239,6 @@ namespace __MyGame.Code.Script
 
         public void CalculateSpawnRate()
         {
-            
             _randomFluctuation = Random.Range(-0.2f, 0.2f);
             SpawnModifier = _progressFactor * 0.4f + _playerFactor * 0.2f 
                                                   + _mapDifficulty * 0.3f + _randomFluctuation * 0.1f;

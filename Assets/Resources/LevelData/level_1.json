@@ -1,70 +1,262 @@
 {
     "levelId": 1,
-    "col": 3,
-    "row": 3,
+    "col": 6,
+    "row": 6,
+    "mapDifficulty": 1.0,
+    "stepsToNextLevel": 10,
+    "mapEffect": "Red",
     "nodesInLevel": [
         {
             "Position": {
+                "x": -3.0,
+                "y": -3.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -3.0,
+                "y": -2.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": -3.0,
+                "y": -1.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -3.0,
+                "y": 0.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": -3.0,
+                "y": 1.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -3.0,
+                "y": 2.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": -2.0,
+                "y": -3.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": -2.0,
+                "y": -2.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -2.0,
+                "y": -1.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": -2.0,
+                "y": 0.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -2.0,
+                "y": 1.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": -2.0,
+                "y": 2.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -1.0,
+                "y": -3.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -1.0,
+                "y": -2.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
                 "x": -1.0,
                 "y": -1.0
             },
-            "ImgId": "GreenTile1"
+            "ImgId": "RedTile1"
         },
         {
             "Position": {
                 "x": -1.0,
                 "y": 0.0
             },
-            "ImgId": "GreenTile2"
+            "ImgId": "RedTile2"
         },
         {
             "Position": {
                 "x": -1.0,
                 "y": 1.0
             },
-            "ImgId": "GreenTile1"
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": -1.0,
+                "y": 2.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": 0.0,
+                "y": -3.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": 0.0,
+                "y": -2.0
+            },
+            "ImgId": "RedTile1"
         },
         {
             "Position": {
                 "x": 0.0,
                 "y": -1.0
             },
-            "ImgId": "GreenTile2"
+            "ImgId": "RedTile2"
         },
         {
             "Position": {
                 "x": 0.0,
                 "y": 0.0
             },
-            "ImgId": "GreenTile1"
+            "ImgId": "RedTile1"
         },
         {
             "Position": {
                 "x": 0.0,
                 "y": 1.0
             },
-            "ImgId": "GreenTile2"
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": 0.0,
+                "y": 2.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": 1.0,
+                "y": -3.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": 1.0,
+                "y": -2.0
+            },
+            "ImgId": "RedTile2"
         },
         {
             "Position": {
                 "x": 1.0,
                 "y": -1.0
             },
-            "ImgId": "GreenTile1"
+            "ImgId": "RedTile1"
         },
         {
             "Position": {
                 "x": 1.0,
                 "y": 0.0
             },
-            "ImgId": "GreenTile2"
+            "ImgId": "RedTile2"
         },
         {
             "Position": {
                 "x": 1.0,
                 "y": 1.0
             },
-            "ImgId": "GreenTile1"
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": 1.0,
+                "y": 2.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": 2.0,
+                "y": -3.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": 2.0,
+                "y": -2.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": 2.0,
+                "y": -1.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": 2.0,
+                "y": 0.0
+            },
+            "ImgId": "RedTile1"
+        },
+        {
+            "Position": {
+                "x": 2.0,
+                "y": 1.0
+            },
+            "ImgId": "RedTile2"
+        },
+        {
+            "Position": {
+                "x": 2.0,
+                "y": 2.0
+            },
+            "ImgId": "RedTile1"
         }
     ]
 }

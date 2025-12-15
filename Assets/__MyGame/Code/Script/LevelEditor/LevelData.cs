@@ -16,5 +16,8 @@ public class LevelData
     public int levelId;
     public int col;
     public int row;
+    public float mapDifficulty;
+    public int stepsToNextLevel;
+    public string mapEffect;
     public List<NodeData> nodesInLevel;
 }

@@ -12,16 +12,16 @@ public class LevelEditorUI : MonoBehaviour
     [SerializeField] private LevelDesign levelDesign;
     
     [SerializeField] private Button generateBoardButton;
-    [SerializeField] private TMP_InputField boarsSizeInputField;
     [SerializeField] private MapData[] mapDataArr;
     [SerializeField] private TMP_Dropdown dropdown;
     
     [SerializeField] private TMP_InputField levelIdInputField;
+    [SerializeField] private TMP_InputField difficultyInputField;
+    [SerializeField] private TMP_InputField targetStepInputField;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button loadButton;
     
     private MapData _chosenMapData;
-    private int _chosenBoardSize;
     private int _levelId;
 
     private void Awake()
@@ -36,20 +36,13 @@ public class LevelEditorUI : MonoBehaviour
         SetupDropdown();
 
         OnDropdownChanged(0);
-        OnInputChanged(boarsSizeInputField.text);
 
         dropdown.onValueChanged.AddListener(OnDropdownChanged);
-        boarsSizeInputField.onEndEdit.AddListener(OnInputChanged);
     }
 
     private void OnDropdownChanged(int index)
     {
         _chosenMapData = mapDataArr[index];
-    }
-
-    private void OnInputChanged(string value)
-    {
-        int.TryParse(value, out _chosenBoardSize);
     }
     
     private void SetupDropdown()
@@ -66,13 +59,16 @@ public class LevelEditorUI : MonoBehaviour
 
     private void GenerateBoard()
     {
-        levelDesign.GenerateBoard(_chosenMapData, _chosenBoardSize);
+        levelDesign.GenerateBoard(_chosenMapData);
     }
 
     private void SaveLevelData()
     {
         _levelId = int.Parse(levelIdInputField.text);
-        var levelData = levelDesign.ExportLevelData(_levelId, _chosenBoardSize);
+        var diff = int.Parse(difficultyInputField.text);
+        var targetStep = int.Parse(targetStepInputField.text);
+        
+        var levelData = levelDesign.ExportLevelData(_levelId, diff, targetStep, _chosenMapData.mapType);
 
         string json = JsonUtility.ToJson(levelData, true);
         string levelName = "level_"  + _levelId + ".json";

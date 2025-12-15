@@ -3,6 +3,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -47,9 +48,16 @@ namespace __MyGame.Code.Script
 
 		public MapData CurrentMapData { get; private set; }
 		
+		public List<LevelData> levelData;
+		
 		private void Awake()
         {
             Initialize(this);
+        }
+
+        private void Start()
+        {
+	        LoadDataLevelFromResources();
         }
 
         public void InitBoard()
@@ -63,13 +71,41 @@ namespace __MyGame.Code.Script
             SpawnMapWithType(MapType.Red);
             SpawnPlayerRandomly();
         }
+
+        private void LoadDataLevelFromResources()
+        {
+	        levelData = new List<LevelData>();
+	        levelData = Resources.LoadAll<TextAsset>("LevelData")
+		        .Select(t => JsonUtility.FromJson<LevelData>(t.text))
+		        .OrderBy(d => d.levelId)
+		        .ToList();
+        }
+
+        public void LoadNewMapWithPlayer()
+        {
+	        logic = GameplayManager.Instance.GameLogic;
+	        _nodeInBoard = new List<Node>();
+	        entitiesInBoard = new List<TileEntity>();
+	        enemyEntities = new List<EnemyEntity>();
+	        obstacleEntities = new List<ObstacleEntity>();
+	        
+	        SpawnMapWithType(MapType.Red);
+	        player.sprite.transform.localPosition = Vector3.zero;
+	        player.sprite.transform.localScale = Vector3.one * 0.75f;
+	        var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(n => Random.value).First();
+			player.transform.position = free.GridPos;
+			free.OccupiedEntity = player;
+			entitiesInBoard.Add(player);
+			
+        }
         
         public void ClearBoard()
         {
 	        //foreach (var node in _nodeInBoard)
 	        foreach (var node in _nodeInBoard.Where(node => node != null)) Destroy(node.gameObject);
 	        
-	        foreach (var enity in entitiesInBoard.Where(enity => enity != null)) Destroy(enity.gameObject);
+	        foreach (var enity in entitiesInBoard.Where(enity => enity != null)) 
+		        if(enity != player) Destroy(enity.gameObject);
 
 	        foreach (var obstacle in obstacleEntities.Where(obstacle => obstacle)) Destroy(obstacle.gameObject);
 
@@ -117,7 +153,7 @@ namespace __MyGame.Code.Script
                     _nodeInBoard.Add(node);
                 }
             }
-			mapEffectRunner.ApplyAll(mapData,this);
+			//mapEffectRunner.ApplyAll(mapData,this);
 		}
 
         #region 

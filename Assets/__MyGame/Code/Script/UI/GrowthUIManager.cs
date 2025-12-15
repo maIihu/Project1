@@ -8,6 +8,7 @@ public class GrowthUIManager : MonoBehaviour
 	[SerializeField] private ExpProgressionBarUI expBar;
 
 	private PlayerEntity player;
+	
 	public void Initial(PlayerEntity playerEntity)
 	{
 		player = playerEntity;
@@ -16,8 +17,8 @@ public class GrowthUIManager : MonoBehaviour
 
 		HandleLevelChanged(player.level);
 		HandleExpChanged(player.currentExp, player.ExpToNextLevel);
-
 	}
+	
 	private void OnDestroy()
 	{
 		if (player != null)
@@ -34,10 +35,12 @@ public class GrowthUIManager : MonoBehaviour
 		player.OnExpChanged -= HandleExpChanged;
 		player = null;
 	}
+	
 	private void HandleLevelChanged(int level)
 	{
 		expBar.UpdateLevel($"Level {level}");
 	}
+	
 	private void HandleExpChanged(int currentExp, int expToNextLevel)
 	{
 		expBar.UpdateProgress(currentExp, expToNextLevel);

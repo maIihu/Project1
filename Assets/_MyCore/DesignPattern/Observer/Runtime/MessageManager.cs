@@ -10,11 +10,11 @@ namespace _MyCore.DesignPattern.Observer.Runtime
         /// <summary>
         /// When the game is over
         /// </summary>
-        OnGameOver, OnLoadGame, OnGameReload,
+        OnGameOver, OnLoadGame, OnGameReload, 
         OnGameStart, OnShowPopup,
-		OnActiveskillSelected,
-        OnActivesSkillCancled,
-        OnMoveControl,
+		OnActiveSkillSelected,
+        OnActivesSkillCancel,
+        OnMoveControl,  
         OnDirectionRequiredSkillSelected,
 		OnNodeRequiredSkillSelected,
         EndOfSkillRequireSelection,

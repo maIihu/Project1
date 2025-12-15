@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b0cb9399eb9c594ea210d4d350c1230, type: 3}
-  m_Name: RedMapSpikeNode
+  m_Script: {fileID: 11500000, guid: 42dac4f11f67b4a45a15f746d4aafc64, type: 3}
+  m_Name: Green
   m_EditorClassIdentifier: 
-  spikeEffect: {fileID: 11400000, guid: 325924604f48cd6469027ed8809bf595, type: 2}
+  windEffect: {fileID: 11400000, guid: df545eb53fdb9ae46b0d2648d3965f2a, type: 2}

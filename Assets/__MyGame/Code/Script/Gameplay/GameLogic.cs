@@ -24,6 +24,7 @@ namespace __MyGame.Code.Script
 			foreach (var ent in ordered) {
 				if(ent is PlayerEntity p && actedInstead.Contains(p))
 					continue;
+				if(ent is DoorEntity door) continue;
 				Move(ent, dir);
 			}
 
@@ -56,7 +57,7 @@ namespace __MyGame.Code.Script
 		public static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
 		{
 			return ents
-				.Where(e => e != null)
+				.Where(e => e != null && !(e is DoorEntity))
 				.Select(e =>
 				{
 					var g = GridOf(e);
@@ -76,6 +77,7 @@ namespace __MyGame.Code.Script
 
 		public void Move(TileEntity ent, Vector2 dir)
 		{
+			if (ent is DoorEntity door) return;
 			bool isGhost = ent is EnemyEntity ee && ee.HasTrait<IGhostMove>();
 
 			var fromNode = isGhost
@@ -96,6 +98,7 @@ namespace __MyGame.Code.Script
 			ent.transform.position = nextNode.GridPos;
 			ent.SyncWorldPosToGrid();
 			var inst = nextNode.nodeEffect;
+			
 			if(inst != null && inst.effect is IOnNodeEnter onEnter)
 			{
 				onEnter.OnNodeEnter(_board, ent, nextNode);

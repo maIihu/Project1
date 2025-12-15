@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using __MyGame.Code.Script;
 using __MyGame.Code.Script.Gameplay.Enemy.ExpBall;
 using __MyGame.Code.Script.Helper;
+using _MyCore.DesignPattern.Observer.Runtime;
 using DG.Tweening;
 using UnityEngine;
 
@@ -64,7 +66,7 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 			LevelUp();
 		}
 		OnExpChanged?.Invoke(currentExp, ExpToNextLevel);
-		//Debug.Log($"player gained {exp} exp point");
+		Debug.Log($"player gained {exp} exp point");
 	}
 
 	public void LevelUp()
@@ -131,9 +133,17 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 	{
 		base.TakeDamage(damage, attacker);
 		//damageFlash.StartFlash();
+		if (currentHP <= 0)
+		{
+			Debug.Log("Player die");
+			GameplayManager.Instance.ChangeState(GameState.Pause);
+			MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameOver));
+			return;
+		}
 		var ft = FloatingTextPool.Instance.Get();
 		ft.Play("-" + damage, this.transform.position);
 		CameraManager.Instance.Shake();
+		
 	}
 
 

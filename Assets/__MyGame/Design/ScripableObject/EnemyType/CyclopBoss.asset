@@ -22,5 +22,5 @@ MonoBehaviour:
   blocksMovement: 0
   enemyTraits:
   - {fileID: 11400000, guid: 86e1fee7c051cb14bab650e0b9260b5b, type: 2}
-  spawnWeight: 10
+  spawnWeight: 0
   expYield: 30

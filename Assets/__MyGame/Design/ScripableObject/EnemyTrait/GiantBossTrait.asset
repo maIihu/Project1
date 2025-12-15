@@ -15,5 +15,5 @@ MonoBehaviour:
   radius: 1
   damage: 2
   cooldownTurns: 3
-  shockwavePrefab: {fileID: 0}
+  shockwavePrefab: {fileID: 5802697189771157560, guid: c8781429f390cd74590cf021352f67de, type: 3}
   shockwaveDuration: 0.4

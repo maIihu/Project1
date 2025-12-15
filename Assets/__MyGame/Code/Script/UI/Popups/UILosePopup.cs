@@ -4,37 +4,29 @@ using UnityEngine.UI;
 
 namespace __MyGame.Code.Script.UI.Popups
 {
-    public class UIPausePopup : UIPopupBase
+    public class UILosePopup : UIPopupBase
     {
-        [SerializeField] private Button continueButton;
-        [SerializeField] private Button settingButton;
+        [SerializeField] private Button replayButton;
         [SerializeField] private Button quitButton;
         
         public override void Init()
         {
-            continueButton.onClick.AddListener(OnContinueButtonClick);
-            settingButton.onClick.AddListener(OnSettingButtonClick);
+            replayButton.onClick.AddListener(OnReplayButtonClick);
             quitButton.onClick.AddListener(OnQuitButtonClick);
         }
 
         public override void Show()
         {
-            this.gameObject.SetActive(true);
+            gameObject.SetActive(true);
         }
 
         public override void Hide()
         {
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
-        private void OnContinueButtonClick()
+        private void OnReplayButtonClick()
         {
-            this.Hide();
-        }
-
-        private void OnSettingButtonClick()
-        {
-            //TODo: open setting popup
         }
 
         private void OnQuitButtonClick()

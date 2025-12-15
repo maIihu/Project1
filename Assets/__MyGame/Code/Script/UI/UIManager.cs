@@ -8,7 +8,6 @@ using __MyGame.Code.Script.UI.Popups;
 using __MyGame.Code.Script.UI.Screens;
 using UnityEngine;
 
-
 [DefaultExecutionOrder(-900)]
 public class UIManager : Singleton<UIManager>, IMessageHandle
 {
@@ -17,6 +16,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 	
 	[Header("----------POPUP----------")]
 	[SerializeField] private UIPausePopup pausePopup;
+	[SerializeField] private UILosePopup losePopup;
 
 	[Header("----------OTHERS----------")]
 	[SerializeField] private UIFade uiFade;
@@ -38,6 +38,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 		InitALlScreen();
 		InitAllPopup();
 		pausePopup.Hide();
+		losePopup.Hide();
 	}
 
 	private void InitALlScreen()
@@ -48,12 +49,14 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 	private void InitAllPopup()
 	{
 		pausePopup.Init();
+		losePopup.Init();
 	}
 	
 	private void OnEnable()
 	{
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameStart, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnLoadGame, this);
+		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameReload, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnGameOver, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnMoveControl, this);
 		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnDirectionRequiredSkillSelected,this);
@@ -66,6 +69,7 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnGameStart, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnLoadGame, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnGameOver, this);
+		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnGameReload, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnMoveControl, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnDirectionRequiredSkillSelected, this);
 		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnNodeRequiredSkillSelected, this);
@@ -87,15 +91,20 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 			case ProjectMessageType.OnLoadGame:
 				uiFade.Fade();
 				break;
+			case ProjectMessageType.OnGameReload:
+				// var player1 = BoardController.Instance.GetPlayer();
+				// if(player1 == null) Debug.Log(message.Type + " player is null");
+				// if (player1 == null) return;
+				// growthUIManager.Initial(player1);
+				var data1 = message.Data;
+				gameplayScreen.UpdateProgress((int)data1[0], (int)data1[1]);
+				Debug.Log("Check");
+				break;
 			case ProjectMessageType.OnGameOver:
 				skillListController.Clear();
 				playerInfoController.Unbind();	
+				losePopup.Show();
 				break;
-			// case ProjectMessageType.OnGameReload:
-			// 	var dataReload = message.Data;
-			// 	Debug.Log(dataReload[0]);
-			// 	gameplayScreen.UpdateProgress((int)dataReload[0], (int)dataReload[1]);
-			// 	break;
 			case ProjectMessageType.OnMoveControl:
 				var data = message.Data;
 				gameplayScreen.UpdateProgress((int)data[0], (int)data[1]);
@@ -109,7 +118,6 @@ public class UIManager : Singleton<UIManager>, IMessageHandle
 			case ProjectMessageType.EndOfSkillRequireSelection:
 				skillDestinationUI.Hide();
 				break;
-
 		}
 	}
 	

@@ -18,10 +18,10 @@ public class SkillListController : MonoBehaviour, IMessageHandle
 	{
 		switch(message.Type)
 		{
-			case ProjectMessageType.OnActiveskillSelected:
+			case ProjectMessageType.OnActiveSkillSelected:
 				OnSkillSelected();
 				break;
-			case ProjectMessageType.OnActivesSkillCancled:
+			case ProjectMessageType.OnActivesSkillCancel:
 				break;
 		}
 	}
@@ -104,12 +104,12 @@ public class SkillListController : MonoBehaviour, IMessageHandle
 
 	private void OnEnable()
 	{
-		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnActiveskillSelected, this);
+		MessageManager.Instance.AddSubscriber(ProjectMessageType.OnActiveSkillSelected, this);
 	}
 
 	private void OnDisable()
 	{
-		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnActiveskillSelected, this);
+		MessageManager.Instance.RemoveSubscriber(ProjectMessageType.OnActiveSkillSelected, this);
 	}
 
 }

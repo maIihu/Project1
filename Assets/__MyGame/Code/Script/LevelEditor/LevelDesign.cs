@@ -9,7 +9,7 @@ public class LevelDesign : MonoBehaviour
     
     private List<Node> _nodeInBoard = new List<Node>();
     
-    public void GenerateBoard(MapData mapData, int boardSize)
+    public void GenerateBoard(MapData mapData, int boardSize = 6)
     {
         ClearBoard();
         var offset = boardSize / 2;
@@ -35,11 +35,14 @@ public class LevelDesign : MonoBehaviour
         _nodeInBoard.Clear();
     }
     
-    public LevelData ExportLevelData(int levelId, int boardSize)
+    public LevelData ExportLevelData( int levelId, int diff, int targetStep, MapType mapType, int boardSize = 6)
     {
         var data = new LevelData
         {
             levelId = levelId,
+            mapDifficulty = diff,
+            stepsToNextLevel = targetStep,
+            mapEffect = mapType.ToString(),
             col = boardSize,
             row = boardSize,
             nodesInLevel = new List<NodeData>()

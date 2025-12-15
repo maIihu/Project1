@@ -41,7 +41,7 @@ public abstract class TileEntity : MonoBehaviour
 	[SerializeField] public float arcHeight = 0.25f;
 
 	[Header("Squash/Stretch")]
-	[SerializeField] private Transform sprite;
+	[SerializeField] public Transform sprite;
 	[SerializeField] private float squashX = 1.08f;
 	[SerializeField] private float squashY = 0.88f;
 	[SerializeField] private float squashRecover = 0.06f;
