@@ -1,27 +1,60 @@
 using __MyGame.Code.Script;
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GiantBossTrait : EnemyTrait, IOnEnemyTratCoolDown, IOnAfterMove
+[CreateAssetMenu(fileName = "GiantBossTrait", menuName = "Enemy/Trait/GiantBossTrait")]
+public class GiantBossTrait : EnemyTrait, IOnAfterMove
 {
+	[Header("Info")]
 	public int radius;
-
 	public int damage;
-	public int cooldown;
-	public bool CanUse()
+	public int cooldownTurns;
+
+	private int currentCooldown;
+
+	[Header("Animation")]
+	[SerializeField] private BaseSkillEffect shockwavePrefab;
+	[SerializeField] private float shockwaveDuration = 0.4f;
+
+	private void OnEnable()
 	{
-		if (cooldown <= 0) return true;
-		return false;
+		currentCooldown = cooldownTurns;
 	}
 
 	public void OnAfterMove(BoardController board, EnemyEntity self, Node from, Node to)
 	{
-		var centerNode = to;
-	}
+		currentCooldown = Mathf.Max(0, currentCooldown - 1);
 
-	public void ReduceCoolDown()
+		if (currentCooldown > 0) return;
+
+		var centerNode = to;
+		if (centerNode == null) return;
+		GameplayManager.Instance.RegisterPostMoveAction(
+			() => PlayGiantAoESequence(board, self, centerNode)
+		);
+		currentCooldown = cooldownTurns;
+	}
+	private  UniTask PlayGiantAoESequence(BoardController board, EnemyEntity self, Node centerNode)
 	{
-		cooldown--;
+		var shockwave = Instantiate(shockwavePrefab, centerNode.transform.position, Quaternion.identity);
+		shockwave.Play();
+		var center = centerNode.GridPos;
+		foreach (var node in board.AllNode)
+		{
+			var pos = node.GridPos;
+			int dx = (int)Mathf.Abs(pos.x - center.x);
+			int dy = (int)Mathf.Abs(pos.y - center.y);
+			if (dx + dy <= radius)
+			{
+				var target = node.OccupiedEntity;
+				if (target != null && target != self)
+				{
+					target.TakeDamage(damage, self);
+				}
+			}
+		}
+		return UniTask.CompletedTask;
 	}
 }

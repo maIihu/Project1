@@ -19,8 +19,6 @@ public class EnemyType : ScriptableObject
 	public bool blocksMovement;
 	public List<EnemyTrait> enemyTraits;
 
-	[Header("----------Animation----------")]
-	public RuntimeAnimatorController animatorController;
 
 	[Header("----------Spawn Rate----------")]
 	public int spawnWeight;

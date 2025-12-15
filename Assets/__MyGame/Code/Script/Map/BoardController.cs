@@ -211,7 +211,9 @@ namespace __MyGame.Code.Script
         public List<EnemyEntity> GetEnemies() => enemyEntities;
         public List<TileEntity> GetAllEntities() => entitiesInBoard;
 
-        public Node GetNodeWithEntity(TileEntity ent) => _nodeInBoard.FirstOrDefault(n => n.OccupiedEntity == ent);
+		public List<Node> GetAllNodes() => _nodeInBoard;
+
+		public Node GetNodeWithEntity(TileEntity ent) => _nodeInBoard.FirstOrDefault(n => n.OccupiedEntity == ent);
         public Node GetNodeAtPosition(Vector2 pos) => _nodeInBoard.FirstOrDefault(n => n.GridPos == pos);
         public List<Node> AllNode => _nodeInBoard;
 

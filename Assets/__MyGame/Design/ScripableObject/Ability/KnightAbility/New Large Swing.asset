@@ -21,3 +21,4 @@ MonoBehaviour:
   consumeTurn: 1
   damage: 2
   radius: 1
+  swingEffectPrefab: {fileID: 4273016410763056734, guid: 082b1b65fa27688428acd112e3fb85c4, type: 3}
