@@ -11,12 +11,6 @@ public class EnemyEntity : TileEntity
 	private List<EnemyTrait> traits = new();
 
 	IOnAfterMove[] afterMoveHooker;
-	private Animator animator;
-
-	private void Awake()
-	{
-		animator = GetComponentInChildren<Animator>();
-	}
 	public void EnemyInit(EnemyType type)
 	{
 		this.enemyType = type;
@@ -28,14 +22,16 @@ public class EnemyEntity : TileEntity
 		moveStep = type.moveStep;
 		SyncWorldPosToGrid();
 
-		traits = type.enemyTraits;
+		traits = new List<EnemyTrait>();
+		foreach(var t in type.enemyTraits)
+		{
+			if (t == null) continue;
+			var runtimeTrait = ScriptableObject.Instantiate(t);
+			traits.Add(runtimeTrait);
+		}
 		this.OnDied += HandleDeathTraits;
 		afterMoveHooker = traits.OfType<IOnAfterMove>().ToArray();
 
-		if(animator && type.animatorController)
-		{
-			animator.runtimeAnimatorController = type.animatorController;
-		}
 		if(enemyType.portrait)
 		{
 			entityPortrait = enemyType.portrait;

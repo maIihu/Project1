@@ -183,9 +183,11 @@ namespace __MyGame.Code.Script
                         direction = attacker != null ? Vector2Int.RoundToInt((Vector2)(attacker.transform.position - player.transform.position))
                     : Vector2Int.zero
                     };
-					QueueAbility(player, ability, ctx);
+					if (!ability.CanCast(player, ctx)) continue;
+                    ability.OnCast(player, ctx);
+                    player.StartCooldown(ability);
+
 				}
-                GameLogic.RunPhase(CastPhase.Reaction);
 			}
             if(damagedEntity is EnemyEntity enemy)
             {

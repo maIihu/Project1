@@ -33,6 +33,7 @@ namespace __MyGame.Code.Script
 			{
 				node.ReduceExistTurn();
 			}
+			if(_board.player != null)
 				_board.player.TickCooldowns();
 		}
 

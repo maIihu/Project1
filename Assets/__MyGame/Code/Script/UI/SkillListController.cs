@@ -11,6 +11,7 @@ public class SkillListController : MonoBehaviour, IMessageHandle
 	[SerializeField] private Transform skillListContainer;
 
 	private readonly Dictionary<BaseCharacterAbility, ActiveSkillButtonUI> skillButtonUIs = new Dictionary<BaseCharacterAbility, ActiveSkillButtonUI>();
+	private readonly Dictionary<BaseCharacterAbility,PassiveSkillUI> passiveSkillUIs = new Dictionary<BaseCharacterAbility, PassiveSkillUI>();
 	private ActiveSkillButtonUI currentSelected;
 	private PlayerEntity player;
 	public void Handle(Message message)
@@ -71,6 +72,7 @@ public class SkillListController : MonoBehaviour, IMessageHandle
 		{
 			var ui = Instantiate(passiveSkillPrefab, skillListContainer);
 			ui.SetAbility(ability);
+			passiveSkillUIs[ability] = ui;
 		}
 	}
 
@@ -91,6 +93,12 @@ public class SkillListController : MonoBehaviour, IMessageHandle
 			int max = Mathf.Max(1, ability.cooldownTurns);
 			float normalized = Mathf.Clamp01(cd / (float)max);
 			ui.SetCooldownVisual(normalized);
+		}
+		if(passiveSkillUIs.TryGetValue(ability,out var passiveUI))
+		{
+			int max = Mathf.Max(1, ability.cooldownTurns);
+			float normalized = Mathf.Clamp01(cd / (float)max);
+			passiveUI.SetCooldownVisual(normalized);
 		}
 	}
 

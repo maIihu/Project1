@@ -8,6 +8,12 @@ public class PassiveSkillUI : MonoBehaviour
 	[SerializeField] private Image skillIcon;
 	[SerializeField] private Image cooldownOverlay;
 	private BaseCharacterAbility ability;
+	private void Awake()
+	{
+		skillIcon.sprite = null;
+		ability = null;
+		cooldownOverlay.fillAmount = 0;
+	}
 	public void SetAbility(BaseCharacterAbility ability)
 	{
 		this.ability = ability;

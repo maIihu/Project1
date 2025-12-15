@@ -9,7 +9,7 @@ public class LargeSwing : BaseCharacterAbility
 {
 	public int damage;
 	public int radius;
-	//[SerializeField] private BaseSkillEffect swingEffectPrefab;
+	[SerializeField] private LargeSwingSkillEffect swingEffectPrefab;
 
 	private void OnEnable()
 	{
@@ -35,9 +35,9 @@ public class LargeSwing : BaseCharacterAbility
 		var dir = ctx.direction;
 
 		var userPos = board.GetNodeWithEntity(user).GridPos;
-		//Vector3 slashPos = user.transform.position;
-		//var slash = Instantiate(swingEffectPrefab, slashPos, Quaternion.identity);
-		//slash.Play(dir);
+		Vector3 slashPos = user.transform.position;
+		var slash = Instantiate(swingEffectPrefab, slashPos, Quaternion.identity);
+		slash.Play(dir);
 		Node targetNode = null;
 		for (int i = -radius; i <= radius; i++)
 		{

@@ -86,11 +86,11 @@ public abstract class TileEntity : MonoBehaviour
 		{
 			currentHP = Mathf.Max(currentHP - remainingDamage, 0);
 			OnHealthChanged?.Invoke(currentHP, maxHP);
+			GameplayManager.Instance.OnEntityDamaged(this, attacker, damage);
 		}
 		if (currentHP <= 0)
 		{
 			Die();
-			//BeginDeath();
 		}
 	}
 
@@ -144,36 +144,6 @@ public abstract class TileEntity : MonoBehaviour
 		DG.Tweening.DOTween.Kill(gameObject, complete: false);
 		if (sprite) DG.Tweening.DOTween.Kill(sprite.gameObject, complete: false);
 	}
-
-
-	//public IEnumerator AnimateSlide(Vector3 from, Vector3 to, float duration)
-	//{
-	//	transform.position = from;
-
-	//	Sequence squashSeq = null;
-	//	if (sprite)
-	//	{
-	//		var baseScale = sprite.localScale;
-	//		squashSeq = DOTween.Sequence()
-	//			.Append(sprite.DOScale(new Vector3(baseScale.x * squashX, baseScale.y * squashY, baseScale.z), duration * 0.35f))
-	//			.Append(sprite.DOScale(new Vector3(baseScale.x / squashX, baseScale.y / squashY, baseScale.z), duration * 0.25f))
-	//			.AppendInterval(squashRecover)
-	//			.Append(sprite.DOScale(baseScale, duration * 0.40f))
-	//			.SetLink(sprite.gameObject);
-	//	}
-	//	Tween moveT;
-	//	if (useJumpArc)
-	//		moveT = transform.DOMove(to, duration).SetEase(moveEase);
-	//	else
-	//		moveT = transform.DOMove(to, duration).SetEase(moveEase);
-
-	//	moveT.SetLink(gameObject);
-
-	//	if (squashSeq != null) squashSeq.Join(moveT);
-	//	yield return (squashSeq != null ? squashSeq.WaitForCompletion() : moveT.WaitForCompletion());
-	//	if (_isDead) yield break;
-	//	transform.position = to;
-	//}
 
 	public IEnumerator AnimateSlide(Vector3 from, Vector3 to, float duration)
 	{

@@ -99,7 +99,6 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 	{
 		if (ability == null) return false;
 		if (!IsAbilityUnlocked(ability)) return false;
-
 		return !cooldowns.TryGetValue(ability, out int cd) || cd <= 0;
 	}
 	public void StartCooldown(BaseCharacterAbility ability)
