@@ -57,7 +57,7 @@ namespace __MyGame.Code.Script
 		public static List<TileEntity> OrderEntitiesByDirection(List<TileEntity> ents, Vector2 dir)
 		{
 			return ents
-				.Where(e => e != null && !(e is DoorEntity))
+				.Where(e => e != null)
 				.Select(e =>
 				{
 					var g = GridOf(e);
