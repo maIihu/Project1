@@ -31,7 +31,7 @@ namespace __MyGame.Code.Script.UI.Popups
 
         private void OnQuitButtonClick()
         {
-            SceneManager.LoadScene("Main Menu");
+            SceneManager.LoadScene("ChooseCharacter");
         }
     }
 }

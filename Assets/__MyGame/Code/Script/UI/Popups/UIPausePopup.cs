@@ -7,13 +7,11 @@ namespace __MyGame.Code.Script.UI.Popups
     public class UIPausePopup : UIPopupBase
     {
         [SerializeField] private Button continueButton;
-        [SerializeField] private Button settingButton;
         [SerializeField] private Button quitButton;
         
         public override void Init()
         {
             continueButton.onClick.AddListener(OnContinueButtonClick);
-            settingButton.onClick.AddListener(OnSettingButtonClick);
             quitButton.onClick.AddListener(OnQuitButtonClick);
         }
 
@@ -31,15 +29,12 @@ namespace __MyGame.Code.Script.UI.Popups
         {
             this.Hide();
         }
-
-        private void OnSettingButtonClick()
-        {
-            //TODo: open setting popup
-        }
+        
 
         private void OnQuitButtonClick()
         {
-            SceneManager.LoadScene("Main Menu");
+            SceneManager.LoadScene("ChooseCharacter");
+
         }
     }
 }

@@ -42,8 +42,17 @@ namespace __MyGame.Code.Script.Gameplay.Enemy.ExpBall
                 seq.Append(ball.transform.DOMove(burstPos, 0.3f).SetEase(Ease.OutSine))
                     .AppendInterval(0.05f)
                     .Append(ball.transform.DOMove(this.transform.position, 0.5f).SetEase(Ease.InSine))
-                    .OnComplete(() => { ball.SetActive(false); });
+                    .AppendCallback(PlayPopSound)
+                    .OnComplete(() =>
+                    {
+                        ball.SetActive(false);
+                    });
             }
+        }
+        
+        private void PlayPopSound()
+        {
+            AudioManager.Instance.PlayOneShot("Pop", 0.5f);
         }
 
         private void OnDestroy()

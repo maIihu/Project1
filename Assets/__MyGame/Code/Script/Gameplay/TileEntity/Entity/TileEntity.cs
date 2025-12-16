@@ -74,7 +74,7 @@ public abstract class TileEntity : MonoBehaviour
 
 		// var text = Instantiate(floatingText);
 		// text.PunchText(transform.position, damage.ToString());
-		
+		AudioManager.Instance.PlayOneShot("Attack", 0.5f);
 		int abosrbedByArmor = Mathf.Min(armor, damage);
 		if (abosrbedByArmor > 0)
 		{
