@@ -9,7 +9,7 @@ public class EntityStatView : MonoBehaviour
 	[Header("UI")]
 	[SerializeField] TextMeshPro hpText;
 	[SerializeField] TextMeshPro armorText;
-
+	[SerializeField] TextMeshPro attackText;
 	TileEntity entity;
 
 	private void OnEnable()
@@ -18,12 +18,14 @@ public class EntityStatView : MonoBehaviour
 		entity.OnHealthChanged += HandleHP;
 		entity.OnArmorChanged += HandleArmor;
 		entity.OnSpriteChanged += SetSprite;
+
 	}
 
 	public void InitView()
 	{
 		HandleHP(entity.currentHP,entity.maxHP);
 		HandleArmor(entity.armor);
+		HandleAttack(entity.attack);
 	}
 
 	private void OnDisable()
@@ -36,6 +38,7 @@ public class EntityStatView : MonoBehaviour
 	{
 		hpText.text = $"{cur}";
 	}
+
 	private void HandleArmor(int armor)
 	{
 		armorText.text = armor.ToString();
@@ -43,5 +46,9 @@ public class EntityStatView : MonoBehaviour
 	public void SetSprite(Sprite s)
 	{
 		spriteRenderer.sprite = s;
+	}
+	private void HandleAttack(int attack)
+	{
+		attackText.text = attack.ToString();
 	}
 }

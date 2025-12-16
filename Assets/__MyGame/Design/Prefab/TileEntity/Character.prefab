@@ -1347,7 +1347,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.39, y: 0.385, z: 0}
-  m_LocalScale: {x: 0.03, y: 0.03, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3671558525503380362}
@@ -1395,12 +1395,12 @@ SpriteRenderer:
   m_SortingLayerID: -1334078241
   m_SortingLayer: 3
   m_SortingOrder: 36
-  m_Sprite: {fileID: 21300000, guid: d780c7249a581cf4aaa6a83f3f2b4958, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dbd850d8c8e2cde4ea91eb41b7fced4b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.8, y: 1.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1440,8 +1440,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 6, y: 6}
+  m_AnchoredPosition: {x: 0.091, y: 0.107}
+  m_SizeDelta: {x: 0.3578, y: 0.4061}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &6537441712732537074
 MeshRenderer:
@@ -1514,8 +1514,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190208
-  m_fontColor: {r: 0.5018867, g: 0, b: 0, a: 1}
+    rgba: 4278439404
+  m_fontColor: {r: 0.9245283, g: 0.80432665, b: 0.012210703, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1532,13 +1532,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.7
-  m_fontSizeBase: 36
+  m_fontSize: 3
+  m_fontSizeBase: 3
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1824,6 +1824,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 7470148848989467963}
   hpText: {fileID: 2908196549763284051}
   armorText: {fileID: 2639539303183472799}
+  attackText: {fileID: 7426510877294142013}
 --- !u!1 &8135478610824747360
 GameObject:
   m_ObjectHideFlags: 0
