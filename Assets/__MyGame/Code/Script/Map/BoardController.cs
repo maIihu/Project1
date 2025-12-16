@@ -68,7 +68,7 @@ namespace __MyGame.Code.Script
             enemyEntities = new List<EnemyEntity>();
             obstacleEntities = new List<ObstacleEntity>();
 
-            SpawnMapWithType(MapType.Red);
+            SpawnMapWithType(MapType.Green);
             SpawnPlayerRandomly();
         }
 
@@ -89,7 +89,7 @@ namespace __MyGame.Code.Script
 	        enemyEntities = new List<EnemyEntity>();
 	        obstacleEntities = new List<ObstacleEntity>();
 	        
-	        SpawnMapWithType(MapType.Red);
+	        SpawnMapWithType(MapType.Green);
 	        player.sprite.transform.localPosition = Vector3.zero;
 	        player.sprite.transform.localScale = Vector3.one * 0.75f;
 	        var free = _nodeInBoard.Where(n => n.OccupiedEntity == null).OrderBy(n => Random.value).First();
