@@ -14,7 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   className: Knight
   classIcon: {fileID: 21300000, guid: a8374715e9bba5f46aa22cccd4697510, type: 3}
+  classPortrait: {fileID: 0}
   baseHP: 5
   baseAtk: 1
   baseArmor: 3
   moveStep: 2
+  abilities:
+  - ability: {fileID: 11400000, guid: 7fc5ebf634f4e6d4cbffe444095db13a, type: 2}
+    unlockLevel: 1
+  - ability: {fileID: 11400000, guid: 8e3aaa4a6429abc459e522a4b968d5e0, type: 2}
+    unlockLevel: 2
+  - ability: {fileID: 11400000, guid: a2c097c7501444e409fce1d50a52c046, type: 2}
+    unlockLevel: 3

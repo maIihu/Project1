@@ -73,12 +73,21 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 	{
 		level++;
 		AudioManager.Instance.PlayOneShot("LevelUp", 0.5f);
-		int hpGained = Mathf.RoundToInt(characterClass.baseHP * 0.2f);
-		maxHP += hpGained;
-		OnLevelChanged?.Invoke(level);
 
+		if (level % 3 == 0)
+		{
+			attack += 1;
+		}
+		else
+		{
+			maxHP += 1;
+			currentHP += 1;
+		}
+
+		OnLevelChanged?.Invoke(level);
 		UnlockSkillsForCurrentLevel();
 	}
+
 	private void UnlockSkillsForCurrentLevel()
 	{
 		if (characterClass == null || characterClass.abilities == null) return;
