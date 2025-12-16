@@ -72,6 +72,7 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 	public void LevelUp()
 	{
 		level++;
+		AudioManager.Instance.PlayOneShot("LevelUp", 0.5f);
 		int hpGained = Mathf.RoundToInt(characterClass.baseHP * 0.2f);
 		maxHP += hpGained;
 		OnLevelChanged?.Invoke(level);
@@ -136,6 +137,7 @@ public class PlayerEntity : TileEntity, ILevelUpAble
 		if (currentHP <= 0)
 		{
 			Debug.Log("Player die");
+			AudioManager.Instance.PlayOneShot("GameOver", 0.5f);
 			GameplayManager.Instance.ChangeState(GameState.Pause);
 			MessageManager.Instance.SendMessage(new Message(ProjectMessageType.OnGameOver));
 			return;

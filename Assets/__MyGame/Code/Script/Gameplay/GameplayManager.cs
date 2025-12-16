@@ -83,6 +83,8 @@ namespace __MyGame.Code.Script
             skillSelectedUIController.InitiateReference();
             
             ChangeState(GameState.Playing);
+            AudioManager.Instance.StopMusic("BG_Menu");
+            AudioManager.Instance.PlayMusic("BG_Game", 0.8f, true);
         }
 
         public GameState CurrentState() => _currentState;
